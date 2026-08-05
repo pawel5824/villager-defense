@@ -1,0 +1,248 @@
+# ============================================================
+#  Villager Defense - konfiguracja
+# ============================================================
+
+game:
+  min-players: 2
+  max-players: 8
+  starting-countdown-seconds: 20
+  round-break-seconds: 15
+  villager-count-per-arena: 3
+
+# Ile punktów za zabicie danego typu moba (im wyższa fala, tym trudniejsze moby)
+points-per-kill:
+  ZOMBIE: 2
+  HUSK: 4
+  SKELETON: 5
+  WITCH: 7
+  VINDICATOR: 9
+  RAVAGER: 15
+  DEFAULT: 2
+
+# Skalowanie fal: ile mobów spawnuje się w danej rundzie
+waves:
+  base-mobs: 4
+  mobs-per-round: 2
+  mobs-per-player: 1
+  boss-every-x-rounds: 5
+
+# Sklep w grze - podzielony na kategorie (zakładki w GUI)
+shop:
+  categories:
+    food:
+      items:
+        bread:
+          type: ITEM
+          material: BREAD
+          price: 10
+          amount: 1
+          slot: 10
+        baked_potato:
+          type: ITEM
+          material: BAKED_POTATO
+          price: 25
+          amount: 1
+          slot: 11
+        cooked_porkchop:
+          type: ITEM
+          material: COOKED_PORKCHOP
+          price: 40
+          amount: 1
+          slot: 12
+        cooked_beef:
+          type: ITEM
+          material: COOKED_BEEF
+          price: 40
+          amount: 1
+          slot: 13
+        cooked_mutton:
+          type: ITEM
+          material: COOKED_MUTTON
+          price: 30
+          amount: 1
+          slot: 14
+        cooked_chicken:
+          type: ITEM
+          material: COOKED_CHICKEN
+          price: 35
+          amount: 1
+          slot: 15
+        cooked_rabbit:
+          type: ITEM
+          material: COOKED_RABBIT
+          price: 35
+          amount: 1
+          slot: 16
+        cooked_salmon:
+          type: ITEM
+          material: COOKED_SALMON
+          price: 40
+          amount: 1
+          slot: 20
+        cooked_cod:
+          type: ITEM
+          material: COOKED_COD
+          price: 40
+          amount: 1
+          slot: 21
+        golden_carrot:
+          type: ITEM
+          material: GOLDEN_CARROT
+          price: 150
+          amount: 1
+          slot: 22
+        golden_apple:
+          type: ITEM
+          material: GOLDEN_APPLE
+          price: 350
+          amount: 1
+          slot: 23
+        enchanted_golden_apple:
+          type: ITEM
+          material: ENCHANTED_GOLDEN_APPLE
+          price: 600
+          amount: 1
+          slot: 24
+    swords:
+      items:
+        wooden_sword:
+          type: ITEM
+          material: COPPER_SWORD
+          price: 380
+          amount: 1
+        stone_sword:
+          type: ITEM
+          material: STONE_SWORD
+          price: 450
+          amount: 1
+        iron_sword:
+          type: ITEM
+          material: IRON_SWORD
+          price: 550
+          amount: 1
+        diamond_sword:
+          type: ITEM
+          material: DIAMOND_SWORD
+          price: 850
+          amount: 1
+        netherite_sword:
+          type: ITEM
+          material: NETHERITE_SWORD
+          price: 
+          amount: 1
+        iron_axe:
+          type: ITEM
+          material: IRON_AXE
+          price: 650
+          amount: 1
+        diamond_axe:
+          type: ITEM
+          material: DIAMOND_AXE
+          price: 800
+          amount: 1
+        netherite_axe:
+          type: ITEM
+          material: NETHERITE_AXE
+          price: 950
+          amount: 1
+        trident:
+          type: ITEM
+          material: TRIDENT
+          price: 80
+          amount: 1
+    bows:
+      items:
+        bow:
+          type: ITEM
+          material: BOW
+          price: 80
+          amount: 1
+        arrows:
+          type: ITEM
+          material: ARROW
+          price: 5
+          amount: 8
+        crossbow:
+          type: ITEM
+          material: CROSSBOW
+          price: 60
+          amount: 1
+    armor:
+      items:
+        iron_helmet:
+          type: ITEM
+          material: IRON_HELMET
+          price: 180
+          amount: 1
+        iron_chestplate:
+          type: ITEM
+          material: IRON_CHESTPLATE
+          price: 300
+          amount: 1
+        iron_leggings:
+          type: ITEM
+          material: IRON_LEGGINGS
+          price: 200
+          amount: 1
+        iron_boots:
+          type: ITEM
+          material: IRON_BOOTS
+          price: 150
+          amount: 1
+    potions:
+      items:
+        healing_potion:
+          type: ITEM
+          material: POTION
+          price: 12
+          amount: 1
+    other:
+      items:
+        ender_pearl:
+          type: ITEM
+          material: ENDER_PEARL
+          price: 40
+          amount: 1
+        totem:
+          type: ITEM
+          material: TOTEM_OF_UNDYING
+          price: 800
+          amount: 1
+    effects:
+      items:
+        speed:
+          type: EFFECT
+          effect: SPEED
+          amplifier: 0
+          price: 40
+        strength:
+          type: EFFECT
+          effect: STRENGTH
+          amplifier: 0
+          price: 50
+        regeneration:
+          type: EFFECT
+          effect: REGENERATION
+          amplifier: 0
+          price: 45
+    enchants:
+      items:
+        sharpness_1:
+          type: ENCHANT
+          enchantment: SHARPNESS
+          level: 1
+          price: 100
+        protection_1:
+          type: ENCHANT
+          enchantment: PROTECTION
+          level: 1
+          price: 80
+        knockback_1:
+          type: ENCHANT
+          enchantment: KNOCKBACK
+          level: 1
+          price: 70
+
+# Ranking - top graczy (zapisywane trwale w players.yml)
+leaderboard:
+  top-size: 10
