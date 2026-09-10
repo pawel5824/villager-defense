@@ -2,12 +2,185 @@
 #  Villager Defense - konfiguracja
 # ============================================================
 
+# Nazwa świata Raft (auto-generowany przy starcie pluginu)
+raft-world-name: "RAFT"
+
+# Maksymalna liczba graczy w jednej sesji Raft (wspólny świat).
+# Przy 3 graczach ich chunki nakładają się — obciążenie jak dla 1-2 graczy.
+# Ustaw 0 bez limitu (niezalecane przy wielu sesjach naraz).
+raft-max-party-size: 3
+
+# Faza 2: maksymalna liczba tratw w jednym świecie — zabezpieczenie przed
+# gromadzeniem się tratw (np. po awariach/restartach). Osierocone encje tratw
+# i tak są sprzątane cyklicznie co minutę; ten limit tylko nie pozwala tworzyć
+# nowych, gdy świat jest zawalony. 0 = bez limitu.
+raft-max-rafts-per-world: 100
+
+# Faza 4: maksymalna liczba komórek (desek) na JEDNĄ tratwę. Każda komórka to
+# 3 encje (BlockDisplay + marker + shulker-kolizja), więc limit chroni serwer
+# przed tratwą o tysiącach encji. 150 komórek = ~450 encji — dużo, ale przy
+# LOD/freeze zamrożone tratwy prawie nic nie kosztują.
+raft-max-cells-per-raft: 150
+
+# Faza 8: custom_model_data przedmiotu Hak. Przedmiot to WĘDKA (FISHING_ROD),
+# żeby klient rysował linkę od ręki do spławika. Na razie brak własnego modelu
+# (waniliowa wędka); gdy powstanie — dodaj próg CMD w
+# assets/minecraft/items/fishing_rod.json.
+raft-hook-custom-model-data: 8010
+
+# Kolizja tratwy z lądem — ześlizg wzdłuż wysp/skał/brzegu przy dotknięciu.
+# Zmiany działają po restarcie serwera albo /def reload (bez rekompilacji).
+#   probe-gaps   - odległości próbek (w blokach) PRZED krawędzią tratwy, na
+#                  wysokości linii wody. Pierwsza = wykrycie „dotknięcia",
+#                  dalsze = wcześniejsze wykrycie (tratwa zaczyna zwalniać,
+#                  zanim wjedzie w ląd). Możesz dodać więcej wartości.
+#   slide-speeds - tabela „kąt prądu (stopnie) → % normalnej prędkości dryfu"
+#                  podczas ześlizgu wzdłuż brzegu. Kąt 0° = prąd prosto
+#                  w wyspę (tratwa praktycznie stoi), 90° = prąd wzdłuż brzegu
+#                  (pełny dryf, nic się nie zmienia). Między punktami prędkość
+#                  jest wyliczana liniowo. Domyślna tabela odpowiada przedziałom:
+#                  1-10°→7%, 11-20°→18%, 21-30°→29%, 31-40°→40%, 41-50°→51%,
+#                  51-60°→62%, 61-70°→73%, 71-80°→84%, 81-89°→95%, 90°→100%.
+raft-collision:
+  probe-gaps:
+    - 0.4
+    - 1.0
+  slide-speeds:
+    0: 0
+    5.5: 7
+    15.5: 18
+    25.5: 29
+    35.5: 40
+    45.5: 51
+    55.5: 62
+    65.5: 73
+    75.5: 84
+    85: 95
+    90: 100
+
+# Pole śmieci oceanicznych PRZED tratwą (zbieranie ręczne / sieć / beczki).
+# Manager UTRZYMUJE przed dziobem stałą liczbę POJEDYNCZYCH przedmiotów
+# (między min-items-ahead a max-items-ahead): gdy jest ich mniej niż dolny
+# pułap, dosypuje po jednej sztuce w losowym miejscu 40–70 bloków przed
+# dziobem — raz z lewej, kilka kratek dalej z prawej, potem na środku (bez
+# sztywnych rzędów). Przedmioty mogą wypaść blisko siebie, a czasem jeden na
+# drugim — generator nie wymusza odstępów. Cel uzupełnienia jest losowany
+# z przedziału min..max, więc ilość bywa różna (nie zawsze 28), ale nigdy nie
+# spada poniżej minimum ani nie przekracza maksimum. Zmiany po /def reload.
+raft-debris:
+  # Czy pole śmieci ma być utrzymywane (false = wyłączone)
+  enabled: true
+  # Dolny pułap: ile przedmiotów/beczek ma być przed dziobem (gdy mniej — dosypujemy)
+  min-items-ahead: 13
+  # Górny pułap: nigdy nie więcej niż tyle przed tratwą
+  max-items-ahead: 28
+  # Okno spawnu przed dziobem (bloki) — 40–70 jak w oryginalnym generatorze
+  nearest-dist: 40.0
+  farthest-dist: 70.0
+  # Maks. boczne rozrzucenie OD ŚRODKA TRATWY (bloki) — przedmioty mogą
+  # pojawić się aż tyle bloków w lewo i w prawo od środka pokładu
+  lateral-spread: 14.0
+  # Szansa (%), że pojedynczy obiekt to beczka z lootem zamiast przedmiotu
+  barrel-chance-percent: 6
+  # Szansa (%), że pojedynczy obiekt to DUŻA beczka (custom model, CMD 4003).
+  # Łapana hakiem i przez wejście w nią; ma WŁASNĄ tabelę lootu
+  # (BIG_BARREL_LOOT w OceanDebrisManager — na razie pusta).
+  big-barrel-chance-percent: 1.5
+  # Obiekty dalej niż tyle bloków ZA dziobem znikają (nie zaśmiecają oceanu)
+  behind-cleanup-dist: 25.0
+  # Maks. pojedynczych sztuk dosypanych w jednym sprawdzeniu (co 2 s)
+  max-items-per-fill: 6
+
+# Lobby serwera: dokąd trafiają gracze po /hub, /lobby oraz po automatycznym
+# restarcie (/def restart). Ustawisz je w grze komendą /def ustawlobby (stań
+# w miejscu i wpisz) albo edytując te wartości. Puste world = pierwszy świat.
+lobby:
+  world: ""
+  x: 0.0
+  y: 80.0
+  z: 0.0
+  yaw: 0.0
+  pitch: 0.0
+
+# Styl wyświetlania HP mobów nad głową:
+#   bar    - kwadraciki + liczby, np. "§a████████§7██ [20/20]"
+#   hearts - serca, np. "§a❤ 20|20"
+health-display-style: bar
+
+# Krytyczne obrażenia bez podskoku: każde trafienie gracza ma szansę
+# (chance-percent) stać się ciosem krytycznym - zadaje bonusowe obrażenia
+# (damage-multiplier) i nie odrzuca moba (no-knockback), jak waniliowy kryt z wyskoku.
+crits:
+  chance-percent: 5.0
+  damage-multiplier: 1.5
+  no-knockback: true
+  # Krytyczne obrażenia ze strzał (łucznik i inne klasy strzelające łukiem/kuszą):
+  # osobna szansa i mnożnik dla pocisków (strzały, trójzęby).
+  ranged-enabled: true
+  ranged-chance-percent: 5.0
+  ranged-damage-multiplier: 1.5
+  # Zaklęcie Szczęście (w sklepie = Fortune, fortune_1) na broni zwiększa szansę
+  # na kryta o tyle % za poziom: miecz/siekiera/trójząb (cios wręcz) albo łuk/kusza
+  # (strzał). Rzucany trójząb NIE dostaje bonusu - Szczęście na trójzębie działa
+  # tylko jako cios wręcz.
+  luck-bonus-per-level: 5.0
+  # Efekt cząsteczek przy trafieniu krytycznym (czerwone iskry + magiczny połysk)
+  particle-enabled: true
+  particle-count: 20
+
+# Ciernie (Thorns) na zbroi graczy - tryb "tylko odbicie":
+# gdy mob z areny uderzy gracza, odbicie Cierni zadaje obrażenia WYŁĄCZNIE mobowi
+# false = waniliowe zachowanie Cierni.
+# chance-per-level: szansa (w %) na odbicie za KAŻDY poziom Cierni zsumowany
+# z całej zbroi (max 100%). Np. 7 = Ciernie I na jednej części -> 7% na uderzenie,
+# Ciernie I na 4 częściach -> 28%, Ciernie III na 4 częściach -> 84% (7 x 12 = 84).
+thorns:
+  reflect-only: true
+  chance-per-level: 7
+
+# Obrażenia łuku: SUMA obrażeń od naciągu + od dystansu lotu strzały.
+#   draw-immediate / draw-medium / draw-max - obrażenia od naciągu łuku
+#     (0% / 50% / 100% naciągu); między wartościami jest płynne przejście.
+#   distance - progi odległości (max-dist w blokach): obrażenia dystansowe
+#     DODAWANE do obrażeń od naciągu. Np. strzał z pełnego naciągu z 8-12 bloków
+#     = 4.5 + 2.3 = 6.8 obrażeń.
+#   Finalnie całość mnoży zaklęcie Power (jeśli łuk je ma), a kryt z sekcji
+#   crits (ranged) mnoży wynik jeszcze raz.
+bow-damage:
+  enabled: true
+  draw-immediate: 1.0
+  draw-medium: 2.5
+  draw-max: 4.5
+  distance:
+    - {max-dist: 3, damage: 1.0}
+    - {max-dist: 7, damage: 1.8}
+    - {max-dist: 12, damage: 2.3}
+    - {max-dist: 17, damage: 3.0}
+    - {max-dist: 2147483647, damage: 3.7}
+
 game:
   min-players: 2
   max-players: 8
   starting-countdown-seconds: 20
-  round-break-seconds: 15
+  # Gdy w trakcie odliczania do startu wejdzie kolejny gracz do poczekalni,
+  # licznik od razu skraca się do tej wartości (np. z 20s na 10s).
+  # Ustaw 0, żeby wyłączyć przyspieszanie (licznik zawsze = starting-countdown-seconds).
+  countdown-shortened-seconds: 10
+  round-break-seconds: 10
   villager-count-per-arena: 3
+
+# Poziomy trudności aren - każdy poziom ma WŁASNĄ liczbę fal do zwycięstwa
+# (widoczną na pasku jako "Fala: X/Y"). Poziom areny ustawiasz komendą:
+#   /def trudnosc <arena> <latwy|normalny|trudny>
+# Domyślny poziom nowych aren to normalny (500 fal). Możesz też dodać tutaj
+# WŁASNE poziomy (dowolna nazwa) i użyć ich w komendzie.
+difficulties:
+  latwy:
+    waves: 250
+  normalny:
+    waves: 500
+  trudny:
+    waves: 750
 
 # Ile punktów za zabicie danego typu moba (im wyższa fala, tym trudniejsze moby)
 points-per-kill:
@@ -16,15 +189,55 @@ points-per-kill:
   SKELETON: 5
   WITCH: 7
   VINDICATOR: 9
-  RAVAGER: 15
+  RAVAGER: 50
+  PIGLIN_BRUTE: 15
   DEFAULT: 2
+
+# Punkty za zabójstwa WIERZYCZKI: gracz, który postawił wieżyczkę, dostaje
+# ten procent normalnej wartości (zaniżone), zaokrąglony W DÓŁ do pełnej liczby
+# (min. 1 pkt). Np. 70 = 30% mniej: zombie (2 pkt) -> 1 pkt, ravager (50 pkt) -> 35 pkt.
+turret-kill-points-percent: 70
+
+# Mikstura szczęścia (efekt LUCK) - bonusy na czas jej trwania:
+#   - +% punktów za zabójstwa mobów (bezpośrednie i przez wieżyczki gracza),
+#   - szansa na Regenerację po otrzymaniu obrażeń (z dowolnego źródła).
+luck:
+  points-bonus-percent: 40        # +40% pkt za zabicie moba, gdy gracz ma efekt szczęścia
+  regen-chance-percent: 8         # szansa na regenerację po otrzymaniu obrażeń (na trafienie)
+  regen-level: 1                  # poziom regeneracji (1 = Regeneracja II)
+  regen-duration-seconds: 3       # czas trwania regeneracji w sekundach
 
 # Skalowanie fal: ile mobów spawnuje się w danej rundzie
 waves:
-  base-mobs: 4
-  mobs-per-round: 2
-  mobs-per-player: 1
-  boss-every-x-rounds: 5
+  # --- Liczba mobów w fali: segmenty z resetami ---
+  # Gra podzielona jest na SEGMENTY fal. Na początku każdego segmentu liczba mobów
+  # resetuje się do base-count, a potem rośnie losowo: w każdej fali mob ma 50%
+  # szans na +1 i 50% na +2 moby (albo 1, albo 2 moby więcej - nigdy +2 co falę).
+  # Dzięki temu po spokojnych falach robi się tłoczno (np. fala 15 = średnio ~24
+  # moby, od 17 do 31), a od fali 16 liczba wraca do 4 - fale nie puchną
+  # w nieskończoność.
+  # Każdy segment: od której fali (from-wave), ile fal trwa (length) i ile mobów
+  # na starcie (base-count).
+  mob-count-segments:
+    - {from-wave: 1, length: 15, base-count: 3}    # fale 1-15: spokojne, start od 3 mobów
+    - {from-wave: 16, length: 10, base-count: 4}   # fale 16-25: reset do 4 mobów
+    - {from-wave: 26, length: 15, base-count: 5}   # fale 26-40: reset do 5 mobów, lepsza zbroja
+  # Po ostatnim zdefiniowanym segmencie fale idą automatycznie dalej: kolejne
+  # segmenty po mob-count-tail-length fal, a base-count rośnie o 1 w każdym
+  # (fale 41-50 od 6 mobów, 51-60 od 7, 61-70 od 8, ...) - o 1 zombiaka więcej
+  # niż w poprzednim segmencie.
+  mob-count-tail-length: 10
+  # Sposób rozstawiania mobów przy spawnie:
+  #   point  - dokładnie w ustawionych punktach
+  #   random - losowy rozrzut w obrębie mob-spawn-radius (moby rozproszone)
+  #   grid   - idealna siatka: moby obok siebie, każdy dokładnie 1 blok od drugiego
+  mob-spawn-mode: random
+  # Promień rozrzutu dla trybu random (w blokach). 0 = dokładnie w punktach.
+  mob-spawn-radius: 5
+  # W trybie grid: dopiero gdy w fali jest CO NAJMNIEJ tyle mobów, ustawiają się
+  # w idealną siatkę co 1 blok; przy mniejszej liczbie pojawiają się losowo
+  # (jak w trybie random). Np. 11 = siatka dopiero powyżej 10 mobów.
+  grid-min-mobs: 11
 
 # Sklep w grze - podzielony na kategorie (zakładki w GUI)
 shop:
@@ -36,53 +249,41 @@ shop:
           material: BREAD
           price: 10
           amount: 1
-          slot: 10
+          slot: 11
         baked_potato:
           type: ITEM
           material: BAKED_POTATO
           price: 25
           amount: 1
-          slot: 11
+          slot: 12
         cooked_porkchop:
           type: ITEM
           material: COOKED_PORKCHOP
           price: 40
           amount: 1
-          slot: 12
+          slot: 13
         cooked_beef:
           type: ITEM
           material: COOKED_BEEF
           price: 40
           amount: 1
-          slot: 13
+          slot: 14
         cooked_mutton:
           type: ITEM
           material: COOKED_MUTTON
           price: 30
           amount: 1
-          slot: 14
+          slot: 15
         cooked_chicken:
           type: ITEM
           material: COOKED_CHICKEN
           price: 35
           amount: 1
-          slot: 15
+          slot: 20
         cooked_rabbit:
           type: ITEM
           material: COOKED_RABBIT
           price: 35
-          amount: 1
-          slot: 16
-        cooked_salmon:
-          type: ITEM
-          material: COOKED_SALMON
-          price: 40
-          amount: 1
-          slot: 20
-        cooked_cod:
-          type: ITEM
-          material: COOKED_COD
-          price: 40
           amount: 1
           slot: 21
         golden_carrot:
@@ -108,141 +309,894 @@ shop:
         wooden_sword:
           type: ITEM
           material: COPPER_SWORD
-          price: 380
+          price: 250
           amount: 1
+          slot: 12
         stone_sword:
           type: ITEM
           material: STONE_SWORD
-          price: 450
+          price: 160
           amount: 1
+          slot: 11
         iron_sword:
           type: ITEM
           material: IRON_SWORD
-          price: 550
+          price: 350
           amount: 1
+          slot: 13
         diamond_sword:
           type: ITEM
           material: DIAMOND_SWORD
-          price: 850
+          price: 500
           amount: 1
+          slot: 14
         netherite_sword:
           type: ITEM
           material: NETHERITE_SWORD
-          price: 
+          price: 700
           amount: 1
+          slot: 15
         iron_axe:
           type: ITEM
           material: IRON_AXE
           price: 650
           amount: 1
+          slot: 21
         diamond_axe:
           type: ITEM
           material: DIAMOND_AXE
           price: 800
           amount: 1
-        netherite_axe:
-          type: ITEM
-          material: NETHERITE_AXE
-          price: 950
-          amount: 1
+          slot: 22
+
         trident:
           type: ITEM
           material: TRIDENT
           price: 80
           amount: 1
-    bows:
-      items:
+          slot: 30 
+        shield:
+          type: ITEM
+          material: SHIELD
+          price: 150
+          amount: 1
+          slot: 32
         bow:
           type: ITEM
           material: BOW
           price: 80
           amount: 1
-        arrows:
-          type: ITEM
-          material: ARROW
-          price: 5
-          amount: 8
+          slot: 56
         crossbow:
           type: ITEM
           material: CROSSBOW
-          price: 60
+          price: 110
           amount: 1
+          slot: 57
+        proca:
+          type: ITEM
+          material: CROSSBOW
+          price: 230
+          amount: 1
+          slot: 58
+        karabin:
+          type: ITEM
+          material: SPYGLASS
+          price: 400
+          amount: 1
+          slot: 59
+          name: Karabin snajperski
+    bows:
+      items:
+        arrow:
+          type: ITEM
+          material: ARROW
+          price: 2
+          slot: 11
+        spectral_arrow:
+          type: ITEM
+          material: SPECTRAL_ARROW
+          price: 5
+          slot: 12
+        speed_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: SWIFTNESS
+          price: 15
+          slot: 13
+        strength_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: STRENGTH
+          price: 15
+          slot: 14
+        regeneration_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: REGENERATION
+          price: 15
+          slot: 15
+        healing_arrow_1:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: HEALING
+          price: 15
+          slot: 20
+        healing_arrow_2:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: STRONG_HEALING
+          price: 25
+          slot: 21
+        slowness_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: SLOWNESS
+          price: 15
+          slot: 22
+        weakness_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: WEAKNESS
+          price: 15
+          slot: 23
+        poison_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: POISON
+          price: 15
+          slot: 24
+        luck_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: LUCK
+          price: 8
+          slot: 1
+        slow_falling_arrow:
+          type: POTION
+          material: TIPPED_ARROW
+          potion: SLOW_FALLING
+          price: 20
+          slot: 2
+        firework_1:
+          type: FIREWORK
+          power: 1
+          price: 10
+          slot: 29
+        firework_2:
+          type: FIREWORK
+          power: 2
+          price: 15
+          slot: 31
+        firework_3:
+          type: FIREWORK
+          power: 3
+          price: 20
+          slot: 33
+      # Podmenu „Strzały - Niestandardowe Strzały" (otwierane nową strzałą obok
+      # nether staru, slot 50 w kategorii Strzały): zwykła i widmowa strzała na
+      # PIERWSZEJ (i jedynej) stronie podmenu (sloty 20/21 w kodzie - bez pustej
+      # strony na starcie). Gdy sekcji brakuje w starym configu, plugin i tak
+      # dokłada te dwie strzały automatycznie.
+      custom-arrows:
+        items:
+          arrow:
+            type: ITEM
+            material: ARROW
+            price: 2
+            slot: 20
+          spectral_arrow:
+            type: ITEM
+            material: SPECTRAL_ARROW
+            price: 5
+            slot: 21
     armor:
       items:
+        copper_helmet:
+          type: ITEM
+          material: COPPER_HELMET
+          price: 180
+          amount: 1
+          slot: 10
+        copper_chestplate:
+          type: ITEM
+          material: COPPER_CHESTPLATE
+          price: 180
+          amount: 1
+          slot: 19
+        copper_leggings:
+          type: ITEM
+          material: COPPER_LEGGINGS
+          price: 180
+          amount: 1
+          slot: 28
+        copper_boots:
+          type: ITEM
+          material: COPPER_BOOTS
+          price: 180
+          amount: 1
+          slot: 37
+        gold_helmet:
+          type: ITEM
+          material: GOLDEN_HELMET
+          price: 180
+          amount: 1
+          slot: 11
+        gold_chestplate:
+          type: ITEM
+          material: GOLDEN_CHESTPLATE
+          price: 180
+          amount: 1
+          slot: 20
+        gold_leggings:
+          type: ITEM
+          material: GOLDEN_LEGGINGS
+          price: 180
+          amount: 1
+          slot: 29
+        gold_boots:
+          type: ITEM
+          material: GOLDEN_BOOTS
+          price: 180
+          amount: 1
+          slot: 38
+        chainmail_helmet:
+          type: ITEM
+          material: CHAINMAIL_HELMET
+          price: 180
+          amount: 1
+          slot: 12
+        chainmail_chestplate:
+          type: ITEM
+          material: CHAINMAIL_CHESTPLATE
+          price: 300
+          amount: 1
+          slot: 21
+        chainmail_leggings:
+          type: ITEM
+          material: CHAINMAIL_LEGGINGS
+          price: 200
+          amount: 1
+          slot: 30
+        chainmail_boots:
+          type: ITEM
+          material: CHAINMAIL_BOOTS
+          price: 150
+          amount: 1
+          slot: 39
         iron_helmet:
           type: ITEM
           material: IRON_HELMET
           price: 180
           amount: 1
+          slot: 14
         iron_chestplate:
           type: ITEM
           material: IRON_CHESTPLATE
           price: 300
           amount: 1
+          slot: 23
         iron_leggings:
           type: ITEM
           material: IRON_LEGGINGS
           price: 200
           amount: 1
+          slot: 32
         iron_boots:
           type: ITEM
           material: IRON_BOOTS
           price: 150
           amount: 1
+          slot: 41
+        diamond_helmet:
+          type: ITEM
+          material: DIAMOND_HELMET
+          price: 180
+          amount: 1
+          slot: 15
+        diamond_chestplate:
+          type: ITEM
+          material: DIAMOND_CHESTPLATE
+          price: 300
+          amount: 1
+          slot: 24
+        diamond_leggings:
+          type: ITEM
+          material: DIAMOND_LEGGINGS
+          price: 200
+          amount: 1
+          slot: 33
+        diamond_boots:
+          type: ITEM
+          material: DIAMOND_BOOTS
+          price: 150
+          amount: 1
+          slot: 42
+        netherite_helmet:
+          type: ITEM
+          material: NETHERITE_HELMET
+          price: 180
+          amount: 1
+          slot: 16
+        netherite_chestplate:
+          type: ITEM
+          material: NETHERITE_CHESTPLATE
+          price: 300
+          amount: 1
+          slot: 25
+        netherite_leggings:
+          type: ITEM
+          material: NETHERITE_LEGGINGS
+          price: 200
+          amount: 1
+          slot: 34
+        netherite_boots:
+          type: ITEM
+          material: NETHERITE_BOOTS
+          price: 150
+          amount: 1
+          slot: 43
     potions:
       items:
-        healing_potion:
-          type: ITEM
-          material: POTION
-          price: 12
-          amount: 1
+        healing_1:
+          type: POTION
+          potion: HEALING
+          price: 15
+          slot: 10
+        healing_2:
+          type: POTION
+          potion: STRONG_HEALING
+          price: 25
+          slot: 11
+        speed_1:
+          type: POTION
+          potion: SWIFTNESS
+          price: 15
+          slot: 12
+        speed_2:
+          type: POTION
+          potion: STRONG_SWIFTNESS
+          price: 25
+          slot: 13
+        jump_1:
+          type: POTION
+          potion: LEAPING
+          price: 15
+          slot: 14
+        jump_2:
+          type: POTION
+          potion: STRONG_LEAPING
+          price: 25
+          slot: 15
+        fire_resistance:
+          type: POTION
+          potion: FIRE_RESISTANCE
+          price: 20
+          slot: 16
+        regeneration_1:
+          type: POTION
+          potion: REGENERATION
+          price: 20
+          slot: 19
+        regeneration_2:
+          type: POTION
+          potion: STRONG_REGENERATION
+          price: 30
+          slot: 20
+        strength_1:
+          type: POTION
+          potion: STRENGTH
+          price: 20
+          slot: 21
+        strength_2:
+          type: POTION
+          potion: STRONG_STRENGTH
+          price: 30
+          slot: 22
+        turtle_master:
+          type: POTION
+          potion: LONG_TURTLE_MASTER
+          price: 30
+          slot: 23
+        healing_splash_1:
+          type: POTION
+          potion: HEALING
+          splash: true
+          price: 20
+          slot: 24
+        healing_splash_2:
+          type: POTION
+          potion: STRONG_HEALING
+          splash: true
+          price: 30
+          slot: 25
+        slowness_long:
+          type: POTION
+          potion: LONG_SLOWNESS
+          price: 20
+          slot: 29
+        slowness_strong:
+          type: POTION
+          potion: STRONG_SLOWNESS
+          price: 25
+          slot: 30
+        luck_splash:
+          type: POTION
+          potion: LUCK
+          splash: true
+          price: 30
+          slot: 31
+        weakness_splash:
+          type: POTION
+          potion: WEAKNESS
+          splash: true
+          price: 20
+          slot: 32
+        weakness_long:
+          type: POTION
+          potion: LONG_WEAKNESS
+          price: 20
+          slot: 33
     other:
+      # Kategoria „Inne" ma 2 strony:
+      #   - strona 1: sloty 0-44 (poniższe przedmioty)
+      #   - strona 2: sloty 45+ (slot 45 = pierwsze miejsce na stronie 2)
+      # Edytuj TUTAJ, aby zmienić lub dodać przedmioty, a potem uruchom /def reload.
       items:
+        fishing_rod:
+          type: ITEM
+          material: FISHING_ROD
+          price: 80
+          amount: 1
+          slot: 11
         ender_pearl:
           type: ITEM
           material: ENDER_PEARL
           price: 40
           amount: 1
-        totem:
+          slot: 12
+        cobweb:
+          type: ITEM
+          material: COBWEB
+          price: 70
+          amount: 1
+          slot: 13
+        wind_charge:
+          type: ITEM
+          material: WIND_CHARGE
+          price: 35
+          amount: 1
+          slot: 14
+        totem_of_undying:
           type: ITEM
           material: TOTEM_OF_UNDYING
-          price: 800
+          price: 50
           amount: 1
+          slot: 15
+        snow_golem_spawn_egg:
+          type: ITEM
+          material: SNOW_GOLEM_SPAWN_EGG
+          name: "§fPrzywołaj Bałwana"
+          price: 60
+          amount: 1
+          slot: 20
+        wolf_spawn_egg:
+          type: ITEM
+          material: WOLF_SPAWN_EGG
+          name: "§fPrzywołaj Wilka"
+          price: 140
+          amount: 1
+          slot: 21
+        vindicator_spawn_egg:
+          type: ITEM
+          material: VINDICATOR_SPAWN_EGG
+          name: "§fPrzywołaj Obrońce"
+          price: 220
+          amount: 1
+          slot: 22
+        iron_golem_spawn_egg:
+          type: ITEM
+          material: IRON_GOLEM_SPAWN_EGG
+          name: "§fPrzywołaj Golema"
+          price: 400
+          amount: 1
+          slot: 23
+        # Miedziane golemy: 7 jajek na slotach 29-35 w Minecraft (kod 28-34).
+        # Każde ma OSOBNE id (copper_golem_1..7) i własną nazwę klasy (name:).
+        copper_golem_1:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Wojownik"
+          price: 300
+          amount: 1
+          slot: 28
+        copper_golem_2:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Łucznik"
+          price: 300
+          amount: 1
+          slot: 29
+        copper_golem_3:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Magik"
+          price: 300
+          amount: 1
+          slot: 30
+        copper_golem_4:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Medyk"
+          price: 300
+          amount: 1
+          slot: 31
+        copper_golem_5:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Inżynier"
+          price: 300
+          amount: 1
+          slot: 32
+        copper_golem_6:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Spawner Mobów"
+          price: 300
+          amount: 1
+          slot: 33
+        copper_golem_7:
+          type: ITEM
+          material: COPPER_GOLEM_SPAWN_EGG
+          name: "§fGolem Losowości"
+          price: 300
+          amount: 1
+          slot: 34
+        warden_spawn_egg:
+          type: ITEM
+          material: WARDEN_SPAWN_EGG
+          name: "§fPrzywołaj Nadzorce"
+          price: 900
+          amount: 1
+          slot: 25
+        # --- Strona 2 (nowe GUI) ---
+        # Slot 45+ = kolejna strona kategorii. TUTAJ dodawaj przedmioty dla strony 2.
+        tnt:
+          type: ITEM
+          material: TNT
+          price: 50
+          amount: 1
+          slot: 45
+        landmine:
+          type: MINE
+          price: 1
+          slot: 48
+        wiezyczka:
+          # Wieżyczka-obrona: kupujesz patyk „Zwykła Wieżyczka Strzelnicza", prawy klik = postawienie
+          # (id = nazwa zapisu stojaka w plugins/.../stojaki/wiezyczka.yml).
+          # Każdy gracz może ją postawić, działa w pełni automatycznie.
+          # Strona 2 kategorii „Inne", obok TNT.
+          type: TURRET
+          name: "Zwykła Wieżyczka Strzelnicza"
+          price: 10
+          slot: 46
+        wiezyczka_maga:
+          # Wieżyczka Magii: jak zwykła wieżyczka, ale z animowaną kryształową kulą
+          # (zapis stojaka wiezyczka_maga.yml). name: = nazwa przedmiotu po zakupie.
+          type: TURRET
+          name: "Wieżyczka Magii"
+          price: 10
+          slot: 47
+        peleryna_cienia:
+          # Biały sztandar - „Peleryna Cienia" (kosmetyk/klasa).
+          type: ITEM
+          material: WHITE_BANNER
+          name: "§fPeleryna Cienia"
+          price: 100
+          amount: 1
+          slot: 47
     effects:
       items:
         speed:
           type: EFFECT
           effect: SPEED
+          name: "§fSzybkość"
           amplifier: 0
-          price: 40
+          price: 200
+          slot: 19
         strength:
           type: EFFECT
           effect: STRENGTH
+          name: "§fSiła"
           amplifier: 0
-          price: 50
+          price: 250
+          slot: 20
         regeneration:
           type: EFFECT
           effect: REGENERATION
+          name: "§fRegeneracja"
           amplifier: 0
-          price: 45
+          price: 280
+          slot: 21
+        jump_boost:
+          type: EFFECT
+          effect: JUMP_BOOST
+          name: "§fZwiększony Skok"
+          amplifier: 0
+          price: 170
+          slot: 22
+        fire_resistance:
+          type: EFFECT
+          effect: FIRE_RESISTANCE
+          name: "§fOgnioodporność"
+          amplifier: 0
+          price: 300
+          slot: 23
+        resistance:
+          type: EFFECT
+          effect: RESISTANCE
+          name: "§fOdporność"
+          amplifier: 0
+          price: 400
+          slot: 24
+        luck:
+          type: EFFECT
+          effect: LUCK
+          name: "§fSzczęście"
+          amplifier: 0
+          price: 450
+          slot: 25
     enchants:
       items:
         sharpness_1:
           type: ENCHANT
           enchantment: SHARPNESS
           level: 1
-          price: 100
-        protection_1:
+          price: 250
+          slot: 10
+        smite_1:
           type: ENCHANT
-          enchantment: PROTECTION
+          enchantment: SMITE
           level: 1
-          price: 80
+          max-level: 3
+          price: 200
+          slot: 11
+        bane_of_arthropods_1:
+          type: ENCHANT
+          enchantment: BANE_OF_ARTHROPODS
+          level: 1
+          price: 150
+          slot: 12
+        fire_aspect_1:
+          type: ENCHANT
+          enchantment: FIRE_ASPECT
+          level: 1
+          max-level: 5
+          price: 200
+          slot: 13
+        sweeping_edge_1:
+          type: ENCHANT
+          enchantment: SWEEPING_EDGE
+          level: 1
+          max-level: 4
+          price: 200
+          slot: 14
         knockback_1:
           type: ENCHANT
           enchantment: KNOCKBACK
           level: 1
-          price: 70
+          max-level: 3
+          price: 80
+          slot: 15
+        fortune_1:
+          type: ENCHANT
+          enchantment: FORTUNE
+          level: 1
+          max-level: 5
+          price: 400
+          slot: 16
+        power_1:
+          type: ENCHANT
+          enchantment: POWER
+          level: 1
+          price: 250
+          slot: 20
+        punch_1:
+          type: ENCHANT
+          enchantment: PUNCH
+          level: 1
+          price: 200
+          slot: 21
+        quick_charge_1:
+          type: ENCHANT
+          enchantment: QUICK_CHARGE
+          level: 1
+          max-level: 4
+          price: 280
+          slot: 22
+        piercing_1:
+          type: ENCHANT
+          enchantment: PIERCING
+          level: 1
+          max-level: 5
+          price: 300
+          slot: 23
+        multishot_1:
+          type: ENCHANT
+          enchantment: MULTISHOT
+          level: 1
+          max-level: 5
+          price: 380
+          slot: 24
+        protection_1:
+          type: ENCHANT
+          enchantment: PROTECTION
+          level: 1
+          price: 200
+          slot: 29
+        fire_protection_1:
+          type: ENCHANT
+          enchantment: FIRE_PROTECTION
+          level: 1
+          price: 200
+          slot: 30
+        projectile_protection_1:
+          type: ENCHANT
+          enchantment: PROJECTILE_PROTECTION
+          level: 1
+          price: 200
+          slot: 31
+        thorns_1:
+          type: ENCHANT
+          enchantment: THORNS
+          level: 1
+          max-level: 3
+          price: 250
+          slot: 32
+        feather_falling_1:
+          type: ENCHANT
+          enchantment: FEATHER_FALLING
+          level: 1
+          max-level: 4
+          price: 1
+          slot: 33
 
-# Ranking - top graczy (zapisywane trwale w players.yml)
+# Zrzut zaopatrzenia - skrzynia, która może wylądować na arenie podczas gry
+supply-drop:
+  enabled: true
+  # Co ile sekund jest szansa na zrzut (3 minuty = 180 s)
+  interval-seconds: 180
+  # Szansa na pojawienie się skrzyni w danym interwale (w procentach).
+  # Średni czas między zrzutami = interwał / szansa, więc 180 s / 25% = ~12 min.
+  # (20% = ~15 min, 30% = ~10 min)
+  chance-percent: 25
+  # Balon nad skrzynią: LOSOWY stojak o nazwie zaczynającej się od "zrzut_balon_"
+  # (np. zrzut_balon_bialy - kolor na końcu nazwy) z całego serwera - 1 losowy
+  # kolor na zrzut. Balon znika przy lądowaniu skrzyni.
+  # Stojaki budujesz i zapisujesz przez /stojak save <nazwa>.
+  # Ile bloków nad skrzynią ma wisieć balon (dół balonu nad górą skrzyni)
+  balloon-height: 3
+  # Po ilu sekundach skrzynia znika z areny
+  lifetime-seconds: 90
+  # --- Zasięg areny: prostokąt (min/max) ALBO wielokąt (polygon) ---
+  # UWAGA: poniższe wartości (polygon / excluded) to GLOBALNY fallback. Każda arena
+  # może mieć WŁASNY teren zrzutu, zapisywany w arenas.yml (arenas.<nazwa>.supply-drop)
+  # komendą /def miejsce_zrzutu [arena] ... - wtedy ten plik jest pomijany dla tej areny.
+  # min-x/max-x/min-z/max-z = prostokątny zasięg (używany, gdy polygon jest pusty).
+  # polygon = dowolny, NIEkwadratowy kształt terenu: lista wierzchołków [x, z]
+  # w kolejności dookoła. Skrzynia może wylądować tylko WEWNĄTRZ wielokąta.
+  # Punkty najwygodniej dodać w grze, chodząc po granicy terenu (na arenie):
+  #   /def miejsce_zrzutu [arena] dodaj          - dodaj wierzchołek w miejscu, w którym stoisz
+  #   /def miejsce_zrzutu [arena] dodaj <x> <z>  - dodaj wierzchołek o podanych koordynatach
+  #   /def miejsce_zrzutu [arena] usun           - usuń ostatni wierzchołek
+  #   /def miejsce_zrzutu [arena] lista          - pokaż wierzchołki
+  #   /def miejsce_zrzutu [arena] czysc          - wyczyść wielokąt (wraca prostokąt min/max)
+  #   /def miejsce_zrzutu [arena] podglad        - biała chmura (partikle CLOUD) przy KAŻDYM
+  #                                                wierzchołku, na Twojej wysokości, 20 s
+  # DZIURY w terenie: lista WIELOKĄTÓW, w których zrzut NIGDY nie wyląduje (np. każde
+  # jezioro, góra albo wioska osobno - może być ich wiele). Działają też, gdy główny
+  # teren to prostokąt min/max. Każda dziura to osobny wielokąt. Komendy:
+  #   /def miejsce_zrzutu [arena] dziura nowa         - zacznij NOWĄ dziurę
+  #   /def miejsce_zrzutu [arena] dziura dodaj [x z]  - wierzchołek bieżącej (ostatniej) dziury
+  #   /def miejsce_zrzutu [arena] dziura usun [numer] - ostatni wierzchołek, albo cała dziura nr <numer>
+  #   /def miejsce_zrzutu [arena] dziura czysc        - usuń wszystkie dziury
+  #   /def miejsce_zrzutu [arena] dziura lista        - pokaż wszystkie dziury
+  #   /def miejsce_zrzutu [arena] dziura podglad [numer] - CZERWONE partikle danej dziury (20 s)
+  # Uwaga: woda i lawa są zawsze pomijane - zrzut nigdy nie ląduje na wodzie/lawie.
+  # Stary format (jedna płaska lista punktów) jest czytany automatycznie.
+  excluded: []
+  # Test: /def zrzutdrop <arena>.
+  polygon: []
+  world: ""
+  min-x: -50
+  max-x: 50
+  min-z: -50
+  max-z: 50
+
+# Strojnik stojaka (/stojak) - trwałe przesunięcie stawiania.
+# Ustawiane komendą /stojak offset <x> <y> <z>; te wartości przetrwają
+# restart serwera. Dotyczy wszystkich sposobów stawiania (place, item,
+# saveitem). Np. 0.5 0 0.5 stawia wieżyczki na krawędzi bloku.
+stojak:
+  offset:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  # Wieżyczka staje DOKŁADNIE tam, gdzie gracz celuje (nie na środku bloku):
+  # X/Z z punktu trafienia celownika, więc można postawić ją na krawędzi bloku.
+  # false = centrowanie do środka bloku (jak pozostałe stojaki).
+  turret-place-at-aim: true
+  # Dynamiczny tick wieżyczek: gdy na serwerze stoi jednocześnie DUŻO wieżyczek,
+  # ich obsługa (namierzanie, obrót, strzały) jest odświeżana rzadziej, żeby nie
+  # obciążać serwera. Prędkość obrotu pozostaje taka sama (limit kąta skaluje się
+  # z interwałem), więc różnica jest ledwo zauważalna.
+  #   liczba wieżyczek <= threshold-2 -> co 1 tick (jak zawsze)
+  #   liczba wieżyczek >  threshold-2 -> co 2 ticki
+  #   liczba wieżyczek >  threshold-4 -> co 4 ticki
+  # Próg ustawiony na 0 wyłącza dany stopień (zostaje interwał niższego).
+  turret-dynamic-tick:
+    enabled: true
+    threshold-2: 25
+    threshold-4: 50
+
+# Zegar ze stojaka (/stojak): stojak o nazwie „zegar_wskazowki" (custom name,
+# /stojak nazwij) z TRZEMA częściami-wskazówkami - część 1 = godzinna (30° co
+# godzinę), część 2 = minutowa (6° co minutę), część 3 (np. red_concrete) =
+# sekundowa (6° co sekundę). Zegar startuje, gdy arena się rozpocznie, a po jej
+# zakończeniu wskazówki wracają do stanu początkowego.
+zegar:
+  # Nazwa stojaka-zegara (custom name). Tab podpowiada nazwy przy /stojak.
+  name: zegar_wskazowki
+  # Wskazówki obracają się parametrem SKRĘT (tryb SUGAR, rotZ) - dokładnie tym
+  # samym, którym stroisz je w /stojak, więc zegar działa tak samo dla tarczy na
+  # ścianie, jak i na ziemi (wystarczy ustawić wskazówki skrętem na pozycję 12).
+  # Kierunek obrotu wskazówek. Domyślnie true (odwrócony - wskazówki kręcą
+  # się w drugą stronę). Jeśli wolisz poprzedni kierunek, ustaw false.
+  reverse: true
+  # Wyśrodkowanie wskazówek na osi stojaka - WYŁĄCZONE domyślnie: wskazówki
+  # mogą być celowo oddalone od stojaka, a przy obrocie skrętem (rotZ) część
+  # kręci się wokół WŁASNEGO środka, więc plugin NIE rusza ich pozycji (żeby
+  # nie „teleportowały" się do stojaka przy teście / starcie areny). Włącz
+  # (true) tylko, gdy wskazówki stoją blisko stojaka i chcesz, żeby plugin
+  # sam wycentrował ich środek na osi stojaka (X = 0). Po grze wskazówki
+  # wracają dokładnie tam, gdzie je ustawiłeś.
+  center: false
+  # Styl „zamiatający": wszystkie wskazówki idą PRAWDZIWYMI kątami zegara, bez
+  # przycinania do 10° - sekundowa 6° co sekundę, minutowa 6° co minutę,
+  # godzinna 30° co godzinę (pełne koło 12 -> 3 -> 6 -> 9 -> 12); na każdej
+  # ćwiartce (90°) stara wskazówka „znika", a w tym samym miejscu pojawia się
+  # NOWA - druga kopia części (tworzona automatycznie), która obraca się dalej
+  # swobodnie parametrem SKRĘT.
+  # W tym samym momencie, w którym wskazówka się obraca, część dostaje drobne
+  # przesunięcie w kierunku chodu (rośnie równo od 0 do 0.05 na ćwiartkę):
+  # 12->3 idzie skosem (+X i +Y, np. wysokość -1 -> -0.95 i przesunięcie X
+  # +4.47 -> +4.52), 3->6 tylko -Y, 6->9 tylko -X, 9->12 tylko +Y. Kolejne
+  # ćwiartki ciągną się po sobie (nowa wskazówka startuje tam, gdzie poprzednia
+  # skończyła); na powrocie do 12 cykl zaczyna się od nowa od pozycji bazowej.
+  # false = zwykły zegar (płynny obrót).
+  sweep: false
+  # Prędkość podglądu /stojak zegar test: ile razy przyspieszyć ruch wskazówek
+  # (1 s rzeczywista = tyle s symulowanych). Domyślnie 1.0 = normalna prędkość,
+  # prawdziwe tempo 1:1 (sekundowa pełne koło w 60 s). Większa liczba = szybszy
+  # podgląd (np. 2.5 = pełne koło sekundowej w 24 s).
+  test-speed: 1.0
+
 leaderboard:
   top-size: 10
+
+# Tabliczki rotacji map (typ [vd:map:*]): pula budowana sama ze wszystkich
+# gotowych aren-szablonów (tryb instancji + ustawione spawny). Biała lista poniżej
+# ogranicza, które szablony mogą się wylosować: pusta lista = wszystkie gotowe
+# szablony; wpisane nazwy = tylko one (wielkość liter bez znaczenia). Czytana
+# na bieżąco - zmiana + /def reload działa od razu, bez restartu serwera.
+rotation:
+  auto-maps: []
+
+# System instancji: gdy arena jest oznaczona jako szablon (/def instancja <arena> on),
+# każda grupa graczy dołączająca do niej trafia do OSOBNEJ kopii mapy. Kopia (klon
+# świata, WorldCreator.copy) jest tworzona w locie, a po zakończeniu gry usuwana -
+# szablon zostaje nietknięty. Uwaga: klonowanie dużego świata potrafi na chwilę
+# zamrozić serwer (to operacja synchroniczna) - rób małe mapy.
+instances:
+  # Maksymalna liczba RÓWNOCZESNYCH instancji jednego szablonu (0 = bez limitu).
+  max-per-template: 5

@@ -26,9 +26,14 @@ public class SignManager {
     /** Tabliczki rotacji map: lokalizacja -> pula map + aktualnie wyświetlana mapa. */
     private final Map<Location, MapRotation> rotationSigns = new LinkedHashMap<>();
 
-    /** Stan tabliczki rotacji: pula map + aktualnie wyświetlana mapa. */
+    /**
+     * Stan tabliczki rotacji: pula map + aktualnie wyświetlana mapa.
+     * Tryb auto: pool pusty, a pula liczona na bieżąco z gotowych aren-szablonów
+     * (ewentualnie ograniczonych białą listą rotation.auto-maps w config.yml).
+     */
     public static class MapRotation {
         public final List<String> pool = new ArrayList<>();
+        public boolean auto; // [vd:map:*] - pula budowana sama z gotowych aren
         public String current;
     }
 
@@ -48,12 +53,17 @@ public class SignManager {
         save();
     }
 
-    /** Rejestruje tabliczkę rotacji map (pula + losowa mapa startowa). Zwraca wylosowaną mapę startową. */
+    /**
+     * Rejestruje tabliczkę rotacji map (pula + losowa mapa startowa).
+     * pool == null → tryb auto (pula ze wszystkich gotowych aren-szablonów).
+     * Zwraca wylosowaną mapę startową albo null, gdy nie ma żadnej grywalnej mapy.
+     */
     public String registerRotation(Location location, List<String> pool) {
         signs.remove(location);
         MapRotation rot = new MapRotation();
-        rot.pool.addAll(pool);
-        rot.current = pickRandom(rot.pool, null);
+        rot.auto = (pool == null);
+        if (pool != null) rot.pool.addAll(pool);
+        rot.current = pickRandom(rot, null);
         rotationSigns.put(location, rot);
         save();
         return rot.current;
@@ -90,8 +100,9 @@ public class SignManager {
         boolean changed = false;
         for (Map.Entry<Location, MapRotation> e : rotationSigns.entrySet()) {
             MapRotation rot = e.getValue();
+            if (rot.auto && resolveCurrent(rot)) changed = true;
             if (rot.current == null || !rot.current.equalsIgnoreCase(mapName)) continue;
-            String next = pickRandom(rot.pool, mapName);
+            String next = pickRandom(rot, mapName);
             if (next != null) {
                 rot.current = next;
                 changed = true;
@@ -103,16 +114,60 @@ public class SignManager {
         }
     }
 
+    /**
+     * Aktualna pula tabliczki: w trybie auto wszystkie gotowe areny-szablony (klony instancji pomijane)
+     * przefiltrowane białą listą z config.yml (rotation.auto-maps; pusta = wszystkie),
+     * w trybie ręcznym wpisana pula. Zwraca kopię - nigdy listy wewnętrznej.
+     */
+    public List<String> effectivePool(MapRotation rot) {
+        List<String> pool = new ArrayList<>();
+        if (rot.auto) {
+            for (Arena a : plugin.getArenaManager().getArenas().values()) {
+                if (!a.isTemplate() || !a.isReadyToUse()) continue;
+                if (!isAllowed(a.getName())) continue;
+                if (!pool.contains(a.getName())) pool.add(a.getName());
+            }
+        } else {
+            pool.addAll(rot.pool);
+        }
+        return pool;
+    }
+
+    /**
+     * Biała lista map trybu auto z config.yml (rotation.auto-maps); wielkość liter bez znaczenia.
+     * Czytana przy każdym losowaniu - zmiana + /def reload działa bez restartu. Pusta lista = wszystkie.
+     */
+    private boolean isAllowed(String name) {
+        List<String> allowed = plugin.getConfig().getStringList("rotation.auto-maps");
+        if (allowed.isEmpty()) return true;
+        for (String s : allowed) {
+            if (s.equalsIgnoreCase(name)) return true;
+        }
+        return false;
+    }
+
     /** Losowa mapa z puli (istniejąca w menedżerze), różna od „exclude". null = brak kandydatów. */
-    private String pickRandom(List<String> pool, String exclude) {
+    private String pickRandom(MapRotation rot, String exclude) {
         List<String> candidates = new ArrayList<>();
-        for (String name : pool) {
+        for (String name : effectivePool(rot)) {
             if (name.equalsIgnoreCase(exclude)) continue;
             if (plugin.getArenaManager().getArena(name) == null) continue;
             candidates.add(name);
         }
         if (candidates.isEmpty()) return null;
         return candidates.get(random.nextInt(candidates.size()));
+    }
+
+    /** Tryb auto: gdy current nie jest gotową, dopuszczoną areną-szablonem, wylosuj nową i zapisz. Zwraca true, gdy zmieniono. */
+    private boolean resolveCurrent(MapRotation rot) {
+        if (!rot.auto || rot.current == null) return false;
+        Arena a = plugin.getArenaManager().getArena(rot.current);
+        if (a != null && a.isTemplate() && a.isReadyToUse() && isAllowed(a.getName())) return false;
+        String next = pickRandom(rot, null);
+        if (next == null) return false;
+        rot.current = next;
+        save();
+        return true;
     }
 
     // ---------- Zapis / odczyt ----------
@@ -151,10 +206,16 @@ public class SignManager {
                 Location loc = LocationUtil.deserialize(s.getString("location"));
                 List<String> maps = s.getStringList("maps");
                 String current = s.getString("current");
-                if (loc == null || maps.isEmpty()) continue;
+                boolean auto = s.getBoolean("auto", false);
+                if (loc == null || (maps.isEmpty() && !auto)) continue;
                 MapRotation rot = new MapRotation();
+                rot.auto = auto;
                 rot.pool.addAll(maps);
-                rot.current = (current != null && maps.contains(current)) ? current : pickRandom(rot.pool, null);
+                if (current != null && (auto || maps.contains(current))) {
+                    rot.current = current;
+                } else {
+                    rot.current = pickRandom(rot, null);
+                }
                 rotationSigns.put(loc, rot);
             }
         }
@@ -174,6 +235,7 @@ public class SignManager {
             String path = "rotation-signs.sign" + j;
             cfg.set(path + ".location", LocationUtil.serialize(entry.getKey()));
             cfg.set(path + ".maps", entry.getValue().pool);
+            cfg.set(path + ".auto", entry.getValue().auto);
             cfg.set(path + ".current", entry.getValue().current);
             j++;
         }
@@ -194,13 +256,15 @@ public class SignManager {
         }
         for (Location loc : new ArrayList<>(rotationSigns.keySet())) {
             MapRotation rot = rotationSigns.get(loc);
-            // aktualna mapa zniknęła z serwera - wylosuj inną z puli
+            // aktualna mapa zniknęła z serwera - wylosuj inną z puli (w trybie auto patrzy też na gotowość)
             if (rot.current != null && plugin.getArenaManager().getArena(rot.current) == null) {
-                String next = pickRandom(rot.pool, null);
+                String next = pickRandom(rot, null);
                 if (next != null) {
                     rot.current = next;
                     save();
                 }
+            } else {
+                resolveCurrent(rot); // tryb auto: bieżąca mapa nie jest już gotowa
             }
             updateDisplay(loc, rot.current); // null = w puli nie ma już żadnej istniejącej mapy
         }

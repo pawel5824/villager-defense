@@ -26,8 +26,9 @@ public class SignListener implements Listener {
 
     /**
      * Tworzenie tabliczek areny:
-     *   linia 1: [vd]      + linia 2: nazwa areny  → zwykła tabliczka areny
-     *   linia 1: [vd:map]  + linie 2-4: nazwy map  → tabliczka rotacji map
+     *   linia 1: [vd]       + linia 2: nazwa areny        → zwykła tabliczka areny
+     *   linia 1: [vd:map]   + linie 2-4: nazwy map        → tabliczka rotacji (ręczna pula)
+     *   linia 1: [vd:map:*]                                → tabliczka rotacji (pula = wszystkie gotowe areny)
      * (wielkość liter bez znaczenia)
      */
     @EventHandler
@@ -36,7 +37,9 @@ public class SignListener implements Listener {
         if (firstLine.equalsIgnoreCase("[vd]")) {
             createArenaSign(event);
         } else if (firstLine.equalsIgnoreCase("[vd:map]")) {
-            createRotationSign(event);
+            createRotationSign(event, false);
+        } else if (firstLine.equalsIgnoreCase("[vd:map:*]")) {
+            createRotationSign(event, true);
         }
     }
 
@@ -65,7 +68,7 @@ public class SignListener implements Listener {
         pl.vd.util.AntiSpam.send(player, "§aTabliczka areny \"" + arena.getName() + "\" utworzona.");
     }
 
-    private void createRotationSign(SignChangeEvent event) {
+    private void createRotationSign(SignChangeEvent event, boolean auto) {
         Player player = event.getPlayer();
         if (!player.hasPermission("vd.admin")) {
             pl.vd.util.AntiSpam.send(player, "§cBrak uprawnień do tworzenia tabliczek rotacji.");
@@ -73,19 +76,16 @@ public class SignListener implements Listener {
             return;
         }
 
-        // linie 2-4 = nazwy map (dowolna liczba, puste linie pomijane)
+        // tryb ręczny: linie 2-4 = nazwy map (puste linie pomijane); tryb auto: linie ignorowane
         List<String> maps = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            String map = PlainTextComponentSerializer.plainText().serialize(event.line(i)).trim();
-            if (!map.isEmpty()) maps.add(map);
-        }
-        if (maps.isEmpty()) {
-            pl.vd.util.AntiSpam.send(player, "§cPodaj co najmniej jedną mapę (linie 2-4 tabliczki).");
-            event.setCancelled(true);
-            return;
+        if (!auto) {
+            for (int i = 1; i <= 3; i++) {
+                String map = PlainTextComponentSerializer.plainText().serialize(event.line(i)).trim();
+                if (!map.isEmpty()) maps.add(map);
+            }
         }
 
-        // walidacja: wszystkie mapy muszą istnieć
+        // walidacja (tylko tryb ręczny): wszystkie mapy muszą istnieć
         List<String> unknown = new ArrayList<>();
         for (String map : maps) {
             if (plugin.getArenaManager().getArena(map) == null) unknown.add(map);
@@ -97,13 +97,17 @@ public class SignListener implements Listener {
         }
 
         Location loc = event.getBlock().getLocation();
-        String current = plugin.getSignManager().registerRotation(loc, maps);
+        String current = plugin.getSignManager().registerRotation(loc, auto ? null : maps);
         // linie rysuje wyłącznie SignManager.updateDisplay; tick później, bo blok jest jeszcze w edycji
         plugin.getServer().getScheduler().runTask(plugin, () ->
                 plugin.getSignManager().updateDisplay(loc, current));
 
-        pl.vd.util.AntiSpam.send(player, "§aTabliczka rotacji map utworzona (pula: "
-                + String.join(", ", maps) + ").");
+        if (auto) {
+            pl.vd.util.AntiSpam.send(player, "§aTabliczka rotacji map utworzona (pula automatyczna: wszystkie gotowe areny).");
+        } else {
+            pl.vd.util.AntiSpam.send(player, "§aTabliczka rotacji map utworzona (pula: "
+                    + String.join(", ", maps) + ").");
+        }
     }
 
     /** Kliknięcie PPM w zarejestrowaną tabliczkę = dołączenie do areny (lub aktualnej mapy rotacji). */
