@@ -1,0 +1,498 @@
+hash-format = "sha256"
+
+[[files]]
+file = "INSTALL.bat"
+hash = "ad5592dae963ab4667f04f730663f1c7c031df0280ebb79c0b4e6be9b36b7cb0"
+
+[[files]]
+file = "README.md"
+hash = "64886aba1308a3bd73bf8ce951567bfbbc618a736102f5a274a78ea43e1f77bd"
+
+[[files]]
+file = "build-and-publish.bat"
+hash = "bcec7cd8c519ac3f7dbb2fff5fd7e9b1d7d6e43c01c7eed90649668dcf591ab7"
+
+[[files]]
+file = "install.ps1"
+hash = "4e1a7ac4279c407dbdc3472d9996bf95ffe3cb0c46b75c369b54a20bad227cf3"
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+hash = "2f63ca526981e06de2c3b9684cfb7e21abf636cf9f0f657b9151685cd11692a7"
+metafile = true
+
+[[files]]
+file = "mods/raft-hud-1.0.0.jar"
+hash = "709c33f8ee7667785c4f1ed827e38c925cc7a2d7efbddf8a9a5bd6606b4f0874"
+
+[[files]]
+file = "packwiz-installer-bootstrap.jar"
+hash = "a8fbb24dc604278e97f4688e82d3d91a318b98efc08d5dbfcbcbcab6443d116c"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/blockstates/barrel.json"
+hash = "a545df982db33c8bce44cb4193b659981d7e3b6943eaf54411ed7c8e960a8990"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/blockstates/heavy_core.json"
+hash = "d722acfadacd528800b9fe8c5c3924b1a614c69a805a11aaa6a6fe316436a2b2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/items/heavy_core.json"
+hash = "fd67d579e3bebf8ce1dcd63dc0b7f90d3f624a4185827d5ac90b9591861061cb"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/items/lantern.json"
+hash = "0683843c5e1e979afa309b6ea40b48c84c6d49c18acc2c6d4db78a14cea8ca1d"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/items/spyglass.json"
+hash = "47727b2345105513d53bba1d7fa0c9d9e5951370a9c154e7a704d9165ec27771"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/antenka.png"
+hash = "20fad612777bf917476dd9e65fcd7ea3a55d5b1496d9d2113b917b54fcb0b7f8"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/glosniki_radia.png"
+hash = "d12d2c517669e49de1dafc0e803b862b4ebe63ff554e0cf6835881f3abf40cff"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/lantern_custom.png"
+hash = "209c5b55b58552e60cf7ca5328d7573b0777c27e3aedf4a9bafa879ce105978d"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/obramowka_przyciskow.png"
+hash = "e5873721a4ed5f0a8276c3ead91010bbf18af56c53e8b6e536b764c4a533ce5a"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/przycisk_1.png"
+hash = "8ccab67f68e84419591236b272233b4f6aca77c2213b66c4b83be0dcc78a1da0"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/przycisk_2.png"
+hash = "66032b85ba71c09c86b075b9613f0ce6a607ea444ba92afc08a4d88a236af6f5"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/przycisk_3.png"
+hash = "d11eb90cc25512687a7cb16298d0abb7aeea13b0c4213cc4a18d6a2c91a777b3"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/przycisk_4.png"
+hash = "fadb143305af63268b5dd37988571f75629cac2db24162f9ab27c3e98d212644"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/radio_sciana.png"
+hash = "9917ec2e2ae4803dbc7113ea2083298cc762de1ac7813d83ceadb25101415ecb"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/minecraft/textures/block/radio_sciana2.png"
+hash = "91ad1a67a4a8c2d393cc42cd0333c82a2220234f77f2b172fdc9d7daaf39c817"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/lang/pl_pl.json"
+hash = "478300bc28d635064fc71a511004748971a79b11e5e29afa769da334ae9132d8"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/block/radio.json"
+hash = "ee60fb31f8da142a1d1e8ce30a8d58cff71726eaa86eae499cb88ba607857569"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/block/raft_deck.json"
+hash = "7f9880c55188886f1a2c2db1ed94e90bfb28e76d4af07ffd4a5d0efd4ba7daa7"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/block/raft_mast.json"
+hash = "0e0beeace55bc1234b4a284abd294d5d2cf49ae2b0c31a58c1b799e63447e405"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/block/raft_plank.json"
+hash = "891c7311739ee8eee82032e6381fe1fbdbc89dd827b9d6a73df75dce80708d2b"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/block/raft_sail.json"
+hash = "c5730f2a2ff0a267586459a4a1d6f3983c7827bcc6605bf305bac2b248157e35"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/bucket.json"
+hash = "ead7b5c5aa0e67e988537534ea3034b97ce08d61b0ff15cea4014c509fa82431"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/copper_ingot.json"
+hash = "c460eb802c8730443af5daf77a16286dc43e0bc09f0713c2ad2dae4c181e9796"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/dead_tube_coral_block.json"
+hash = "b843dff7e430078d806525ecc3c0fc6bfafeff6c06f8f99eb9cf053d124e8379"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/diamond.json"
+hash = "232923ccf3b901755c83adc7f1917718cb9dcc7000c75316accbf3d5f70b2cc3"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/diamond_custom.json"
+hash = "8c14484cd4e24df5ca77cdc2f1cd0966aebbeb1cc6bfeb64334afc80000a98e2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/dirt.json"
+hash = "6503003c1a2711cba9a1bf35a463825efe375646dba6202855bb76c00a03c1b1"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/duza_beczka.json"
+hash = "2a42f3789cea6008b011cf007078648881838d4736923e2ee26a9170eb75945a"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/exposed_lightning_rod.json"
+hash = "e1111a6a120e88c8f7cf2154bc1db29b9d77101d15b464fedb4e6a9d58c23e95"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/glass_pane.json"
+hash = "5181a700adfb3a0a2158337fb4375fc0f2c62820c7b42a747a08552387ee1dee"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/gold_ingot.json"
+hash = "eacc6b96ccf066779c9d3cee4894741f89d4c68f6e6c630ecd2ed6f57d7aa67d"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/gwozdz_custom.json"
+hash = "ee1e50e7982bda2059a42a2bd0bf288cd31a58263c39d6393abb9af887781618"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/honeycomb.json"
+hash = "51187ecc2966e536a61f54240f55e6a0a4ad6905f78e08a4ae7d78cf3e394ecf"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/iron_ingot.json"
+hash = "c1e745d0c2a8748e50b2a92ed4a4d2af6059c0e66936a0c7e3a0b4a450f6addf"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/kostka_odpadow_custom.json"
+hash = "e17a30b9b07c1818084cfcdc3fa90085813dd863a2bf5c1fb84838a60d91fefa"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_biala.json"
+hash = "87c9756848a3309de5d3710d092f2db57baf800985d74906a181888262cf3630"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_czerwona.json"
+hash = "2998f4cadf51b9811d6f364e671be010b0f682aba68e8dcdf8dc02c52b871850"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_fioletowa.json"
+hash = "f14324ef169cd14eb3b22a0e79ec8bc26e5f435e06802ad8a43ec017c725e674"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_morska.json"
+hash = "9a58d94923e49290e88d0f346dc08b79d74ef0d4180d14e5f3606ca245b620c9"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_niebieska.json"
+hash = "09a86ee57e686cc95928bc6884bc130eba84ca544722d6134feac675dca90515"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_pomaranczowa.json"
+hash = "d1ae674526864233d911d956636ea50e0fa0f0639b78fa928ea6812bfb6b38eb"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_rozowa.json"
+hash = "713d249c947df998195ecca88138e86ce0e47ad27dd6ae9859335f7420d31027"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_szara.json"
+hash = "89581441ab874ab202e3312890a180a463c9f3148ef272740fc90c99fc778d4c"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_zielona.json"
+hash = "9b045f1592d3d8a6b8903ee9689b1f303734b7f72c79258f67231ce1ebd19445"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/latarenka_zolta.json"
+hash = "20ca39b15041a69e2cd0b029d979dd826d72e6e7797c2f05e0ffdafc3d4eaf46"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/lead.json"
+hash = "a723f5a38928d4ebe04265557ac699091b5cd049657372c810f4c56c225b0995"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/lina_custom.json"
+hash = "13f6c009d6be15e5ca103222a3543f17cb2a8e5b6505a319d7c0ed7ba4609be1"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/maz_algowa_custom.json"
+hash = "272dced3caac691e461d18bee50a2d59afdc36ca34945b0d42b296a652474278"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/metal_custom.json"
+hash = "b31dd8c31d484e29e5d7383e5ae0e5bb2a49ca6212bf96012859cbb45a61d7e9"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/odbiornik.json"
+hash = "93f6a1a5fcbed387f1b45f7810fb1051899d6b3d27de9e81a513fc4dec7a2f26"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/radio.json"
+hash = "3f9f33b1cf72d939b326cd96f226f4094129e5e23519c057de6a3fde01586c38"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raft_deck.json"
+hash = "64bdd81a2e7f384fc1f3346ad88d5efffe3f1a6b9ec43849209f619c8676ec3a"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raft_mast.json"
+hash = "5df139be56738aeaa2e88e101ba51bebbd4c606b83836f6d7eed95e517cc02c2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raft_plank.json"
+hash = "7fc0589fd1d39f26fb306f13f1a0ef59a87c804cc4467b42a9edf59ad79fc449"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raft_sail.json"
+hash = "f08a851975beaae635714387d37d81f7c4ea0b122b558cafaf8e14c6efe94bc5"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raw_copper.json"
+hash = "b3cb63620cf4de6df7e96e731e877f16569d2d8a61f6104c62ee95f9bcf562ba"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raw_gold.json"
+hash = "da47e79251e128168bd3f6f8aee5381c00561c893a698526424d71ee830e9596"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/raw_iron.json"
+hash = "6281829822fc9afe4821fcfb2108e414774a7dc89f308306bb2aa7a6b50d980b"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/rowing_paddle.json"
+hash = "08a5c12ecee014e4d2ee9ac71fde283fa2d2cbf5f5049c797d39a966cb353018"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/ruda_metalu_custom.json"
+hash = "9ddc0f14dd79df01b09e2e9a9afd001a39f3fa591925d20def5afc80842886f9"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/ruda_miedzi_custom.json"
+hash = "3f73447c6707c4444e55fed6d74e2e9f94bd05b1ec60a6ca85c67043a5735ac2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/ruda_tytanu_custom.json"
+hash = "125404c27ab57229ccfc901a3d017490c2fa7d4aad5c158e4c8a94c607582e45"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/slime_ball.json"
+hash = "7bb9833c0563d82ef104a7a51d90ab1199cfd7fe0dbfdda77d2f2315cd356856"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/stick.json"
+hash = "341f445618e65bf3a537928a5e82e77b291c556c67e3c77f5316f233f98e951f"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/sunflower.json"
+hash = "dfbb6c0ad6f4bcd35557c5fda5fad47b9301b36f91bab2c455f9ff9197cac1da"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/sunflower_moneta.json"
+hash = "429bca97e1c0c25d88b56ec5665f90b746d5454ee68c13b8bd148ef3f2b9b60f"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/szklo_custom.json"
+hash = "4d3384652f2d0827543822631f40dfe6368d422548dfa62087554ee2b3f16ea3"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/sztabka_miedzi_custom.json"
+hash = "0a5d16dfea9ae298421a40fac01d85ce5bcf466a2dc75448c51259c00d6de233"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/sztabka_tytanu_custom.json"
+hash = "b05f4248f352d929add8190d49bfeddb6cc37188931f58f45a20f5c793fc667a"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/wiadro.bbmodel"
+hash = "07f2695454708a5812ac16d3a3d3dee797a5fc1ba6e763ec9c8022a6c3a61dae"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/wiadro_custom.json"
+hash = "1fac14bf5784ec8f9ec818d7c282e5b313c761011a688f5aa6ae42e88186461b"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/wiatrak.json"
+hash = "cf00954711554151076ac6cb931eabde5d090a7428a64c281e105bb42e7316e4"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/wosk_pszczeli_custom.json"
+hash = "e516ed2a176f0e4e00792b7e251dc9f23109dd52023c901d99a4df1c749b51e9"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/models/item/ziemia_custom.json"
+hash = "8006e765bb02fd88c865b5b5fabf7d855840e0568c0cc7c8f865aeda799c7525"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/rafthud/odbiornik.anim.json"
+hash = "f68c231019b5b2f99ba2520a694b785025495210bc1113b7393b7e28960e026b"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/rafthud/odbiornik.json"
+hash = "93f6a1a5fcbed387f1b45f7810fb1051899d6b3d27de9e81a513fc4dec7a2f26"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/barrel_side.png"
+hash = "c2f5ba80e28caf4d2a1bf558f371b374f55729827020b15ff0a5356a834eb8e0"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/barrel_top_2.png"
+hash = "fb1a9442cd6435533433fb5d59f139bd3611da66353d365ab9797b00951d27e8"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/barrel_top_3.png"
+hash = "7690501b5a4b461953748597e6384b95861b19f29a31f65742cd0607495b6e9d"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/barrel_top_krawedzie_1.png"
+hash = "cb9d065ed05661ac940d9086a299237c9cea163ea8f443aa2dbdba564ca6c6da"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/barrel_top_krawedzie_2.png"
+hash = "2ee227828d5830d9ac43e3aa9af04f5c22e61b9d3d1999b28799e7a94ae9d13f"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/beczka_1.png"
+hash = "225bbb4757b423dddb3935311024c04f9228bdc679998e21d36b3e9e6b0175c2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/beczka_2.png"
+hash = "ef5552c9c100f344be1ec57cfc5718163566a2d9d02ed00c8da57107611dbc1e"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_biala.png"
+hash = "1b23191a118b3908aa658ef9dd4bc6cadb0473b1342e78d9f4f4c1ca6b90824e"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_biala.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_czerwona.png"
+hash = "bac62d62f90c42c608499ddb14fd1b151077737a24c48b943c1cd2156cdf9d07"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_czerwona.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_fioletowa.png"
+hash = "e7d7aa4454b179b87a99ac6131c77e4e006e1fe8a176e24447820d2e126475ad"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_fioletowa.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_morska.png"
+hash = "09b6048bb33a74d0d602418755e452b90b0cc48080d32cdc1492bbe5217ec683"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_morska.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_niebieska.png"
+hash = "a4443392ccd12dd6aed5046eaba568e0ce4966d14f6b6a8c98151d036015ac9d"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_niebieska.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_pomaranczowa.png"
+hash = "f36d1fd5c340cdc3b11075a62bb71e7be0a38e1d81a689d6acb7a0939addf5a7"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_pomaranczowa.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_rozowa.png"
+hash = "443d8d6203ed4127ab7890bf952a14fe2cfebde46a1850abb049489c983ae5d3"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_rozowa.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_szara.png"
+hash = "c06297b3662a1dbe4ec7f52ebcccd929dedcec21fdf1a87390144677096a5d18"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_szara.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_zielona.png"
+hash = "75c4175def15be400bc123fb8a0f3f89ba433a6902c8feef1d3a96975ec3861b"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_zielona.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_zolta.png"
+hash = "765ebc16b4256c906ad341a215cfcd05a2a5a1120c307b02abd16e74e2cb049d"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/latarenka_zolta.png.mcmeta"
+hash = "ccc2eb7492b1179c1b6400b0c58a32171aa429c86ee2aefc6cdd912f53e5b438"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/raft_deck.png"
+hash = "a6e8c790ec4451ff805b0b0e8f3d32f30216fa4c377589e14fc50c6ac274d8f7"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/raft_mast.png"
+hash = "a30aa290478fa6ffba3454612002bf3bb3c8f58355ed9c183936f9440b94d60a"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/raft_plank.png"
+hash = "470c3f06a14c6cbcd05e9e19f028ac9f6e3ce04fd806750f8a082261044c98c9"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/block/raft_sail.png"
+hash = "4541157edfa97a81962e809426969bfcb8b3cc9456b428817b0d077bb38c0f4c"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/item/raft_deck.png"
+hash = "a6e8c790ec4451ff805b0b0e8f3d32f30216fa4c377589e14fc50c6ac274d8f7"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/item/raft_mast.png"
+hash = "a30aa290478fa6ffba3454612002bf3bb3c8f58355ed9c183936f9440b94d60a"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/item/raft_plank.png"
+hash = "470c3f06a14c6cbcd05e9e19f028ac9f6e3ce04fd806750f8a082261044c98c9"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/item/raft_sail.png"
+hash = "4541157edfa97a81962e809426969bfcb8b3cc9456b428817b0d077bb38c0f4c"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/raft/textures/item/rowing_paddle.png"
+hash = "687ac2bc41a5116ffd245049568df9471e186e6de29998f92316f649e3e1be77"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/lang/pl_pl.json"
+hash = "88c5b2a6d40a3dc4dedd0f2632358a9ec4fbf18e2c17b3decc93499aa860192b"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/models/item/clay_ball.json"
+hash = "8480a264063ba1ab2d5c797a3a979fd3a05c84204c0304d2fa9d5a4e023e6e89"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/models/item/sniper_rifle.json"
+hash = "167b48416bdfc3d8bd6db81ca948b8ef6b1905da7a467fff9f0cda92b9c219e2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/item/sniper_rifle.png"
+hash = "f422caf3ef076945889b224599e4af212a7edb88b36a7e82825b508623ea6a03"
+
+[[files]]
+file = "resourcepacks/raft-hud/pack.mcmeta"
+hash = "7b88fc166244904e4208661607fdaee2b7f988ee379906e9c2c43624a97cf48b"
