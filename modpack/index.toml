@@ -6,7 +6,7 @@ hash = "ad5592dae963ab4667f04f730663f1c7c031df0280ebb79c0b4e6be9b36b7cb0"
 
 [[files]]
 file = "README.md"
-hash = "64886aba1308a3bd73bf8ce951567bfbbc618a736102f5a274a78ea43e1f77bd"
+hash = "70e27a2932bf641295d8f91acb59a88fb2ec8feab13fb7e71eeef929acd8dbac"
 
 [[files]]
 file = "build-and-publish.bat"
