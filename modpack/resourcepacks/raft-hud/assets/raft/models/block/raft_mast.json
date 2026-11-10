@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "raft:block/raft_mast",
+    "side": "raft:block/raft_mast"
+  }
+}

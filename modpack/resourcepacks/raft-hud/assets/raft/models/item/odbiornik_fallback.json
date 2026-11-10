@@ -1,0 +1,100 @@
+{
+  "__comment": "PLACEHOLDER przedmiotu 'odbiornik' (CMD 4002) — zwykły model elementowy, działa BEZ modu (wpis raft:device w heavy_core.json wymagał modu i bez niego dawał brakujący model). Geometria w świecie i tak rysuje mod (DeviceBlockEntityRenderer na bloku-nośniku), więc ten model widać tylko w ręce/GUI. Podmień na właściwy model, gdy powstanie (limit elementów: -16..32 px).",
+  "textures": {
+    "obudowa": "raft:block/odbiornik_obudowa",
+    "ekran": "raft:block/odbiornik_ekran",
+    "pokretlo": "raft:block/odbiornik_licznik",
+    "particle": "raft:block/odbiornik_obudowa"
+  },
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.9, 0.9, 0.9]
+    },
+    "fixed": {
+      "rotation": [0, 180, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.75, 0.75, 0.75]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.15, 0.15, 0.15]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.6, 0.6, 0.6]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.6, 0.6, 0.6]
+    }
+  },
+  "elements": [
+    {
+      "__comment": "Korpus",
+      "from": [2, 0, 2],
+      "to": [14, 10, 12],
+      "faces": {
+        "north": {"uv": [0, 0, 12, 10], "texture": "#obudowa"},
+        "south": {"uv": [0, 0, 12, 10], "texture": "#obudowa"},
+        "east": {"uv": [0, 0, 10, 10], "texture": "#obudowa"},
+        "west": {"uv": [0, 0, 10, 10], "texture": "#obudowa"},
+        "up": {"uv": [0, 0, 12, 10], "texture": "#obudowa"},
+        "down": {"uv": [0, 0, 12, 10], "texture": "#obudowa"}
+      }
+    },
+    {
+      "__comment": "Ekran (płyta z przodu)",
+      "from": [3, 5, 1.75],
+      "to": [10, 9.5, 2],
+      "faces": {
+        "north": {"uv": [0, 0, 7, 4.5], "texture": "#ekran"},
+        "south": {"uv": [0, 0, 7, 4.5], "texture": "#ekran"},
+        "east": {"uv": [0, 0, 0.25, 4.5], "texture": "#ekran"},
+        "west": {"uv": [0, 0, 0.25, 4.5], "texture": "#ekran"},
+        "up": {"uv": [0, 0, 7, 0.25], "texture": "#ekran"},
+        "down": {"uv": [0, 0, 7, 0.25], "texture": "#ekran"}
+      }
+    },
+    {
+      "__comment": "Pokrętło 1",
+      "from": [11, 4, 1.75],
+      "to": [13, 6, 2],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 2], "texture": "#pokretlo"},
+        "south": {"uv": [0, 0, 2, 2], "texture": "#pokretlo"},
+        "east": {"uv": [0, 0, 0.25, 2], "texture": "#pokretlo"},
+        "west": {"uv": [0, 0, 0.25, 2], "texture": "#pokretlo"},
+        "up": {"uv": [0, 0, 2, 0.25], "texture": "#pokretlo"},
+        "down": {"uv": [0, 0, 2, 0.25], "texture": "#pokretlo"}
+      }
+    },
+    {
+      "__comment": "Pokrętło 2",
+      "from": [11, 7, 1.75],
+      "to": [13, 9, 2],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 2], "texture": "#pokretlo"},
+        "south": {"uv": [0, 0, 2, 2], "texture": "#pokretlo"},
+        "east": {"uv": [0, 0, 0.25, 2], "texture": "#pokretlo"},
+        "west": {"uv": [0, 0, 0.25, 2], "texture": "#pokretlo"},
+        "up": {"uv": [0, 0, 2, 0.25], "texture": "#pokretlo"},
+        "down": {"uv": [0, 0, 2, 0.25], "texture": "#pokretlo"}
+      }
+    }
+  ]
+}

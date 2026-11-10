@@ -1,0 +1,122 @@
+{
+	"format": 1,
+	"generated_by": "faza 5 projektu anten (ręcznie — ten sam format, co eksportuje panel 7 edytora model-editor.html)",
+	"model": "raft:rafthud/antena",
+	"length": 240,
+	"__comment": "Ruch anteny: 'ramiona' obracają się wokół osi masztu (origin grupy 8,17,8) — jeden pełny obrót na 240 ticków = 12 s, czyli spokojny obchód horyzontu. 'swiatelko' pulsuje skalą (1 -> 1.35 -> 1) dwa razy na pętlę. Usunięcie tego pliku wyłącza ruch (urządzenie jest wtedy statyczne) — bez żadnej zmiany w modzie.",
+	"tracks": [
+		{
+			"part": "ramiona",
+			"channel": "rotation",
+			"axis": "y",
+			"keys": [
+				{
+					"t": 0,
+					"v": 0,
+					"e": "lin"
+				},
+				{
+					"t": 240,
+					"v": 360,
+					"e": "lin"
+				}
+			]
+		},
+		{
+			"part": "swiatelko",
+			"channel": "scale",
+			"axis": "x",
+			"keys": [
+				{
+					"t": 0,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 60,
+					"v": 1.35,
+					"e": "ease"
+				},
+				{
+					"t": 120,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 180,
+					"v": 1.35,
+					"e": "ease"
+				},
+				{
+					"t": 240,
+					"v": 1,
+					"e": "lin"
+				}
+			]
+		},
+		{
+			"part": "swiatelko",
+			"channel": "scale",
+			"axis": "y",
+			"keys": [
+				{
+					"t": 0,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 60,
+					"v": 1.35,
+					"e": "ease"
+				},
+				{
+					"t": 120,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 180,
+					"v": 1.35,
+					"e": "ease"
+				},
+				{
+					"t": 240,
+					"v": 1,
+					"e": "lin"
+				}
+			]
+		},
+		{
+			"part": "swiatelko",
+			"channel": "scale",
+			"axis": "z",
+			"keys": [
+				{
+					"t": 0,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 60,
+					"v": 1.35,
+					"e": "ease"
+				},
+				{
+					"t": 120,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 180,
+					"v": 1.35,
+					"e": "ease"
+				},
+				{
+					"t": 240,
+					"v": 1,
+					"e": "lin"
+				}
+			]
+		}
+	]
+}

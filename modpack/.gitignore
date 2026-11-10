@@ -1,0 +1,10 @@
+# Packwiz - nie ignoruj plikow .pw.toml i pack.toml
+!*.pw.toml
+!pack.toml
+!index.toml
+
+# Ignoruj cache i build artifacts
+.gradle/
+build/
+*.class
+*.log

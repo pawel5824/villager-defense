@@ -1,0 +1,86 @@
+{
+  "__comment": "PLACEHOLDER przedmiotu 'zagiel' (CMD 4005) — zwykły model elementowy, działa BEZ modu (wpis raft:device w heavy_core.json wymagał modu i bez niego dawał brakujący model). Geometrię żagla w świecie rysuje mod (RaftSailWorldRenderer z raft:sails); ten model to tylko trzymany przedmiot. Podmień na właściwy model, gdy powstanie (limit elementów: -16..32 px).",
+  "textures": {
+    "plotno": "raft:block/raft_sail",
+    "maszt": "raft:block/raft_mast",
+    "particle": "raft:block/raft_sail"
+  },
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.9, 0.9, 0.9]
+    },
+    "fixed": {
+      "rotation": [0, 180, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.75, 0.75, 0.75]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.15, 0.15, 0.15]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.6, 0.6, 0.6]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.6, 0.6, 0.6]
+    }
+  },
+  "elements": [
+    {
+      "__comment": "Maszt (tylny słupek)",
+      "from": [2, 0, 2],
+      "to": [4, 14, 4],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 14], "texture": "#maszt"},
+        "south": {"uv": [0, 0, 2, 14], "texture": "#maszt"},
+        "east": {"uv": [0, 0, 2, 14], "texture": "#maszt"},
+        "west": {"uv": [0, 0, 2, 14], "texture": "#maszt"},
+        "up": {"uv": [0, 0, 2, 2], "texture": "#maszt"},
+        "down": {"uv": [0, 0, 2, 2], "texture": "#maszt"}
+      }
+    },
+    {
+      "__comment": "Płótno (płyta między masztem a szotem)",
+      "from": [4, 1, 2],
+      "to": [4.5, 13, 11],
+      "faces": {
+        "north": {"uv": [0, 0, 0.5, 12], "texture": "#plotno"},
+        "south": {"uv": [0, 0, 0.5, 12], "texture": "#plotno"},
+        "east": {"uv": [0, 0, 9, 12], "texture": "#plotno"},
+        "west": {"uv": [0, 0, 9, 12], "texture": "#plotno"},
+        "up": {"uv": [0, 0, 0.5, 9], "texture": "#plotno"},
+        "down": {"uv": [0, 0, 0.5, 9], "texture": "#plotno"}
+      }
+    },
+    {
+      "__comment": "Szot (przedni słupek)",
+      "from": [12, 0, 2],
+      "to": [14, 8, 4],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 8], "texture": "#maszt"},
+        "south": {"uv": [0, 0, 2, 8], "texture": "#maszt"},
+        "east": {"uv": [0, 0, 2, 8], "texture": "#maszt"},
+        "west": {"uv": [0, 0, 2, 8], "texture": "#maszt"},
+        "up": {"uv": [0, 0, 2, 2], "texture": "#maszt"},
+        "down": {"uv": [0, 0, 2, 2], "texture": "#maszt"}
+      }
+    }
+  ]
+}

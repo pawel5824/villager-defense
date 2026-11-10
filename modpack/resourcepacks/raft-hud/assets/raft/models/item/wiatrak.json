@@ -1,0 +1,142 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "raft:item/wiatrak",
+    "barrier": "minecraft:block/barrier"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 4, 2],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "translation": [0, 4, 2],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.625, 0.625, 0.625]
+    },
+    "head": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "fixed": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.25, 0.25, 0.25]
+    }
+  },
+  "elements": [
+    {
+      "__comment": "Niewidoczny hitbox — podstawa",
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    },
+    {
+      "__comment": "Niewidoczny hitbox — wieża",
+      "from": [2, 2, 2],
+      "to": [14, 12, 14],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    },
+    {
+      "__comment": "Niewidoczny hitbox — śmigła",
+      "from": [0, 12, 0],
+      "to": [16, 14, 16],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    },
+    {
+      "__comment": "Slot baterii 1 — przód (north)",
+      "from": [2, 2, -1],
+      "to": [5, 5, 0],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    },
+    {
+      "__comment": "Slot baterii 2 — przód obok",
+      "from": [6, 2, -1],
+      "to": [9, 5, 0],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    },
+    {
+      "__comment": "Slot baterii 3 — przód dalej",
+      "from": [10, 2, -1],
+      "to": [13, 5, 0],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    },
+    {
+      "__comment": "Slot baterii 4 — przód skrajny",
+      "from": [14, 2, -1],
+      "to": [16, 5, 0],
+      "faces": {
+        "north": {"texture": "#barrier"},
+        "south": {"texture": "#barrier"},
+        "east": {"texture": "#barrier"},
+        "west": {"texture": "#barrier"},
+        "up": {"texture": "#barrier"},
+        "down": {"texture": "#barrier"}
+      }
+    }
+  ]
+}

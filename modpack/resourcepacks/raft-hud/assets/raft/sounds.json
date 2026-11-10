@@ -1,0 +1,20 @@
+{
+  "music.utwor_1": {
+    "category": "music",
+    "sounds": [
+      {
+        "name": "raft:music/utwor_1",
+        "stream": true
+      }
+    ]
+  },
+  "music.utwor_2": {
+    "category": "music",
+    "sounds": [
+      {
+        "name": "raft:music/utwor_2",
+        "stream": true
+      }
+    ]
+  }
+}

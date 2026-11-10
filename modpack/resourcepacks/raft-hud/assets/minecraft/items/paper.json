@@ -1,0 +1,23 @@
+{
+  "__comment": "Płyty utworów w GUI /muzyka = PAPIER z CustomModelData (CMD 6101-6110 = utwory 1-10; disyCMD base 6100 w MuzykaCommand). Fallback = waniliowa definicja paper (model minecraft:item/paper) — CMD bez wpisu wygląda jak zwykły papier, więc utwory 11+ są bezpieczne bez modeli. Tekstury: pack/assets/raft/textures/item/plyta_N.png (właściciel podmienia PNG).",
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:item/paper"
+    },
+    "entries": [
+      { "threshold": 6101, "model": { "type": "minecraft:model", "model": "raft:item/plyta_1" } },
+      { "threshold": 6102, "model": { "type": "minecraft:model", "model": "raft:item/plyta_2" } },
+      { "threshold": 6103, "model": { "type": "minecraft:model", "model": "raft:item/plyta_3" } },
+      { "threshold": 6104, "model": { "type": "minecraft:model", "model": "raft:item/plyta_4" } },
+      { "threshold": 6105, "model": { "type": "minecraft:model", "model": "raft:item/plyta_5" } },
+      { "threshold": 6106, "model": { "type": "minecraft:model", "model": "raft:item/plyta_6" } },
+      { "threshold": 6107, "model": { "type": "minecraft:model", "model": "raft:item/plyta_7" } },
+      { "threshold": 6108, "model": { "type": "minecraft:model", "model": "raft:item/plyta_8" } },
+      { "threshold": 6109, "model": { "type": "minecraft:model", "model": "raft:item/plyta_9" } },
+      { "threshold": 6110, "model": { "type": "minecraft:model", "model": "raft:item/plyta_10" } }
+    ]
+  }
+}

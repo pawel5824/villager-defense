@@ -1,0 +1,43 @@
+{
+  "__comment": "Model BAZOWY przedmiotu 'zagiel' (CMD 4005) — celowo BEZ elementów. Geometrię rysuje mod (SpecialModelRenderer 'raft:device', siatka raft:rafthud/zagiel), a ten plik dostarcza tylko wygląd w ręce/ekwipunku (sekcja 'display'). Wzorzec: raft:item/odbiornik_base i raft:item/antena_base. UWAGA: to miejsce na przyszły model — żagiel nie ma jeszcze geometrii od artysty, więc sekcja display jest kopią wzorca i wymaga korekty skal po powstaniu modelu.",
+  "textures": {
+    "particle": "minecraft:block/white_wool"
+  },
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.47, 0.47, 0.47]
+    },
+    "fixed": {
+      "rotation": [0, 180, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.1875, 0.1875, 0.1875]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.28, 0.28, 0.28]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.28, 0.28, 0.28]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.31, 0.31, 0.31]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.31, 0.31, 0.31]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "__comment": "Fallback = waniliowa definicja heavy_core, czyli minecraft:block/heavy_core — modelu 'minecraft:item/heavy_core' NIE MA (przedmioty-bloki nie mają modeli item/), więc stary wpis dawał brakujący model każdemu, kto trzymał zwykły heavy core. Wpisy 4002/4004/4005 (odbiornik/antena/żagiel) to ZWYKŁE modele elementowe (*_fallback.json) — do niedawna były typu minecraft:special raft:device, czyli wymagały modu; u gracza bez modu dawały brakujący model (szachownica). Geometria urządzeń w świecie i tak rysuje mod na bloku-nośniku, więc te modele widać tylko w ręce/GUI.",
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:block/heavy_core"
+    },
+    "entries": [
+      {
+        "threshold": 4001,
+        "model": {
+          "type": "minecraft:model",
+          "model": "raft:item/radio"
+        }
+      },
+      {
+        "threshold": 4002,
+        "model": {
+          "type": "minecraft:model",
+          "model": "raft:item/odbiornik_fallback"
+        }
+      },
+      {
+        "threshold": 4003,
+        "model": {
+          "type": "minecraft:model",
+          "model": "raft:item/duza_beczka"
+        }
+      },
+      {
+        "threshold": 4004,
+        "model": {
+          "type": "minecraft:model",
+          "model": "raft:item/antena_fallback"
+        }
+      },
+      {
+        "threshold": 4005,
+        "model": {
+          "type": "minecraft:model",
+          "model": "raft:item/zagiel_fallback"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+	"format": 1,
+	"generated_by": "model-editor.html",
+	"model": "raft:rafthud/odbiornik",
+	"length": 160,
+	"tracks": [
+		{
+			"part": "antenka",
+			"channel": "rotation",
+			"axis": "y",
+			"keys": [
+				{
+					"t": 0,
+					"v": 0,
+					"e": "lin"
+				},
+				{
+					"t": 160,
+					"v": 360,
+					"e": "lin"
+				}
+			]
+		},
+		{
+			"part": "licznik",
+			"channel": "scale",
+			"axis": "y",
+			"keys": [
+				{
+					"t": 0,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 40,
+					"v": 1.03,
+					"e": "ease"
+				},
+				{
+					"t": 80,
+					"v": 1,
+					"e": "ease"
+				},
+				{
+					"t": 160,
+					"v": 1,
+					"e": "lin"
+				}
+			]
+		}
+	]
+}

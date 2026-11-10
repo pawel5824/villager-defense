@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/thin_block",
+  "textures": {
+    "particle": "raft:block/raft_sail",
+    "texture": "raft:block/raft_sail"
+  }
+}

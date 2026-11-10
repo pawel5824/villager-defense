@@ -1,0 +1,27 @@
+{
+  "__comment": "Fallback = waniliowa definicja spyglass (select po display_context) — zwykła lornetka trzymana w ręce rysuje się modelem spyglass_in_hand, a nie płaskim sprite'em.",
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "fallback": {
+      "type": "minecraft:select",
+      "property": "minecraft:display_context",
+      "cases": [
+        {
+          "when": ["gui", "ground", "fixed", "on_shelf"],
+          "model": { "type": "minecraft:model", "model": "minecraft:item/spyglass" }
+        }
+      ],
+      "fallback": { "type": "minecraft:model", "model": "minecraft:item/spyglass_in_hand" }
+    },
+    "entries": [
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "villagerdefense:item/sniper_rifle"
+        }
+      }
+    ]
+  }
+}

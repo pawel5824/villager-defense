@@ -1,0 +1,33 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Villager Defense — STUB żagla (miejsce na model z Blockbencna)",
+	"__comment": "STUB — do ZASTĄPIENIA eksportem Java Block/Item Model z Blockbencna. Ten plik czyta mod własnym parserem (DeviceMesh), bez limitu -16..32 px. Konwencja jak antena: tekstury 16x16 (jedna jednostka UV = jeden piksel), elementy 0 px grubości jako dwie ściany (up+down), części (grupy) są celem animacji. Docelowe grupy do animacji rozwijania: 'zagiel' (rodzic, origin u podstawy masztu) i 'plotno' (dziecko — obrót/zwijanie płótna). Antena nazywa części polskimi — trzymać tę konwencję.",
+	"textures": {
+		"0": "raft:block/zagiel_plotno",
+		"particle": "raft:block/zagiel_plotno"
+	},
+	"elements": [
+		{
+			"name": "plotno_stub",
+			"from": [7.5, 0, 8],
+			"to": [8.5, 16, 8],
+			"faces": {
+				"north": {"uv": [0, 0, 1, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 1, 16], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "zagiel",
+			"origin": [8, 0, 8],
+			"children": [
+				{
+					"name": "plotno",
+					"origin": [8, 0, 8],
+					"children": [0]
+				}
+			]
+		}
+	]
+}

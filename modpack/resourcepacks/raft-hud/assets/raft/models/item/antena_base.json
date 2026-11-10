@@ -1,0 +1,43 @@
+{
+	"__comment": "Model BAZOWY przedmiotu 'antena' — celowo BEZ elementów. Geometrię rysuje mod (SpecialModelRenderer 'raft:device', siatka raft:rafthud/antena z animacją), a ten plik dostarcza wyłącznie wygląd w ręce i w ekwipunku (sekcja 'display'). Rozdzielenie jest konieczne: waniliowy loader modeli odrzuca geometrię poza -16..32 px, a antena ma 12x23x12 px w układzie, w którym origin siedzi w rogu bryły. Skala to odbiornik_base x ~1,5 — antena jest niższa (23 px vs 32 px), więc przy tej samej skali zasłoniłaby mniejszą część slotu.",
+	"textures": {
+		"particle": "raft:block/antena_metal"
+	},
+	"display": {
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.47, 0.47, 0.47]
+		},
+		"fixed": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"ground": {
+			"rotation": [0, 0, 0],
+			"translation": [0, 3, 0],
+			"scale": [0.1875, 0.1875, 0.1875]
+		},
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.31, 0.31, 0.31]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.31, 0.31, 0.31]
+		}
+	}
+}

@@ -1,0 +1,189 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench — Villager Defense, antena (faza 5 projektu anten)",
+	"__comment": "Model anteny: podstawa + skrzynka z wtykiem kabla + maszt + obrotowe ramiona. Geometria 12x23x12 px, mieści się w jednej komórce tratwy (x/z 2..14). Tekstury 16x16, bo DeviceMesh dzieli UV przez 16 i rozciąga je na całą teksturę — przy PNG 16x16 jedna jednostka UV = jeden piksel. Części (grupy) są celem animacji: 'ramiona' obracają się wokół osi masztu (origin 8,17,8), 'swiatelko' pulsuje. Sekcja 'display' nie jest używana przez renderer świata — jest tu po to, żeby panel 7 edytora (model-editor.html) wygenerował z niej model bazowy przedmiotu (raft:item/antena_base) bez ostrzeżeń.",
+	"textures": {
+		"0": "raft:block/antena_metal",
+		"1": "raft:block/antena_lamp",
+		"particle": "raft:block/antena_metal"
+	},
+	"elements": [
+		{
+			"name": "plyta",
+			"from": [4, 0, 4],
+			"to": [12, 2, 12],
+			"faces": {
+				"north": {"uv": [0, 0, 8, 2], "texture": "#0"},
+				"east":  {"uv": [0, 0, 8, 2], "texture": "#0"},
+				"south": {"uv": [0, 0, 8, 2], "texture": "#0"},
+				"west":  {"uv": [0, 0, 8, 2], "texture": "#0"},
+				"up":    {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"down":  {"uv": [0, 0, 8, 8], "texture": "#0"}
+			}
+		},
+		{
+			"name": "skrzynka",
+			"from": [6, 2, 6],
+			"to": [10, 5, 10],
+			"faces": {
+				"north": {"uv": [10, 0, 14, 3], "texture": "#0"},
+				"east":  {"uv": [10, 0, 14, 3], "texture": "#0"},
+				"south": {"uv": [10, 0, 14, 3], "texture": "#0"},
+				"west":  {"uv": [10, 0, 14, 3], "texture": "#0"},
+				"up":    {"uv": [10, 4, 14, 8], "texture": "#0"},
+				"down":  {"uv": [10, 4, 14, 8], "texture": "#0"}
+			}
+		},
+		{
+			"name": "maszt",
+			"from": [7, 5, 7],
+			"to": [9, 17, 9],
+			"faces": {
+				"north": {"uv": [8, 0, 10, 12], "texture": "#0"},
+				"east":  {"uv": [8, 0, 10, 12], "texture": "#0"},
+				"south": {"uv": [8, 0, 10, 12], "texture": "#0"},
+				"west":  {"uv": [8, 0, 10, 12], "texture": "#0"},
+				"up":    {"uv": [8, 0, 10, 2], "texture": "#0"},
+				"down":  {"uv": [8, 0, 10, 2], "texture": "#0"}
+			}
+		},
+		{
+			"name": "obejma",
+			"from": [6, 17, 6],
+			"to": [10, 18, 10],
+			"faces": {
+				"north": {"uv": [10, 4, 14, 5], "texture": "#0"},
+				"east":  {"uv": [10, 4, 14, 5], "texture": "#0"},
+				"south": {"uv": [10, 4, 14, 5], "texture": "#0"},
+				"west":  {"uv": [10, 4, 14, 5], "texture": "#0"},
+				"up":    {"uv": [10, 4, 14, 8], "texture": "#0"},
+				"down":  {"uv": [10, 4, 14, 8], "texture": "#0"}
+			}
+		},
+		{
+			"name": "swiatelko",
+			"from": [10, 2, 10],
+			"to": [12, 4, 12],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"east":  {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west":  {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"up":    {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"down":  {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"name": "poprzeczka",
+			"from": [2, 18, 7],
+			"to": [14, 19, 9],
+			"faces": {
+				"north": {"uv": [0, 8, 12, 9], "texture": "#0"},
+				"east":  {"uv": [0, 8, 2, 9], "texture": "#0"},
+				"south": {"uv": [0, 8, 12, 9], "texture": "#0"},
+				"west":  {"uv": [0, 8, 2, 9], "texture": "#0"},
+				"up":    {"uv": [0, 10, 12, 12], "texture": "#0"},
+				"down":  {"uv": [0, 10, 12, 12], "texture": "#0"}
+			}
+		},
+		{
+			"name": "pret_srodkowy",
+			"from": [7, 19, 7],
+			"to": [9, 23, 9],
+			"faces": {
+				"north": {"uv": [12, 8, 14, 12], "texture": "#0"},
+				"east":  {"uv": [12, 8, 14, 12], "texture": "#0"},
+				"south": {"uv": [12, 8, 14, 12], "texture": "#0"},
+				"west":  {"uv": [12, 8, 14, 12], "texture": "#0"},
+				"up":    {"uv": [12, 8, 14, 10], "texture": "#0"},
+				"down":  {"uv": [12, 8, 14, 10], "texture": "#0"}
+			}
+		},
+		{
+			"name": "pret_lewy",
+			"from": [2, 19, 7],
+			"to": [3, 22, 9],
+			"faces": {
+				"north": {"uv": [12, 8, 13, 11], "texture": "#0"},
+				"east":  {"uv": [13, 8, 15, 11], "texture": "#0"},
+				"south": {"uv": [12, 8, 13, 11], "texture": "#0"},
+				"west":  {"uv": [13, 8, 15, 11], "texture": "#0"},
+				"up":    {"uv": [12, 11, 13, 13], "texture": "#0"},
+				"down":  {"uv": [12, 11, 13, 13], "texture": "#0"}
+			}
+		},
+		{
+			"name": "pret_prawy",
+			"from": [13, 19, 7],
+			"to": [14, 22, 9],
+			"faces": {
+				"north": {"uv": [12, 8, 13, 11], "texture": "#0"},
+				"east":  {"uv": [13, 8, 15, 11], "texture": "#0"},
+				"south": {"uv": [12, 8, 13, 11], "texture": "#0"},
+				"west":  {"uv": [13, 8, 15, 11], "texture": "#0"},
+				"up":    {"uv": [12, 11, 13, 13], "texture": "#0"},
+				"down":  {"uv": [12, 11, 13, 13], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "antena",
+			"origin": [8, 0, 8],
+			"children": [
+				{
+					"name": "podstawa",
+					"origin": [8, 0, 8],
+					"children": [0, 1, 2, 3]
+				},
+				{
+					"name": "swiatelko",
+					"origin": [11, 3, 11],
+					"children": [4]
+				},
+				{
+					"name": "ramiona",
+					"origin": [8, 17, 8],
+					"children": [5, 6, 7, 8]
+				}
+			]
+		}
+	],
+	"display": {
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.47, 0.47, 0.47]
+		},
+		"fixed": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"ground": {
+			"rotation": [0, 0, 0],
+			"translation": [0, 3, 0],
+			"scale": [0.1875, 0.1875, 0.1875]
+		},
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.28, 0.28, 0.28]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.31, 0.31, 0.31]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"translation": [0, 0, 0],
+			"scale": [0.31, 0.31, 0.31]
+		}
+	}
+}

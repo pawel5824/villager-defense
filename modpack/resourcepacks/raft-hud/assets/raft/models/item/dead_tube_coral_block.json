@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/dead_tube_coral_block"
+  },
+  "__comment": "Wpisy CustomModelData przeniesione do assets/minecraft/items/dead_tube_coral_block.json — od 1.21.4 'overrides' nie jest czytane (patrz AGENTS.md §5)."
+}

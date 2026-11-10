@@ -233,8 +233,9 @@ przy dwóch graczach, restart serwera dla każdej nowej rzeczy z §12.
 belki podpiętrza (v42), zawalanie bez podparcia + odzysk materiału (v43/v44), piętrowa Podłoga
 (v45). Każdy ma kryteria w `docs/OTWARTE_TEMATY.md`.
 
-**Blokuje resztę:** repo nie ma `remote` (mod nie trafia do graczy), brak commitów od 2026-09-16
-(cała praca niezacommitowana).
+**Repo:** `origin` → `https://github.com/pawel5824/villager-defense` (publiczne, branch `master`).
+Musi być publiczne, bo klient Minecraft pobiera modpack i paczkę bez logowania. Kod i modpack
+są wypchnięte (2026-11-10), więc mod może trafiać do graczy.
 
 **Raft względem oryginału:** działa m.in. prąd, budowanie, sieć, hak, pragnienie, tlen, wiosłowanie,
 urządzenia, crafting, muzyka i ustawienia; w połowie wyspy, radio, lornetka, żagiel (brak modelu

@@ -1,0 +1,18 @@
+{
+	"format": 1,
+	"generated_by": "STUB żagla — ten sam format, co antena.anim.json (format 1) i panel 7 edytora model-editor.html",
+	"model": "raft:rafthud/zagiel",
+	"length": 20,
+	"__comment": "STUB — miejsce na animację rozwijania/zwijania płótna. Wszystkie klucze trzymają wartość 0 (płótno rozwinięte = neutralnie), więc stub jest statyczny. Plan: tor 'rotation x' części 'plotno' (pivot origin 8,0,8 = zawias przy pokładzie) 0 = rozwinięty -> np. -80 = zwinięty do masztu; długość pętli docelowo = czas rozwinięcia (np. 30 ticków), sterowanie stanem otwarty/zamknięty będzie szło z serwera jak stan anten w raft:receivers. 'e': 'lin' = liniowo, 'ease' = wygładzenie.",
+	"tracks": [
+		{
+			"part": "plotno",
+			"channel": "rotation",
+			"axis": "x",
+			"keys": [
+				{"t": 0, "v": 0, "e": "lin"},
+				{"t": 20, "v": 0, "e": "lin"}
+			]
+		}
+	]
+}

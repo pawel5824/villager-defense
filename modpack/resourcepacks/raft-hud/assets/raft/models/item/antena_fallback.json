@@ -1,0 +1,99 @@
+{
+  "__comment": "PLACEHOLDER przedmiotu 'antena' (CMD 4004) — zwykły model elementowy, działa BEZ modu (wpis raft:device w heavy_core.json wymagał modu i bez niego dawał brakujący model). Geometria w świecie i tak rysuje mod (DeviceBlockEntityRenderer na bloku-nośniku), więc ten model widać tylko w ręce/GUI. Podmień na właściwy model, gdy powstanie (limit elementów: -16..32 px).",
+  "textures": {
+    "metal": "raft:block/antena_metal",
+    "lamp": "raft:block/antena_lamp",
+    "particle": "raft:block/antena_metal"
+  },
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.9, 0.9, 0.9]
+    },
+    "fixed": {
+      "rotation": [0, 180, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.75, 0.75, 0.75]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 3, 0],
+      "scale": [0.15, 0.15, 0.15]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.55, 0.55, 0.55]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.6, 0.6, 0.6]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.6, 0.6, 0.6]
+    }
+  },
+  "elements": [
+    {
+      "__comment": "Stopa",
+      "from": [4, 0, 4],
+      "to": [12, 2, 12],
+      "faces": {
+        "north": {"uv": [0, 0, 8, 2], "texture": "#metal"},
+        "south": {"uv": [0, 0, 8, 2], "texture": "#metal"},
+        "east": {"uv": [0, 0, 8, 2], "texture": "#metal"},
+        "west": {"uv": [0, 0, 8, 2], "texture": "#metal"},
+        "up": {"uv": [0, 0, 8, 8], "texture": "#metal"},
+        "down": {"uv": [0, 0, 8, 8], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "Maszt",
+      "from": [7, 2, 7],
+      "to": [9, 13, 9],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 11], "texture": "#metal"},
+        "south": {"uv": [0, 0, 2, 11], "texture": "#metal"},
+        "east": {"uv": [0, 0, 2, 11], "texture": "#metal"},
+        "west": {"uv": [0, 0, 2, 11], "texture": "#metal"},
+        "up": {"uv": [0, 0, 2, 2], "texture": "#metal"},
+        "down": {"uv": [0, 0, 2, 2], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "Poprzeczka",
+      "from": [3, 10, 7],
+      "to": [13, 12, 9],
+      "faces": {
+        "north": {"uv": [0, 0, 10, 2], "texture": "#metal"},
+        "south": {"uv": [0, 0, 10, 2], "texture": "#metal"},
+        "east": {"uv": [0, 0, 2, 2], "texture": "#metal"},
+        "west": {"uv": [0, 0, 2, 2], "texture": "#metal"},
+        "up": {"uv": [0, 0, 10, 2], "texture": "#metal"},
+        "down": {"uv": [0, 0, 10, 2], "texture": "#metal"}
+      }
+    },
+    {
+      "__comment": "Lampa sygnału (czubek)",
+      "from": [7, 13, 7],
+      "to": [9, 15, 9],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 2], "texture": "#lamp"},
+        "south": {"uv": [0, 0, 2, 2], "texture": "#lamp"},
+        "east": {"uv": [0, 0, 2, 2], "texture": "#lamp"},
+        "west": {"uv": [0, 0, 2, 2], "texture": "#lamp"},
+        "up": {"uv": [0, 0, 2, 2], "texture": "#lamp"},
+        "down": {"uv": [0, 0, 2, 2], "texture": "#lamp"}
+      }
+    }
+  ]
+}

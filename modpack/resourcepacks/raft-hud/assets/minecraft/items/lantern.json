@@ -1,0 +1,52 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:item/lantern"
+    },
+    "entries": [
+      {
+        "threshold": 9001,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_fioletowa" }
+      },
+      {
+        "threshold": 9002,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_czerwona" }
+      },
+      {
+        "threshold": 9003,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_zielona" }
+      },
+      {
+        "threshold": 9004,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_niebieska" }
+      },
+      {
+        "threshold": 9005,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_zolta" }
+      },
+      {
+        "threshold": 9006,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_biala" }
+      },
+      {
+        "threshold": 9007,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_pomaranczowa" }
+      },
+      {
+        "threshold": 9008,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_rozowa" }
+      },
+      {
+        "threshold": 9009,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_morska" }
+      },
+      {
+        "threshold": 9010,
+        "model": { "type": "minecraft:model", "model": "raft:item/latarenka_szara" }
+      }
+    ]
+  }
+}
