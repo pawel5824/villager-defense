@@ -89,8 +89,9 @@ runięcie jest natychmiastowe. Bez tego fix nie jest potwierdzony.
 
 ## Co blokuje resztę
 
-- repo nie ma `remote` → mod nie trafia do graczy (`tools/publish-all.sh` działa tylko z `--no-push`),
-- brak commitów od 2026-09-16 — cała praca jest niezacommitowana.
+Nic po stronie repo: `origin` istnieje (publiczne `pawel5824/villager-defense`, branch `master`),
+a cała praca jest zacommitowana i wypchnięta (2026-11-10). Do gry zostaje wgranie JAR-a na serwer,
+restart i sprawdzenie punktów z listy wyżej u gracza.
 
 ## Porównanie mechanik z oryginalnym Raftem (2026-09-24, przegląd kodu)
 

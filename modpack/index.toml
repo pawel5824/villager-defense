@@ -2,11 +2,11 @@ hash-format = "sha256"
 
 [[files]]
 file = "INSTALL.bat"
-hash = "ad5592dae963ab4667f04f730663f1c7c031df0280ebb79c0b4e6be9b36b7cb0"
+hash = "bfbcdaaa660d669f647bfc2a63e6654ea35d8f294077069c5fe37d95457cfaa4"
 
 [[files]]
 file = "README.md"
-hash = "70e27a2932bf641295d8f91acb59a88fb2ec8feab13fb7e71eeef929acd8dbac"
+hash = "d2f7092727f563e59116a6f6217b23122baf5c67d54471c592abd7d8a4562f2f"
 
 [[files]]
 file = "build-and-publish.bat"
@@ -14,7 +14,7 @@ hash = "fdd58709f6350f525497b456704f0dbcf43088ef405956932a0f5d4de03cce46"
 
 [[files]]
 file = "install.ps1"
-hash = "4e1a7ac4279c407dbdc3472d9996bf95ffe3cb0c46b75c369b54a20bad227cf3"
+hash = "e6af5b3cd484caba8ac310e12482c02c2e831dd614c486683f7c89de2c24a31d"
 
 [[files]]
 file = "mods/fabric-api.pw.toml"
