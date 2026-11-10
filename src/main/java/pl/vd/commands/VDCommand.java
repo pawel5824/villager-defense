@@ -292,11 +292,20 @@ public class VDCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(Component.text("§cNie udało się usunąć areny: " + args[1]));
                 }
             }
+            case "klasy", "classes" -> {
+                if (!sender.hasPermission("vd.admin")) return noPerm(sender);
+                for (String line : plugin.getClassRulesManager().describe()) {
+                    sender.sendMessage(Component.text(line));
+                }
+                return true;
+            }
             case "reload" -> {
                 if (!sender.hasPermission("vd.admin")) return noPerm(sender);
                 plugin.reloadConfig();
                 pl.vd.util.HealthDisplay.setStyle(plugin.getConfig().getString("health-display-style", "bar"));
                 plugin.getShopGUI().loadFromConfig();
+                // definicje klas też: bez tego edycja class-rules.yml działa dopiero po restarcie
+                plugin.getClassRulesManager().load();
                 plugin.getArenaManager().load();
                 // Tabliczki też: bez tego po edycji signs.yml albo podmianie danych stara
                 // lista znaków zostaje w pamięci aż do restartu (klik nic wtedy nie robi).

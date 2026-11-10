@@ -243,6 +243,9 @@ Do restartu zmiany nie działają w grze — to świadoma decyzja właściciela,
 Musi być publiczne, bo klient Minecraft pobiera modpack i paczkę bez logowania. Kod i modpack
 są wypchnięte (2026-11-10), więc mod może trafiać do graczy.
 
+**Klasy:** definicje w `class-rules.yml` (etap 1 — same dane, blokady w sklepie i przy użyciu
+jeszcze nie działają); format, nowe klasy i miejsca podłączenia: `docs/KLASY.md`.
+
 **Raft względem oryginału:** działa m.in. prąd, budowanie, sieć, hak, pragnienie, tlen, wiosłowanie,
 urządzenia, crafting, muzyka i ustawienia; w połowie wyspy, radio, lornetka, żagiel (brak modelu
 i weryfikacji w grze), schody, questy; brak rekina, oczyszczacza wody, gotowania, upraw, pieca,

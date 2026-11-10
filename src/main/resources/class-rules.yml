@@ -1,0 +1,113 @@
+# Zasady klas - jedno miejsce, w którym mówimy, co dana klasa może, a czego nie.
+#
+# ETAP 1: same definicje. Plugin czyta i sprawdza ten plik, ale blokady w sklepie
+# ani przy używaniu przedmiotów jeszcze NIE działają - gra wygląda jak dotąd.
+# Najpierw ustalamy zasady, potem podłączamy je do kodu.
+#
+# Nowa klasa = nowa sekcja pod "classes"; kodu nie trzeba zmieniać.
+# Pusta lista = brak ograniczenia z tej strony.
+#
+# Kolejność sprawdzania użycia przedmiotu:
+#   1. use-except - zawsze dozwolone (np. własna broń klasy),
+#   2. use-allow  - jeśli niepuste, tylko te materiały,
+#   3. use-deny   - zabrane na końcu.
+# Dla zakupów: shop-allow (whitelist ID wpisów sklepu) i shop-deny.
+# "*" w ID = dowolny fragment, wielkość liter bez znaczenia.
+#
+# "@nazwa" oznacza grupę materiałów z sekcji "groups".
+
+version: 1
+
+# Grupy materiałów - używane w regułach jako @nazwa.
+# Jedno miejsce na przedmiot, żeby nie powtarzać list w każdej klasie.
+groups:
+  swords:
+    - WOODEN_SWORD
+    - STONE_SWORD
+    - COPPER_SWORD
+    - IRON_SWORD
+    - GOLDEN_SWORD
+    - DIAMOND_SWORD
+    - NETHERITE_SWORD
+  axes:
+    - WOODEN_AXE
+    - STONE_AXE
+    - IRON_AXE
+    - GOLDEN_AXE
+    - DIAMOND_AXE
+    - NETHERITE_AXE
+  ranged:
+    - BOW
+    - CROSSBOW
+    - TRIDENT
+  potions:
+    - POTION
+    - SPLASH_POTION
+    - LINGERING_POTION
+  arrows:
+    - ARROW
+    - SPECTRAL_ARROW
+    - TIPPED_ARROW
+  shields:
+    - SHIELD
+  food:
+    - BREAD
+    - BAKED_POTATO
+    - COOKED_PORKCHOP
+    - COOKED_BEEF
+    - COOKED_MUTTON
+    - COOKED_CHICKEN
+    - COOKED_RABBIT
+    - GOLDEN_CARROT
+    - GOLDEN_APPLE
+    - ENCHANTED_GOLDEN_APPLE
+
+# Reguły per klasa. ID musi być takie samo jak w KitManager
+# (wojownik, lucznik, tank, magik, medyk, assassin, inzynier).
+classes:
+
+  wojownik:
+    # Mikstury maga/medyka nie mają jeszcze osobnych ID w sklepie. Gdy powstaną,
+    # wpisz je w shop-deny (np. "mikstura_maga_*"). Wspólnych nie ruszaj, bo
+    # wojownik dostaje od nas miksturę siły.
+    use-deny: []
+    shop-deny: []
+
+  lucznik:
+    # Sztylet łucznika to WOODEN_SWORD pod własną nazwą, dlatego jest wyjątkiem.
+    use-except:
+      - WOODEN_SWORD
+    use-deny:
+      - "@swords"
+      - "@axes"
+    shop-deny:
+      - "*_sword"
+      - "*_axe"
+
+  tank:
+    use-deny: []
+    shop-deny: []
+
+  magik:
+    use-deny:
+      - "@swords"
+      - "@axes"
+    shop-deny:
+      - "*_sword"
+      - "*_axe"
+
+  medyk:
+    use-deny:
+      - "@swords"
+      - "@axes"
+    shop-deny:
+      - "*_sword"
+      - "*_axe"
+
+  assassin:
+    use-deny: []
+    shop-deny: []
+
+  inzynier:
+    use-deny: []
+    shop-deny: []

@@ -122,6 +122,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
     private pl.vd.lobby.GameModeGUI gameModeGUI;
     private pl.vd.lobby.DailyRewardManager dailyRewardManager;
     private pl.vd.lobby.PlayerXPBar playerXPBar;
+    private pl.vd.kits.ClassRulesManager classRulesManager;
     private pl.vd.listeners.PlayerListener playerListener;
     private pl.vd.raft.RaftPlugin raftPlugin;
     private pl.vd.raft.latarenka.LatarenkaManager latarenkaManager;
@@ -149,6 +150,8 @@ public class VillagerDefensePlugin extends JavaPlugin {
         // sklep „Inne") — kopiowane tylko wtedy, gdy plików jeszcze nie ma
         saveResourceIfMissing("stojak-info.txt");
         saveResourceIfMissing("stojaki/wiezyczka.yml");
+        // definicje zasad klas (etap 1: same dane, bez blokad)
+        saveResourceIfMissing("class-rules.yml");
         pl.vd.util.HealthDisplay.setStyle(getConfig().getString("health-display-style", "bar"));
         pl.vd.util.AntiSpam.init(this);
         pl.vd.util.Lang.init(this);
@@ -165,6 +168,9 @@ public class VillagerDefensePlugin extends JavaPlugin {
         this.abilityManager = new AbilityManager(this);
         this.shieldManager = new ShieldManager(this);
         this.kitManager = new KitManager(this, abilityManager, shieldManager);
+        // musi być PO KitManager - loader sprawdza, czy klasa z YAML istnieje w kodzie
+        this.classRulesManager = new pl.vd.kits.ClassRulesManager(this);
+        this.classRulesManager.load();
         this.gameManager = new GameManager(this);
         this.restartManager = new pl.vd.restart.RestartManager(this);
         this.brushManager = new BrushManager(this);
@@ -576,6 +582,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
     public pl.vd.friend.FriendManager getFriendManager() { return friendManager; }
     public pl.vd.friend.PartyManager getPartyManager() { return partyManager; }
     public pl.vd.game.PauseManager getPauseManager() { return pauseManager; }
+    public pl.vd.kits.ClassRulesManager getClassRulesManager() { return classRulesManager; }
     public pl.vd.barrier.BarrierManager getBarrierManager() { return barrierManager; }
     public pl.vd.listeners.PermanentFireListener getPermanentFireListener() { return permanentFireListener; }
     public pl.vd.listeners.BlockRestoreListener getBlockRestoreListener() { return blockRestoreListener; }
