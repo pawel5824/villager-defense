@@ -233,6 +233,10 @@ przy dwóch graczach, restart serwera dla każdej nowej rzeczy z §12.
 belki podpiętrza (v42), zawalanie bez podparcia + odzysk materiału (v43/v44), piętrowa Podłoga
 (v45). Każdy ma kryteria w `docs/OTWARTE_TEMATY.md`.
 
+**Restart serwera:** nowy JAR wgrywamy od razu, ale serwer restartujemy **co 5 nowych wersji
+pluginu** (licznik: `tools/.restart-counter`, lokalny, poza gitem). Do restartu zmiany nie działają
+w grze — to świadoma decyzja właściciela, nie błąd deployu.
+
 **Repo:** `origin` → `https://github.com/pawel5824/villager-defense` (publiczne, branch `master`).
 Musi być publiczne, bo klient Minecraft pobiera modpack i paczkę bez logowania. Kod i modpack
 są wypchnięte (2026-11-10), więc mod może trafiać do graczy.

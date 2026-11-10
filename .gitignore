@@ -21,3 +21,6 @@ build.log
 
 # Baza i ustawienia lokalnej aplikacji (duże, nie należy do projektu).
 .freebuff/
+
+# Lokalny licznik wdrożeń pluginu (restart co 5 wersji) - stan maszyny, nie repo.
+tools/.restart-counter
