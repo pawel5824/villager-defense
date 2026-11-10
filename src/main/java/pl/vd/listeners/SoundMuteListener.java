@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import pl.vd.VillagerDefensePlugin;
+import pl.vd.arena.Arena;
 import pl.vd.type.Faction;
 
 /**
@@ -57,16 +58,22 @@ public class SoundMuteListener extends PacketAdapter {
      *  („Sojusznicy" - warden, bałwan, wilk, golem, obrońca). 0% = pakiet
      *  anulowany, 25/50/75% = głośność przytłumiona, 100% = bez zmian. */
     private void handleEntitySound(PacketEvent event, Player player) {
-        int mobsVol = vdPlugin.getGameManager().soundVolume(player, SOUND_MOBS_KEY);
-        int alliesVol = vdPlugin.getGameManager().soundVolume(player, SOUND_ALLIES_KEY);
-        if (mobsVol >= 100 && alliesVol >= 100) return; // wszystko słyszalne - przepuść
-
         // ENTITY_SOUND (ClientboundSoundEntityPacket): pole int [0] = ID encji
         // wydającej dźwięk
         int entityId = event.getPacket().getIntegers().read(0);
         Entity entity = ProtocolLibrary.getProtocolManager()
                 .getEntityFromID(player.getWorld(), entityId);
         if (!(entity instanceof LivingEntity le)) return;
+
+        // Przerwa: zamrożone moby mają być ciche (opcja pause.mute-mob-sounds).
+        if (isPauseSound(le, player)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        int mobsVol = vdPlugin.getGameManager().soundVolume(player, SOUND_MOBS_KEY);
+        int alliesVol = vdPlugin.getGameManager().soundVolume(player, SOUND_ALLIES_KEY);
+        if (mobsVol >= 100 && alliesVol >= 100) return; // wszystko słyszalne - przepuść
 
         int vol = -1;
         if (Faction.of(le).isWave()) {
@@ -82,6 +89,26 @@ public class SoundMuteListener extends PacketAdapter {
         // przytłumij do X%: float [0] = głośność pakietu
         PacketContainer packet = event.getPacket();
         packet.getFloat().write(0, packet.getFloat().read(0) * vol / 100f);
+    }
+
+    /**
+     * Czy dźwięk tego moba wyciszyć, bo na arenie odbiorcy trwa przerwa.
+     * Dotyczy mobów z fali i wieśniaków (wszystkie są wtedy zamrożone).
+     */
+    private boolean isPauseSound(LivingEntity entity, Player player) {
+        if (!vdPlugin.getConfig().getBoolean("pause.mute-mob-sounds", true)) return false;
+        Faction faction = Faction.of(entity);
+        if (!faction.isWave() && faction != Faction.VILLAGER) return false;
+        Arena arena = findArenaOf(player);
+        return arena != null && vdPlugin.getPauseManager().isPaused(arena);
+    }
+
+    /** Arena, na której gra obecnie gracz (null = poza areną). */
+    private Arena findArenaOf(Player player) {
+        for (Arena arena : vdPlugin.getArenaManager().getArenas().values()) {
+            if (arena.isPlaying(player)) return arena;
+        }
+        return null;
     }
 
     /** Dźwięki pozycyjne: głośność % wybuchów (ustawienie „Wybuchy"). */

@@ -37,6 +37,13 @@ raft-max-rafts-per-world: 100
 # LOD/freeze zamrożone tratwy prawie nic nie kosztują.
 raft-max-cells-per-raft: 150
 
+# Przerwa (/przerwa <minuty>). Podczas pauzy moby areny są zamrożone i nie
+# można ich bić ani zabijać (PauseListener). Poniższa opcja wycisza dodatkowo
+# dźwięki mobów z fali i wieśniaków, żeby przerwa była cicha.
+pause:
+  # true = gracze nie słyszą dźwięków zamrożonych mobów podczas przerwy
+  mute-mob-sounds: true
+
 # Podpora piętra (item `wooden_support`, kategoria „Inne" w GUI młota): płotek
 # rozciągnięty w pionie, stawiany NA NAROŻNIKU 4 komórek („na końcu 4 bloków").
 # Świadomie ZERO kolizji i JEDNA encja na podporę (BlockDisplay/ItemDisplay) —

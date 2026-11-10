@@ -338,6 +338,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new NoDamageTicksListener(), this);
         getServer().getPluginManager().registerEvents(new ThornsListener(this), this);
         getServer().getPluginManager().registerEvents(new SignListener(this), this);
+        getServer().getPluginManager().registerEvents(new pl.vd.listeners.PauseListener(this), this);
         blockListener = new BlockListener(this);
         getServer().getPluginManager().registerEvents(blockListener, this);
         getServer().getPluginManager().registerEvents(new BowDamageListener(this), this);
