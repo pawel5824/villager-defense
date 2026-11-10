@@ -47,8 +47,8 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (isInArena(event.getPlayer())) {
+            // Cicho: gracz widzi tylko, że blok się nie niszczy (§1 - zero komunikatów).
             event.setCancelled(true);
-            pl.vd.util.AntiSpam.send(event.getPlayer(), "§cNie możesz niszczyć bloków w arenie.");
         }
     }
 
