@@ -1,0 +1,3 @@
+# Modpack: packwiz porównuje sha256 plików, więc git nie może zmieniać ich bajtów.
+# Bez tego autocrlf zamienia końce linii i klient pobiera te same pliki przy każdym starcie.
+modpack/** -text
