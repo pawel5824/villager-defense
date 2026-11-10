@@ -1,5 +1,6 @@
 package pl.vd.kits;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -29,6 +30,11 @@ public class Kit {
 
     public String getId() { return id; }
     public String getDisplayName() { return displayName; }
+
+    /** Nazwa kitu w języku gracza (panel Ustawienia -> Język). */
+    public String localizedName(Player player) {
+        return pl.vd.util.Lang.get(player, "kit-" + id + "-name");
+    }
     public ItemStack getIcon() { return icon; }
     public List<ItemStack> getItems() { return items; }
     public List<ItemStack> getRefillItems() { return refillItems; }

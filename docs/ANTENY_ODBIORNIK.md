@@ -263,7 +263,7 @@ count × {
 }
 ```
 
-Persistencja (faza 0): `plugins/VillagerDefense/raft/devices.yml`:
+Persistencja (faza 0): `plugins/ServerPlugin/devices.yml`:
 
 ```yaml
 devices:

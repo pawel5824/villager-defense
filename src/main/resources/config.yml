@@ -5,6 +5,21 @@
 # Nazwa świata Raft (auto-generowany przy starcie pluginu)
 raft-world-name: "RAFT"
 
+# Datapack "raft-height" — limity wysokości świata Raft (Y -64..287, height=352).
+# Domyślnie WYŁĄCZONE i to celowo, bo mechanika ma dwie twarde pułapki:
+#   1) Datapack nadpisuje wymiar typu minecraft:overworld, a ten typ dzielą WSZYSTKIE
+#      światy NORMAL na serwerze (raft, lobby, most, pustynna, overworld, hub) —
+#      więc obniża sufit nie tylko Raftowi.
+#   2) Zmiana height obejmuje też ISTNIEJĄCE światy (sprawdzone w sandboxie: świat
+#      utworzony przy 384 wczytuje się potem jako 352), więc każdy blok powyżej Y 287
+#      w którymkolwiek świecie NORMAL jest tracony.
+# Budowania w górę na Raftcie pilnuje sam plugin (raft.build-height-limit, domyślnie
+# 280 = sufit 280), więc do rozgrywki ten datapack nie jest potrzebny.
+# Włącz (true) świadomie — najlepiej razem z generowaniem świata Raft od nowa.
+# Po włączeniu plugin pisze datapack do <level-name>/datapacks/raft-height (tylko ten
+# folder czyta serwer) i loguje na starcie, czy limity faktycznie działają.
+raft-height-datapack: false
+
 # Maksymalna liczba graczy w jednej sesji Raft (wspólny świat).
 # Przy 3 graczach ich chunki nakładają się — obciążenie jak dla 1-2 graczy.
 # Ustaw 0 bez limitu (niezalecane przy wielu sesjach naraz).
@@ -22,11 +37,54 @@ raft-max-rafts-per-world: 100
 # LOD/freeze zamrożone tratwy prawie nic nie kosztują.
 raft-max-cells-per-raft: 150
 
+# Podpora piętra (item `wooden_support`, kategoria „Inne" w GUI młota): płotek
+# rozciągnięty w pionie, stawiany NA NAROŻNIKU 4 komórek („na końcu 4 bloków").
+# Świadomie ZERO kolizji i JEDNA encja na podporę (BlockDisplay/ItemDisplay) —
+# podpora jest wizualem, który „trzyma" piętro, a zasady pięter pilnuje
+# RaftBuildListener (patrz docs/RAFT_BALANCE.md §1b). Zmiany działają po
+# restarcie serwera albo /def reload (bez rekompilacji).
+raft-support:
+  # Wysokość słupka w blokach (2 = pokój wysokości 2 kratek między pokładem
+  # a piętrem). Model płotka ma 1.5 bloka, więc skala Y = height / 1.5.
+  height-blocks: 2.0
+  # Materiał wizualu (BlockDisplay). Domyślnie płotek; działa każdy blok.
+  material: OAK_FENCE
+  # Custom model z Blockbencha (jak latarenki): > 0 przełącza wizual na
+  # ItemDisplay z przedmiotem `model-item` o tym custom_model_data. W paczce
+  # dodaj definicję assets/minecraft/items/<model-item>.json (range_dispatch po
+  # custom_model_data) + model z Blockbencha (origin = środek podstawy kratki,
+  # wysokość 1 blok — renderer skaluje go do height-blocks). 0 = zwykły blok.
+  custom-model-data: 0
+  # Przedmiot bazowy dla custom modelu (tylko gdy custom-model-data > 0).
+  model-item: OAK_FENCE
+  # BELKI PODPIĘTRZA (build v42): rama z belek na krawędziach każdej komórki
+  # piętra, tuż pod nią (wierzch słupka + 4 belki = kratownica rozchodząca się
+  # od podpory na 4 komórki wokół niej). Bez tego platforma piętra wyglądała
+  # na wiszącą w powietrzu. false = brak belek (mniej encji).
+  beams: true
+  # Materiał belek — NAJLEPIEJ PEŁNY BLOK (deski, cegły): belka to spłaszczony
+  # blok 1 × 0.25 × 0.25. Płotek/murek też zadziała (renderer kompensuje model
+  # 1.5 bloka), ale inne kształty (płyty, schody) rozjadą się wizualnie.
+  beam-material: DARK_OAK_PLANKS
+  # RUNIĘCIE PIĘTRA (build v44): komórki bez podparcia (po zdjęciu podpory albo
+  # rozbiciu komórki pod nimi) znikają dopiero po tylu tickach — 12 = 0,6 s,
+  # 0 = natychmiast. Każda zawalona komórka wypada do wody jako przedmiot do
+  # odzyskania (1× jej materiał) + dźwięk i cząsteczki.
+  collapse-delay-ticks: 12
+
 # Faza 8: custom_model_data przedmiotu Hak. Przedmiot to WĘDKA (FISHING_ROD),
 # żeby klient rysował linkę od ręki do spławika. Na razie brak własnego modelu
 # (waniliowa wędka); gdy powstanie — dodaj próg CMD w
 # assets/minecraft/items/fishing_rod.json.
 raft-hook-custom-model-data: 8010
+
+# Diagnostyka tratwy w konsoli/logach. Gdy true, KAŻDA tratwa w trybie FULL
+# (gracz na pokładzie lub blisko) wypisuje co sekundę linię "[Raft] diag ..."
+# z pozycją, prędkością, prądem, powierzchnią wody i pomiarem offsetu kolizji.
+# Zostaw false na produkcji — przy kilku tratwach to dziesiątki linii na minutę.
+# Włącz na true tylko do debugowania fizyki/kolizji. Zmiany działają po
+# restarcie serwera albo /def reload (bez rekompilacji).
+raft-debug-diag: false
 
 # Kolizja tratwy z lądem — ześlizg wzdłuż wysp/skał/brzegu przy dotknięciu.
 # Zmiany działają po restarcie serwera albo /def reload (bez rekompilacji).
@@ -90,6 +148,52 @@ raft-debris:
   behind-cleanup-dist: 25.0
   # Maks. pojedynczych sztuk dosypanych w jednym sprawdzeniu (co 2 s)
   max-items-per-fill: 6
+
+# Muzyka trybu Raft: losowe utwory z paczki raft-hud z losowymi przerwami.
+# Utwory dodajesz w paczce (assets/raft/sounds/music/*.ogg + sounds.json),
+# a tu tylko wpisujesz ich identyfikatory. Każdy gracz ma OSOBNE ustawienia
+# (/muzyka): włączona, głośność, ton/prędkość, częstotliwość — zapisywane
+# w raft-players.yml. Zmiany po /def reload.
+raft-music:
+  # Globalny włącznik — domyślnie FALSE, dopóki w paczce nie ma plików .ogg
+  # (assets/raft/sounds/music/*.ogg). Bez nich gra wysyła pusty dźwięk i klient
+  # loguje "Unable to play empty soundEvent" (muzyka i tak nie zagra).
+  # Po dodaniu utworów ustaw true — lista i przerwy działają od razu.
+  enabled: false
+  # Krótsza przerwa między utworami (sekundy) — pełne losowanie min..max
+  interval-min-seconds: 180
+  # Dłuższa przerwa między utworami (sekundy)
+  interval-max-seconds: 480
+  # Opóźnienie pierwszego utworu po wejściu do świata Raft (sekundy)
+  start-delay-seconds: 45
+  # Domyślna głośność dla graczy, którzy jej nie zmieniali (0.0–1.0)
+  default-volume: 1.0
+  # Domyślny ton/prędkość (1.0 = oryginał; zakres gracza 0.5–2.0)
+  default-pitch: 1.0
+  # ── Tryb „natychmiastowo”: utwór gra DO KOŃCA, a następny rusza od razu ──
+  # Serwer nie zna długości dźwięku (wie ją tylko klient), więc bierze ją
+  # z pierwszego dostępnego źródła:
+  #   1) track-seconds poniżej — ręcznie, w sekundach (wygrywa),
+  #   2) plików .ogg z pack-dir — dokładnie, z nagłówka Vorbisa,
+  #   3) default-track-seconds — gdy utworu nie ma w żadnym z powyższych.
+  # pack-dir = katalog paczki (ten z pack.mcmeta i folderem assets/); pusty =
+  # nie czytamy plików. Ścieżka bezwzględna albo względna do katalogu serwera.
+  pack-dir: ""
+  # Długość przyjmowana, gdy nie da się jej ustalić (sekundy).
+  default-track-seconds: 180
+  # Ręczne długości utworów (sekundy) — wygrywają z odczytem z plików. Przykład:
+  # track-seconds:
+  #   "raft:music.utwor_1": 50
+  #   "raft:music.utwor_2": 50
+  # Identyfikatory utworów — MUSZĄ zgadzać się z keys w sounds.json paczki
+  # DOKŁADNIE ZNAK W ZNAK (kropka, nie ukośnik: wanilia też pisze music.game).
+  # Klucz "music.spokojna_zatoka" → id "raft:music.spokojna_zatoka"
+  #                          → plik assets/raft/sounds/music/spokojna_zatoka.ogg
+  # Błąd w id (np. "raft:music/spokojna_zatoka") = klient nie zna zdarzenia
+  # i NIC nie zagra (w logu klienta "Unable to play unknown soundEvent").
+  tracks:
+    - "raft:music.utwor_1"
+    - "raft:music.utwor_2"
 
 # Lobby serwera: dokąd trafiają gracze po /hub, /lobby oraz po automatycznym
 # restarcie (/def restart). Ustawisz je w grze komendą /def ustawlobby (stań

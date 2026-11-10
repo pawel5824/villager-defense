@@ -126,6 +126,18 @@ public class VillagerDefensePlugin extends JavaPlugin {
     private pl.vd.raft.RaftPlugin raftPlugin;
     private pl.vd.raft.latarenka.LatarenkaManager latarenkaManager;
 
+    /**
+     * Kopiuje zasób z JAR-a do folderu pluginu TYLKO wtedy, gdy pliku jeszcze nie ma.
+     *
+     * Po co własna metoda: {@code JavaPlugin#saveResource(String, false)} przy istniejącym pliku
+     * nie nadpisuje go (i to jest w porządku), ale loguje `Could not save X to Y because X already
+     * exists` na poziomie WARNING — czyli przy KAŻDYM starcie serwera. Log startu wyglądał wtedy
+     * jak ostrzeżenie o błędzie, choć działo się dokładnie to, co powinno.
+     */
+    private void saveResourceIfMissing(String resource) {
+        if (new File(getDataFolder(), resource).exists()) return;
+        saveResource(resource, false);
+    }
 
     @Override
     public void onEnable() {
@@ -133,10 +145,10 @@ public class VillagerDefensePlugin extends JavaPlugin {
         // loadCustomWorlds(), żeby pozostałości nie zostały wczytane jako zwykłe światy
         InstanceManager.cleanupLeftovers(this);
         saveDefaultConfig();
-        // instrukcja /stojak - kopiowana do folderu pluginu, jeśli jeszcze nie istnieje
-        saveResource("stojak-info.txt", false);
-        // gotowy preset wieżyczki do sklepu (/stojak place wiezyczka, sklep „Inne")
-        saveResource("stojaki/wiezyczka.yml", false);
+        // instrukcja /stojak i gotowy preset wieżyczki do sklepu (/stojak place wiezyczka,
+        // sklep „Inne") — kopiowane tylko wtedy, gdy plików jeszcze nie ma
+        saveResourceIfMissing("stojak-info.txt");
+        saveResourceIfMissing("stojaki/wiezyczka.yml");
         pl.vd.util.HealthDisplay.setStyle(getConfig().getString("health-display-style", "bar"));
         pl.vd.util.AntiSpam.init(this);
         pl.vd.util.Lang.init(this);
@@ -182,7 +194,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
         this.regionManager = new pl.vd.region.RegionManager(this);
         this.supplyDropManager = new SupplyDropManager(this);
         this.supplyDropManager.start();
-        this.reportManager = new pl.vd.reports.ReportManager();
+        this.reportManager = new pl.vd.reports.ReportManager(this);
         this.friendManager = new pl.vd.friend.FriendManager(this);
         this.partyManager = new pl.vd.friend.PartyManager(this);
         this.pauseManager = new pl.vd.game.PauseManager(this);
@@ -233,6 +245,15 @@ public class VillagerDefensePlugin extends JavaPlugin {
         VDCommand command = new VDCommand(this);
         getCommand("def").setExecutor(command);
         getCommand("def").setTabCompleter(command);
+        // /vd + aliasy /vdefense, /villagerdefense: plugin.yml deklaruje komendę "vd",
+        // ale wykonawca był podłączony TYLKO do "def" - bez tego Bukkit nie miał
+        // executora i pokazywał sam komunikat "Usage: /vd <...>" (domyślny
+        // JavaPlugin#onCommand zwraca false), a ŻADNA komenda /vd, /vdefense
+        // nie działała (mimo że jest na liście komend). Ten sam VDCommand co /def.
+        if (getCommand("vd") != null) {
+            getCommand("vd").setExecutor(command);
+            getCommand("vd").setTabCompleter(command);
+        }
 
         // /restart - NADPISANIE przez Brigadier (LifecycleEvents.COMMANDS), bo rejestracja
         // przez plugin.yml nie działała: Bukkit przy konflikcie z komendą Spigota chował
@@ -372,6 +393,16 @@ public class VillagerDefensePlugin extends JavaPlugin {
             getServer().getPluginManager().registerEvents(craftingCommand, this);
             // Udostępnij GUI odbiornikowi przycisku moda (raft:open_crafting).
             raftPlugin.setCraftingCommand(craftingCommand);
+        }
+
+        // /muzyka - ustawienia muzyki trybu Raft per gracz (+ GUI 6×9: płyty
+        // utworów, suwak głośności, częstotliwość, zapętlenie, wyjście)
+        if (getCommand("muzyka") != null && raftPlugin.getMusicManager() != null) {
+            pl.vd.raft.music.MuzykaCommand muzykaCommand =
+                    new pl.vd.raft.music.MuzykaCommand(raftPlugin, raftPlugin.getMusicManager());
+            getCommand("muzyka").setExecutor(muzykaCommand);
+            getCommand("muzyka").setTabCompleter(muzykaCommand);
+            getServer().getPluginManager().registerEvents(muzykaCommand, this);
         }
 
         // /latarenka - customowe latarenki z kolorowym światłem (tylko świat Raft)

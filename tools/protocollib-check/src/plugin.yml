@@ -1,0 +1,15 @@
+name: ProtLibCheck
+version: '1.0.0'
+main: pl.vd.tools.ProtLibCheck
+api-version: '26.3'
+description: Proba diagnostyczna ProtocolLib (czy dziala na tej wersji serwera)
+author: Server
+softdepend: [ProtocolLib]
+commands:
+  protlibcheck:
+    description: Sprawdza, czy ProtocolLib dziala na tej wersji serwera
+    usage: /protlibcheck
+    permission: protlibcheck.use
+permissions:
+  protlibcheck.use:
+    default: op

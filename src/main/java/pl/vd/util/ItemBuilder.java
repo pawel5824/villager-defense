@@ -26,6 +26,12 @@ public class ItemBuilder {
         return this;
     }
 
+    /** Numer custom_model_data - tekstura z resource packa (np. customowe bronie). */
+    public ItemBuilder customModelData(int data) {
+        if (meta != null) meta.setCustomModelData(data);
+        return this;
+    }
+
     public ItemStack build() {
         stack.setItemMeta(meta);
         return stack;

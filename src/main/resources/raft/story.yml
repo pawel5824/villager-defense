@@ -1,0 +1,132 @@
+# ============================================
+# RAFT PLUGIN - KONFIGURACJA FABUŁY
+# ============================================
+# Główna historia o przetrwaniu na oceanie
+# ============================================
+
+# Tytuł fabuły
+title: "Tajemnica Zagubionego Oceanu"
+
+# Podtytuł
+subtitle: "Przetrwanie na skraju świata"
+
+# Rozdziały fabuły
+chapters:
+  1:
+    title: "Budzenie się"
+    content: |
+      Budzisz się na małym pontonie pośrodku oceanu.
+      Nie pamiętasz, jak się tu znalazłeś.
+      Wokoło tylko woda i skrawki lądu w oddali.
+      Musisz przetrwać.
+    unlocks-quests:
+      - awakening
+    unlocks-items:
+      - hook
+      - wooden_spear
+    unlocks-features:
+      - basic_crafting
+
+  2:
+    title: "Pierwsze wyspy"
+    content: |
+      Dopływasz do pierwszych wysp.
+      Odkrywasz, że nie jesteś sam -
+      na wyspach są ślady innych rozbitków.
+      Niektórzy przyjaźni, inni... mniej.
+    unlocks-quests:
+      - first_island
+      - collect_fish
+    unlocks-items:
+      - diving_mask
+    unlocks-features:
+      - island_exploration
+
+  3:
+    title: "Tajemnica oceanu"
+    content: |
+      Zaczynasz odkrywać, że ocean skrywa tajemnice.
+      Stworzenia z głębin, starożytne ruiny,
+      zaginione skarby. Coś wielkiego czeka na dnie...
+    unlocks-quests:
+      - explore_5_islands
+      - defeat_shark
+    unlocks-items:
+      - trident
+      - harpoon_gun
+      - oxygen_bottle
+    unlocks-features:
+      - deep_diving
+      - treasure_hunting
+
+  4:
+    title: "Stare bóstwo"
+    content: |
+      Odkrywasz prawdę - ocean to cmentarzysko
+      starożytnej cywilizacji. Ich bóstwo budzi się
+      z letargu. Musisz znaleźć sposób, by je
+      powstrzymać lub z nim walczyć.
+    unlocks-quests:
+      - sea_monster
+      - pirate_lord
+    unlocks-items:
+      - shark_sword
+      - radio
+    unlocks-features:
+      - boss_fights
+      - advanced_crafting
+
+  5:
+    title: "Ostateczna konfrontacja"
+    content: |
+      Stajesz twarzą w twarz z pradawnym złem.
+      Twoje przetrwanie zależy od tego, czego
+      się nauczyłeś. Ocean jest twoim domem -
+      i twoim więzieniem.
+    unlocks-quests:
+      - elder_god
+    unlocks-items:
+      - binoculars
+    unlocks-features:
+      - endgame_content
+
+# Postacie w fabule
+characters:
+  narrator:
+    name: "Narrator"
+    description: "Głos oceanu"
+
+  survivor:
+    name: "Przeżyły"
+    description: "Inny rozbitek na wyspie"
+
+  elder:
+    name: "Starzec Morski"
+    description: "Tajemnicza postać znająca sekrety oceanu"
+
+  guardian:
+    name: "Strażnik Głębin"
+    description: "Potężne stworzenie strzegące tajemnic"
+
+# Dialogi
+dialogs:
+  first_meeting:
+    speaker: "survivor"
+    text: |
+      Hej! Kim jesteś? Jak się tu znalazłeś?
+      Też straciłeś pamięć? Musimy współpracować,
+      jeśli chcemy przetrwać.
+
+  elder_warning:
+    speaker: "elder"
+    text: |
+      Uwaga, młody. Ocean nie jest tym, czym się wydaje.
+      Pod powierzchnią kryją się ruiny starożytnej cywilizacji.
+      Ich bóstwo się budzi... Musisz być gotowy.
+
+  final_battle:
+    speaker: "narrator"
+    text: |
+      Stajesz przed pradawnym bóstwem. Jego siła jest
+      przytłaczająca, ale twoja wola przetrwania jest
+      silniejsza. To czas ostatecznej konfrontacji.

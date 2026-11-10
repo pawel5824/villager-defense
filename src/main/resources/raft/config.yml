@@ -1,0 +1,197 @@
+# ============================================
+# RAFT PLUGIN - KONFIGURACJA
+# ============================================
+# Inspirowana grą Raft ze Steam
+# Własna fabuła, wyspy i mechaniki
+# ============================================
+
+# === USTAWIENIA OGÓLNE ===
+# Nazwa świata Raft
+world-name: "RAFT"
+
+# Rozmiar mapy (w blokach)
+map-size: 1000
+
+# View distance i simulation distance dla świata Raft
+# (odpowiada view-distance=8 i simulation-distance=3 w server.properties)
+# Mniejszy simulation-distance = mniej chunków tickowanych = lepsza wydajność
+view-distance: 8
+simulation-distance: 3
+
+# Limit budowania na świecie Raft (Y)
+# Gracz nie może stawiać bloków powyżej tego poziomu.
+# Domyślnie 280 (vanilla max to 287 po zmianie dimension type).
+build-height-limit: 280
+
+# Poziom morza (powierzchnia wody)
+sea-level: 80
+
+# Dno oceanu (bedrock)
+ocean-floor: -61
+
+# Łączna głębokość oceanu: sea-level - ocean-floor = 80 - (-61) = 141 bloki wody
+# Gracz nurkujący na jednym oddechu nie widzi dna.
+
+# Liczba wysp na mapie
+island-count: 25
+
+# === USTAWIENIA CYKLU DNIA/NOCY ===
+day-night-cycle:
+  # Czy cykl dnia/nocy jest aktywny
+  enabled: true
+  # Czas trwania pełnego cyklu (w tickach)
+  cycle-length: 24000
+
+# === USTAWIENIA MOBÓW ===
+mobs:
+  # Czy generować moby automatycznie (wyłączone — Raft to tryb bez mobów)
+  spawn: false
+
+# === USTAWIENIA WYSP ===
+islands:
+  # Odległość minimalna między wyspami
+  min-distance: 50
+  # Odległość maksymalna między wyspami
+  max-distance: 200
+  # Typy wysp i ich rzadkość
+  types:
+    SANDY_ISLAND:
+      rarity: 0.3
+      radius: 50
+      height: 20
+    ROCKY_ISLAND:
+      rarity: 0.2
+      radius: 40
+      height: 30
+    FOREST_ISLAND:
+      rarity: 0.25
+      radius: 60
+      height: 25
+    MOUNTAIN_ISLAND:
+      rarity: 0.15
+      radius: 35
+      height: 40
+    VOLCANIC_ISLAND:
+      rarity: 0.1
+      radius: 30
+      height: 50
+    RUINS_ISLAND:
+      rarity: 0.2
+      radius: 45
+      height: 20
+    TREASURE_ISLAND:
+      rarity: 0.35
+      radius: 25
+      height: 15
+    MONSTER_ISLAND:
+      rarity: 0.1
+      radius: 55
+      height: 35
+    MYSTIC_ISLAND:
+      rarity: 0.2
+      radius: 40
+      height: 25
+    WRECK_ISLAND:
+      rarity: 0.25
+      radius: 35
+      height: 20
+    DRAGON_ISLAND:
+      rarity: 0.05
+      radius: 70
+      height: 45
+    PIRATE_ISLAND:
+      rarity: 0.08
+      radius: 60
+      height: 40
+    UNDEAD_ISLAND:
+      rarity: 0.12
+      radius: 50
+      height: 35
+
+# === USTAWIENIA PONTONU ===
+raft:
+  # Początkowy rozmiar pontonu (w blokach)
+  initial-size: 5
+  # Maksymalny rozmiar pontonu
+  max-size: 25
+  # Prędkość pontonu
+  speed: 1.0
+  # Maksymalna prędkość
+  max-speed: 5.0
+
+# === USTAWIENIA FABUŁY ===
+story:
+  # Czy fabuła jest aktywna
+  enabled: true
+  # Liczba rozdziałów
+  chapter-count: 5
+  # Automatyczne odblokowywanie rozdziałów
+  auto-advance: false
+
+# === USTAWIENIA QUESTÓW ===
+quests:
+  # Czy questy są aktywne
+  enabled: true
+  # Maksymalna liczba aktywnych questów
+  max-active: 3
+  # Czy questy się powtarzają
+  repeatable: false
+
+# === USTAWIENIA PRZEDMIOTÓW ===
+items:
+  # Czy customowe przedmioty są aktywne
+  enabled: true
+  # Maksymalna liczba przedmiotów w ekwipunku
+  max-stack: 64
+
+# === USTAWIENIA CRAFTINGU ===
+crafting:
+  # Czy customowy crafting jest aktywny
+  enabled: true
+  # Czy pokazywać przepisy w kreatorze
+  show-recipes: true
+
+# === USTAWIENIA PRZETRWANIA ===
+survival:
+  # Głód
+  hunger:
+    enabled: true
+    decay-rate: 0.1
+  # Pragnienie
+  thirst:
+    enabled: true
+    decay-rate: 0.02
+  # Stamina
+  stamina:
+    enabled: true
+    sprint-decay: 0.1
+    regen-rate: 0.05
+
+# === STREFY CIEMNEJ WODY ===
+# Obszary na mapie, w których woda stopniowo ciemnieje wraz z głębokością.
+# Zmienia kolor biome water fog na coraz ciemniejszy oceany na różnych poziomach Y.
+# Komendy: /raft waterdark create|remove|list|info|init|restore|toggle
+#
+# Tworzenie strefy:
+#   1. /region pos1 (stanąć na jednym rogu strefy)
+#   2. /region pos2 (stanąć na drugim rogu)
+#   3. /raft waterdark create <nazwa>
+#   4. /raft waterdark surface <nazwa> <Y> (ustawić Y powierzchni wody)
+#   5. /raft waterdark depth <nazwa> <Y> (ustawić Y dna, domyślnie -63)
+#   6. /raft waterdark init <nazwa> (zainicjalizować kolory biome)
+#
+# Gradient kolorów (0.0 = powierzchnia, 1.0 = dno):
+#   WARM_OCEAN → LUKEWARM_OCEAN → OCEAN → COLD_OCEAN
+#   → DEEP_LUKEWARM_OCEAN → DEEP_COLD_OCEAN → DEEP_OCEAN
+#
+# Uwaga: bedrock na Y=-61, woda do Y=-60.
+water-darkness:
+
+# === USTAWIENIA EKONOMII ===
+economy:
+  # Waluta
+  currency: "monety"
+  # Zarobki za questy
+  quest-rewards: true
+  # Sklep na wyspach
+  shops: true

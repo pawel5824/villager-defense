@@ -29,7 +29,7 @@ public class BrushCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (!player.hasPermission("vd.admin")) {
-            player.sendMessage(Component.text("§cBrak uprawnień."));
+            pl.vd.util.AntiSpam.send(player, "§cBrak uprawnień.");
             return true;
         }
         if (args.length == 0) {
@@ -43,26 +43,26 @@ public class BrushCommand implements CommandExecutor, TabCompleter {
         switch (sub) {
             case "give" -> {
                 plugin.getBrushManager().giveTool(player);
-                player.sendMessage(Component.text("§aOtrzymujesz Pędzel Budowlany."));
+                pl.vd.util.AntiSpam.send(player, "§aOtrzymujesz Pędzel Budowlany.");
             }
             case "sphere" -> {
-                if (args.length < 2) { player.sendMessage(Component.text("§cUżyj: /brush sphere <material> [promień]")); return true; }
+                if (args.length < 2) { pl.vd.util.AntiSpam.send(player, "§cUżyj: /brush sphere <material> [promień]"); return true; }
                 Material mat = matchMaterial(player, args[1]);
                 if (mat == null) return true;
                 s.setType(BrushType.SPHERE);
                 s.setPrimaryMaterial(mat);
                 if (args.length >= 3) s.setRadius(parseIntOr(args[2], s.getRadius()));
-                player.sendMessage(Component.text("§aBrush: §fKula §7(" + mat + ", promień " + s.getRadius() + ")"));
+                pl.vd.util.AntiSpam.send(player, "§aBrush: §fKula §7(" + mat + ", promień " + s.getRadius() + ")");
             }
             case "smooth" -> {
                 s.setType(BrushType.SMOOTH);
                 if (args.length >= 2) s.setRadius(parseIntOr(args[1], s.getRadius()));
                 if (args.length >= 3) s.setSmoothIterations(parseIntOr(args[2], s.getSmoothIterations()));
-                player.sendMessage(Component.text("§aBrush: §fWygładzanie §7(promień " + s.getRadius()
-                        + ", iteracje " + s.getSmoothIterations() + ")"));
+                pl.vd.util.AntiSpam.send(player, "§aBrush: §fWygładzanie §7(promień " + s.getRadius()
+                        + ", iteracje " + s.getSmoothIterations() + ")");
             }
             case "random" -> {
-                if (args.length < 2) { player.sendMessage(Component.text("§cUżyj: /brush random <mat1,mat2,...> [promień]")); return true; }
+                if (args.length < 2) { pl.vd.util.AntiSpam.send(player, "§cUżyj: /brush random <mat1,mat2,...> [promień]"); return true; }
                 List<Material> mats = new ArrayList<>();
                 for (String part : args[1].split(",")) {
                     Material m = matchMaterial(player, part);
@@ -72,10 +72,10 @@ public class BrushCommand implements CommandExecutor, TabCompleter {
                 s.setType(BrushType.RANDOM);
                 s.setRandomMaterials(mats);
                 if (args.length >= 3) s.setRadius(parseIntOr(args[2], s.getRadius()));
-                player.sendMessage(Component.text("§aBrush: §fLosowy §7(" + mats.size() + " materiałów, promień " + s.getRadius() + ")"));
+                pl.vd.util.AntiSpam.send(player, "§aBrush: §fLosowy §7(" + mats.size() + " materiałów, promień " + s.getRadius() + ")");
             }
             case "overlay" -> {
-                if (args.length < 3) { player.sendMessage(Component.text("§cUżyj: /brush overlay <rdzeń> <warstwa_wierzchnia> [promień] [grubość]")); return true; }
+                if (args.length < 3) { pl.vd.util.AntiSpam.send(player, "§cUżyj: /brush overlay <rdzeń> <warstwa_wierzchnia> [promień] [grubość]"); return true; }
                 Material core = matchMaterial(player, args[1]);
                 Material top = matchMaterial(player, args[2]);
                 if (core == null || top == null) return true;
@@ -84,13 +84,13 @@ public class BrushCommand implements CommandExecutor, TabCompleter {
                 s.setTopMaterial(top);
                 if (args.length >= 4) s.setRadius(parseIntOr(args[3], s.getRadius()));
                 if (args.length >= 5) s.setOverlayThickness(parseIntOr(args[4], s.getOverlayThickness()));
-                player.sendMessage(Component.text("§aBrush: §fNakładka §7(rdzeń " + core + ", wierzch " + top
-                        + ", promień " + s.getRadius() + ", grubość " + s.getOverlayThickness() + ")"));
+                pl.vd.util.AntiSpam.send(player, "§aBrush: §fNakładka §7(rdzeń " + core + ", wierzch " + top
+                        + ", promień " + s.getRadius() + ", grubość " + s.getOverlayThickness() + ")");
             }
             case "radius" -> {
-                if (args.length < 2) { player.sendMessage(Component.text("§cUżyj: /brush radius <liczba>")); return true; }
+                if (args.length < 2) { pl.vd.util.AntiSpam.send(player, "§cUżyj: /brush radius <liczba>"); return true; }
                 s.setRadius(parseIntOr(args[1], s.getRadius()));
-                player.sendMessage(Component.text("§aPromień ustawiony na: " + s.getRadius()));
+                pl.vd.util.AntiSpam.send(player, "§aPromień ustawiony na: " + s.getRadius());
             }
             case "info" -> {
                 player.sendMessage(Component.text("§6=== Ustawienia pędzla ==="));
@@ -101,10 +101,12 @@ public class BrushCommand implements CommandExecutor, TabCompleter {
             }
             case "undo" -> {
                 if (!plugin.getBrushManager().canUndo(player)) {
-                    player.sendMessage(Component.text("§cBrak akcji do cofnięcia."));
+                    pl.vd.util.AntiSpam.send(player, "§cBrak akcji do cofnięcia.");
                 } else {
                     int count = plugin.getBrushManager().undo(player);
-                    player.sendMessage(Component.text("§aCofnięto ostatnią akcję pędzla (" + count + " bloków)."));
+                    int remaining = plugin.getBrushManager().undoCount(player);
+                    pl.vd.util.AntiSpam.send(player, "§aCofnięto akcję (" + count + " bloków). Pozostało cofnięć: "
+                            + remaining + "/20");
                 }
             }
             default -> sendHelp(player);
@@ -115,7 +117,7 @@ public class BrushCommand implements CommandExecutor, TabCompleter {
     private Material matchMaterial(Player player, String name) {
         Material mat = Material.matchMaterial(name);
         if (mat == null) {
-            player.sendMessage(Component.text("§cNieznany materiał: " + name));
+            pl.vd.util.AntiSpam.send(player, "§cNieznany materiał: " + name);
         }
         return mat;
     }

@@ -1,0 +1,539 @@
+========================================================
+  /stojak  -  instrukcja (strojnik wyglądu stojaka)
+========================================================
+
+CO TO JEST?
+Narzędzie do budowania wizualnych obiektów z armor standa (stojaka).
+Możesz:
+  - stroić jego wygląd NA ŻYWO kliknięciami w grze,
+  - doczepiać do niego bloki i przedmioty (skala, obrót, pochylenie,
+    przesunięcie - każda część osobno),
+  - zapisywać CAŁOŚĆ (stojak + części) pod nazwą i stawiać ją później
+    w dowolnym miejscu, także przedmiotem w ręce.
+
+Wymagania: uprawnienie vd.admin (operatorzy mają je domyślnie).
+
+POMOC /stojak help JEST PODZIELONA NA STRONY:
+  /stojak help          - pierwsza strona (5 komend)
+  /stojak help 2        - druga strona itd.
+  Na dole każdej strony jest klikalna nawigacja: « poprzednia [1] [2] [3]
+  następna » - kliknięcie numeru (albo poprzednia/następna) przełącza
+  stronę od razu, bez pisania komendy.
+
+========================================================
+ 1. POSTAWIENIE STOJAKA
+========================================================
+  /stojak stworz
+      Stawia stojak na bloku, na który patrzysz. Domyślnie wygląda jak
+      zaczątek wieżyczki: niewidoczny korpus, ręce, bez bloku na głowie
+      i bez przedmiotu w ręce, lekko wpuszczony w blok.
+      (samo /stojak pokazuje krótką pomoc)
+
+  /stojak stworz x y z [parametry]
+      Stawia stojak DOKŁADNIE na podanych współrzędnych BLOKU - stojak
+      staje na środku tego bloku (wyśrodkowany w XZ), a y = pozycja stóp
+      (bez sink), np.
+      /stojak stworz 10 64 -100 head:stone sink:0
+      (Tab podpowiada współrzędne bloku, na który patrzysz, z y = wierzch
+      bloku - stojak stanie dokładnie na nim)
+
+  /stojak stworz head:stone hand:bow sink:-1.0 rpitch:-60
+      Postawienie z parametrami. Lista parametrów (klucz:wartość):
+
+      head:<blok>        blok na "głowie" (korpus), np. head:dispenser
+      hand:<przedmiot>   przedmiot w ręce (lufa), np. hand:bow
+      offhand:<przedmiot>
+      small:true|false   mały / normalny stojak
+      arms:true|false    ręce
+      visible:true|false widoczny korpus stojaka
+      base:true|false    płytka podstawy
+      sink:<liczba>      wpuszczenie w dół od wierzchu bloku (sink:-1.0 = stoi
+                        NA wierzchu bloku [domyślnie], 0 = 1 blok niżej,
+                        1 = 2 bloki niżej itd.)
+      yaw:<stopnie>      obrót całego stojaka w poziomie
+      pitch:<stopnie>    pochylenie całego stojaka
+      ox:/oy:/oz:<liczba> dodatkowe przesunięcie stawiania (np. ox:0.5 postawi
+                        na krawędzi bloku - stawianie "wszędzie")
+      hpitch/hyaw/hroll  pozy GŁOWY w stopniach
+      bpitch/byaw/broll  pozy CIAŁA w stopniach
+      rpitch/ryaw/rroll  pozy PRAWEJ RĘKI w stopniach
+      lpitch/lyaw/lroll  pozy LEWEJ RĘKI w stopniach
+      rgpitch/rgyaw/rgroll  pozy PRAWEJ NOGI w stopniach
+      lgpitch/lgyaw/lgroll  pozy LEWEJ NOGI w stopniach
+
+  Uwaga: sam argument bez dwukropka = materiał głowy,
+  np.  /stojak stworz stone  postawi stojak z kamieniem na głowie.
+
+========================================================
+ 2. STROJENIE KLIKNIĘCIAMI (kliknij stojak trzymając przedmiot)
+========================================================
+  STICK          zmiana strojonej części:
+                 głowa -> ciało -> prawa ręka -> lewa ręka ->
+                 prawa noga -> lewa noga ->
+                 yaw stojaka -> pitch stojaka -> wysokość stojaka ->
+                 doczepione części (CZĘŚĆ 1, CZĘŚĆ 2, ...)
+                 (trzymaj SHIFT, żeby COFAĆ wybór do poprzedniej części)
+  SUGAR          zmiana osi obrotu (X/Y/Z);
+                 dla doczepionej części: WYSOKOŚĆ -> PRZESUNIĘCIE-X ->
+                 PRZESUNIĘCIE-Z -> SKALA -> SKRĘT -> OBRÓT -> POCHYLENIE ->
+                 LUSTRO -> ODBICIE -> ŚWIATŁO -> GRUPA -> ROZCIĄGNIJ-Y ->
+                 ROZCIĄGNIJ-X -> ROZCIĄGNIJ-Z (dzięki temu część można
+                 przesunąć w dowolne miejsce; trzymaj SHIFT, żeby cofać
+                 do poprzedniej opcji)
+                 WYBRANY PARAMETR JEST STAŁY: po wybraniu np. WYSOKOŚCI
+                 zostaje on przy zmianie części / stojaka (STICKiem) i nie
+                 wraca do SKALA - dopóki nie zmienisz go SUGARem
+                 GRUPA = przełączanie między częściami z tego samego
+                 materiału: BLAZE_ROD = następna, BONE = poprzednia.
+                 W action barze widać pozycję w grupie, np.
+                 CZĘŚĆ 5 (stone 2/4) - 2. kamień z 4. Dzięki temu
+                 łatwo trafić w konkretną kopię tego samego bloku.
+  BLAZE_ROD      plus: obrót +10°, skala +0.10, przesunięcie +0.10
+  BONE           minus: to samo w drugą stronę
+                 (bez shiftu zmiana o 10%; trzymaj SHIFT, żeby zmieniać
+                 o 1%: skala/przesunięcie 0.01; obrót 1°)
+  FEATHER        PRAWY klik: zmniejsz WSZYSTKIE części (cała wieżyczka
+                 ×0.9 na kliknięcie; SHIFT = 1% ×0.99). LEWY klik:
+                 powiększ (×1.1; SHIFT = 1% ×1.01). Reset: /stojak
+                 scale all reset
+  GUNPOWDER      przełącz widoczność korpusu stojaka
+  BLAZE_POWDER   przełącz ręce
+  REDSTONE       przełącz podświetlanie stojaka (glow) - świeci stojak
+                 i wszystkie jego części; działa też na niewidzialnych
+                 stojakach (łatwo znaleźć, co się stroi)
+                 (SHIFT+REDSTONE = podświetl TYLKO części, bez korpusu)
+  PAPER          wypisuje AKTUALNE WARTOŚCI stojaka na czat
+                 (przydatne, żeby podejrzeć efekt / podać komuś wartości)
+  BARRIER        usuwa wybraną doczepioną część;
+                 gdy żadna część nie jest wybrana - usuwa cały stojak
+                 (SHIFT+BARRIER = usuń cały stojak od razu)
+
+  Aktualna część i tryb pokazują się w action barze (nad ekwipunkiem).
+
+========================================================
+ 3. DOCZEPIANIE BLOKÓW I PRZEDMIOTÓW (CZĘŚCI)
+========================================================
+  /stojak part <blok|przedmiot> [x y z]
+      Doczepia część do stojaka, na który patrzysz.
+      Bez x y z część pojawia się WYŚRODKOWANA na stojaku (środek bloku,
+      na którym stoi stojak) i leży dokładnie na tym bloku.
+      x y z = dokładne przesunięcie względem stojaka w blokach
+      (np. /stojak part stone 0 2 0 - kamień 2 bloki nad stojakiem).
+        - blok (np. stone, iron_block) -> BlockDisplay (pełny blok)
+        - przedmiot (np. diamond_sword, bow) -> ItemDisplay
+      Możesz doczepić wiele części; każda dostaje numer (CZĘŚĆ 1, 2, ...).
+      Części podążają za stojakiem (obrót stojaka obraca je razem z nim).
+
+  Sterowanie częścią:
+      STICK   po "wysokości" wchodzisz w tryb części,
+      SUGAR   zmienia tryb: WYSOKOŚĆ / PRZESUNIĘCIE-X / PRZESUNIĘCIE-Z /
+              SKALA / SKRĘT / OBRÓT / POCHYLENIE / LUSTRO / ODBICIE /
+              ŚWIATŁO / GRUPA / ROZCIĄGNIJ-Y / ROZCIĄGNIJ-X /
+              ROZCIĄGNIJ-Z,
+      BLAZE_ROD / BONE  plus / minus (z shiftem drobniej);
+              w trybie SKRĘT: obracasz część wokół JEJ WŁASNEJ długiej
+              osi (roll) - np. patyk pod kątem 70° przekręcasz tak, żeby
+              jego szersza powierzchnia patrzyła w bok;
+              w trybie ROZCIĄGNIJ-X/Y/Z: rozciągasz blok TYLKO w jedną oś -
+              np. z kamienia robisz podłużny blok w bok (X), wysoki w górę
+              (Y) albo długi w przód/tył (Z); action bar pokazuje aktualną
+              skalę,
+              w trybie ODBICIE: BLAZE_ROD = odbij w X, BONE = odbij w Z
+              (przewraca teksturę części w miejscu - szybsze niż obrót
+              o 180°; w action barze widać odbite osie X: - Z: +);
+              w trybie LUSTRO: BLAZE_ROD = lustrzana KOPIA wybranej
+              części po drugiej stronie w X, BONE = w Z (odbity offset,
+              skala i obroty - idealna symetria jednym klikiem, bez
+              SHIFT; część musi być odsunięta od środka stojaka);
+              to samo komendą /stojak lustro czesc [x|z];
+              w trybie GRUPA: następna / poprzednia część z tego
+              samego materiału,
+              w trybie ŚWIATŁO: BLAZE_ROD = część JASNA (pełna jasność,
+              wygląda jak rozświetlona), BONE = normalne światło;
+              jasność zapisuje się razem ze stojakiem (save/place),
+      BARRIER usuwa wybraną część.
+
+  /stojak part remove   - usuwa wybraną część
+  /stojak usun czesc <liczba> [materiał]
+                        - usuwa część o numerze z action bara (CZĘŚĆ 1, 2, ...
+                          - przewijaj STICKiem); z materiałem usuwa tylko, gdy
+                          ta część jest z tego materiału (np. usun czesc 5 stone)
+  /stojak usun all czesc <materiał>
+                        - usuwa WSZYSTKIE części z tego materiału naraz
+                          (np. usun all czesc stone); jedno /stojak undo
+                          przywraca je wszystkie
+  /stojak usun [materiał] - usuwa doczepioną część (blok/przedmiot), na którą
+                          patrzysz - bez wybierania jej STICKiem; z materiałem
+                          usuwa tylko część z tego materiału (np. usun stone,
+                          usun bow); działa też na stojakach spoza sesji
+                          (np. po restarcie serwera)
+  /stojak partclear     - usuwa wszystkie części
+  /stojak undo          - cofa ostatnią zmianę części: doczepienie (usuwa
+                          ostatnio dodaną), usunięcie (przywraca z pełnym
+                          stanem: materiał, skala, obrót, pozycja), move /
+                          scale / rotate / zmianę materiału (wraca do stanu
+                          sprzed operacji). Działa też po partclear i po
+                          kliknięciu BARRIER. Historia: 20 operacji na stojak.
+  /stojak ponow         - PRZYWRACA stan części sprzed ostatniego /stojak undo.
+                          Ratuje sytuację, gdy undo zdjęło wszystkie części
+                          (korpus jest niewidoczny, więc cały stojak wygląda
+                          jak zniknięty). Po każdym undo zapamiętywany jest
+                          poprzedni stan - jedno /stojak ponow go odtwarza.
+
+  AUTOSAVE (kopia zapasowa co minutę):
+  Co 60 sekund plugin zapisuje stojaki pluginu BEZ NAZWY (z częściami i
+  pozycją) do JEDNEGO pliku: plugins/VillagerDefense/stojaki/autosave.yml
+  (nadpisywany - nie mnożą się pliki). Nazwane stojaki mają własny trwały
+  zapis (/stojak save <nazwa>), więc autosave ich nie rusza - nie nadpisze
+  dobrego stanu zepsutym.
+    /stojak autosave            - lista zapisanych stojaków z koordynatami
+    /stojak autosave place <nazwa>
+                                - przywróć stojak w ORYGINALNE miejsce
+                                  (gdy świat zniknął - na blok, na który
+                                  patrzysz). Ratuje po crashu serwera / po
+                                  rollbacku świata, gdy stojak zniknął.
+
+  EDYCJA CZĘŚCI KOMENDAMI (zamiast klikania):
+    /stojak move <x> <y> <z>        przesuwa wybraną część o zadaną deltę
+    /stojak scale <wartość|x y z>   ustawia skalę (np. scale 0.5 = mniejsza)
+    /stojak scale all <współczynnik>
+                                    mnoży skalę WSZYSTKICH części (np.
+                                    scale all 0.8 = cała wieżyczka mniejsza
+                                    o 20%; scale all reset = wraca do 1)
+    /stojak rotate <x> <y> <z>      obraca CAŁY stojak o stopnie: yaw/pitch stojaka
+                                    + wszystkie części krążą wokół niego (pojedyncza
+                                    liczba = wokół Y; oś Z/roll nie działa na stojaku)
+    ... scale reset / rotate reset  przywraca 1 / 0 (rotate reset = yaw/pitch i kąty części)
+    Po materiale (bez wybierania STICKiem): /stojak stone move 0.5 1 0,
+    /stojak stone scale 0.5, /stojak dispenser rotate 90 itd. (z materiałem
+    rotate obraca TYLKO tę część, nie cały stojak)
+
+    PRZYCIĄGANIE (SNAP): /stojak snap [on|off]
+      Z włączonym snapem move zaokrągla pozycję części do 0.25 bloka,
+      a rotate kąty do 5° (np. rotate 0 12 0 da dokładnie 10°).
+      Ustawienie jest osobne dla każdego gracza (do /stojak snap off).
+
+    ZMIANA MATERIAŁU CZĘŚCI:
+      /stojak zamien <nowy>            podmienia materiał wybranej części
+      /stojak zamien czesc <stary> <nowy>
+                                       podmienia KONKRETNĄ część z materiału
+                                       <stary> (tę, na którą patrzysz; np.
+                                       zamien czesc stone cobblestone)
+      Skala, obrót i pozycja części zostają bez zmian.
+
+    DUPLIKOWANIE CZĘŚCI (bez ponownego ustawiania skali/wysokości/xyz):
+      /stojak duplikuj [materiał] [dx dy dz]
+                    kopiuje część (blok/przedmiot) z IDENTYCZNYMI
+                    statystykami: materiał, skala, obrót i pozycja (offset).
+                    Kopia staje w miejscu oryginału; dx dy dz przesuwa ją
+                    o podaną deltę (np. duplikuj 0 0 1 = kopia 1 blok dalej).
+                    Bez materiału kopiuje wybraną część (STICK) albo tę,
+                    na którą patrzysz. Kopia jest od razu wybrana (możesz
+                    ją dalej przesuwać/obracać przedmiotami albo /stojak move).
+      /stojak duplikuj czesc <liczba> [dx dy dz]
+                    to samo, ale po NUMERZE części z action bara: przewiń
+                    STICKiem, żeby zobaczyć CZĘŚĆ 1, CZĘŚĆ 2, ... (wraz z
+                    pozycją w grupie, np. stone 2/4), potem np.
+                    /stojak duplikuj czesc 5 0 0 1 - kopia 5. części
+                    1 blok dalej. Działa na stojaku, na który patrzysz
+                    (albo AKTYWNYM).
+      /stojak <nazwa stojaka> duplikuj czesc <liczba> [dx dy dz]
+                    to samo BEZ PATRZENIA - na stojaku o nazwie: nadaj mu
+                    nazwę /stojak nazwij <nazwa> (albo użyj nazwy zapisu -
+                    postawiony /stojak place <nazwa> ma custom name równy
+                    nazwie zapisu), potem np.
+                    /stojak glowa_wiezyczki duplikuj czesc 5 0 0 1.
+                    Tab podpowiada nazwy stojaków, operacje i NUMERY części
+                    danego stojaka (1..N).
+      /stojak stats [materiał]
+                    pokazuje statystyki części: offset (x y z względem
+                    stojaka), skala i obrót - żeby wiedzieć, co skopiować
+                    albo podać ręcznie w /stojak part <blok> x y z.
+      /stojak informacja [materiał]
+                    informacje o części w liczbach (patrząc na stojak,
+                    na wybranej albo po materiale): skala X/Y/Z, kordynaty
+                    (offset względem stojaka), obrót, skręt i pochylenie -
+                    dokładnie jak w trybach edycji STICKiem/SUGARem.
+
+  WYPOSAŻENIE KOMENDĄ (działa na stojaku, na który patrzysz, albo AKTYWNYM):
+    /stojak head <materiał|brak>      blok na głowie (np. head stone;
+                                      head brak / head air = zdejmij)
+    /stojak hand <materiał|brak>      przedmiot w prawej ręce (np. hand bow)
+    /stojak offhand <materiał|brak>   przedmiot w lewej ręce
+
+========================================================
+ 4. ZAPIS I STAWIANIE CAŁOŚCI
+========================================================
+  /stojak save <nazwa> [sink:X]
+      Zapisuje CAŁOŚĆ (stojak + wszystkie części: materiał, skala,
+      obrót, pozycja) do pliku. sink podaj, jeśli stroiłeś wysokość
+      inaczej niż domyślnie (sink:-1.0 = stoi na wierzchu bloku;
+      sink:0 = 1 blok niżej, sink:1 = 2 bloki niżej itd.).
+
+  /stojak saveitem [sink:X]
+      Zapisuje całość NA PRZEDMIOT trzymany w ręce (dane w NBT przedmiotu).
+      Prawy klik takim przedmiotem (na blok lub w powietrzu) stawia stojak.
+
+  /stojak place <nazwa> [x y z]
+      Stawia zapisany stojak na bloku, na który patrzysz.
+      Z koordynatami (x y z) stawia DOKŁADNIE na podanych współrzędnych
+      bloku - tak samo, jakby patrzeć na ten blok: wyśrodkowany w XZ,
+      y = y bloku, na którym ma stanąć (stopy = y - sink; stawianie
+      "wszędzie"). Postawiony stojak ma nazwę
+      (custom name = <nazwa>, niewidoczny napis).
+
+  /stojak item <nazwa>
+      Daje do ręki przedmiot "wiązany" z zapisem (trzyma tylko nazwę).
+      Prawy klik = postaw. Po edycji pliku przedmiot stawia nową wersję.
+
+  PODGLĄD-DUCH: trzymając przedmiot-zapis w ręce widzisz świecący (niebieski)
+  podgląd stojaka dokładnie tam, gdzie wyląduje - uwzględnia offset i sink.
+  Podgląd znika po postawieniu albo po zmianie przedmiotu w ręce.
+
+  /stojak list          - lista zapisanych nazw
+  /stojak delete <nazwa> - usuwa zapis ORAZ postawione stojaki o tej nazwie
+                   - wymaga potwierdzenia słowem confirm (ochrona przed
+                   przypadkowym skasowaniem):
+                     /stojak delete <nazwa>          - tylko ostrzeżenie/prośba (ważna 20 s)
+                     /stojak delete <nazwa> confirm  - usunięcie, działa OD RAZU
+                       (celowo wpisane „confirm" samo jest potwierdzeniem)
+                   Bez confirm nic się nie dzieje; stojak zniknie też
+                   patrząc na niego: /stojak remove.
+
+  /stojak copy   - kopiuje stojak, na który patrzysz (albo AKTYWNY, gdy
+                   nie patrzysz na żaden) razem z częściami do schowka
+  /stojak paste [x y z] - stawia kopię ze schowka (zachowuje wysokość
+                   względem podłoża i orientację). Schowek zostaje -
+                   można stawiać wiele kopii aż do następnego /stojak copy.
+
+  /stojak offset <x> <y> <z>
+      Ustawia TRWAŁE przesunięcie stawiania - dotyczy wszystkich sposobów:
+      place, item (prawy klik) i saveitem (prawy klik). Dzięki niemu możesz
+      stawiać wieżyczkę wszędzie - na krawędzi bloku, w powietrzu, wgłębione
+      (np. /stojak offset 0.5 0 0.5, /stojak offset 0 -0.5 0 itd.).
+      /stojak offset          - pokazuje obecny offset
+      /stojak offset reset    - zeruje
+      Uwaga: przy dokładnych koordynatach (place <nazwa> x y z) offset też
+      się dolicza.
+      WIEŻYCZKA (hp) staje dodatkowo DOKŁADNIE tam, gdzie celujesz - X/Z z punktu
+      trafienia celownika, nie środek bloku (celujesz w krawędź = wieżyczka na
+      krawędzi). Wyłączysz to w config.yml: stojak.turret-place-at-aim: false.
+
+========================================================
+ 5. INNE
+========================================================
+  /stojak bind      dołącza już stojący stojak do strojenia (albo AKTYWNY,
+  /stojak odzyskaj  gdy nie patrzysz na żaden) i zabezpiecza go
+  /stojak dajitemy  daje do ekwipunku itemy do edycji stojaków (po kolei,
+                    pierwszy = pierwszy wolny slot): STICK (Zmiana części),
+                    BONE (Obrót -), BLAZE_ROD (Obrót +), SUGAR (Przewijanie
+                    funkcji), REDSTONE (Podświetlenie), GUNPOWDER (Widoczność),
+                    BARRIER (Usuwanie części/całości)
+
+  EDYCJA PO RESTARCIE SERWERA:
+  Stojaki pluginu są oznaczane trwałym tagiem (zapisuje się z encją), więc
+  przetrwają restart. Żeby edytować dalej stojak, który zrobiłeś przed
+  restartem:
+    - po prostu kliknij go przedmiotem do strojenia (STICK/SUGAR/...)
+      - odzyska się automatycznie, w action barze zobaczysz
+        "Odzyskano stojak po restarcie",
+    - albo patrz na niego i wpisz /stojak odzyskaj (alias bind),
+    - nie wiesz, gdzie stoi? /stojak znajdz wypisze wszystkie stojaki
+      pluginu w świecie od najbliższego (nazwa, koordynaty, liczba części),
+      potem /tp na koordynaty i kliknij.
+  /stojak liczba [promień]
+    licznik encji (do oceny lagów, tylko operator): ile stojaków i części
+    pluginu stoi w promieniu bloków od Ciebie (domyślnie 100, max 500)
+    oraz ile jest WSZYSTKICH encji w tym promieniu (z mobami itd.).
+    Orientacyjnie: do ~200-300 encji w widoku = lekko, do ~500-800 =
+    umiarkowanie, powyżej tysiąca w jednym miejscu = spadki FPS na
+    słabszych komputerach.
+  Zwykłe stojaki vanilla nie są odzyskiwane automatycznie - tylko te z
+  tagiem pluginu albo z doczepionymi częściami.
+  /stojak visible [on|off]
+                    pokazuje / ukrywa korpus stojaka, na który patrzysz
+                    (bez argumentu przełącza; gdy nie patrzysz na żaden -
+                    działa na AKTYWNYM stojaku)
+  /stojak nazwij <nazwa>
+                    nadaje NAZWĘ stojakowi, na który patrzysz (albo
+                    AKTYWNEMU) - od razu widoczną nad stojakiem. Służy do
+                    komend /stojak <nazwa> ... bez patrzenia oraz
+                    save/place; na arenie /stojak place <nazwa> stawia
+                    stojak BEZ widocznego napisu.
+  /stojak nazwa on|off
+                    pokazuje / ukrywa WIDOCZNOŚĆ nazwy stojaka (sama nazwa
+                    zostaje - włączysz ją z powrotem /stojak nazwa on).
+                    Bez argumentu pokazuje aktualną nazwę i widoczność;
+                    /stojak nazwa usun = usuń nazwę całkiem.
+  /stojak remove    usuwa stojak, na który patrzysz (razem ze wszystkimi
+                    doczepionymi częściami)
+                    UWAGA: celowo działa TYLKO na stojaku, na który
+                    patrzysz - /stojak <nazwa> remove NIE istnieje.
+                    Usuwanie zapisu po nazwie (/stojak delete <nazwa>)
+                    wymaga potwierdzenia: /stojak delete <nazwa> confirm
+                    (działa od razu po wpisaniu confirm).
+  /stojak przywroc  przywraca ostatnio usunięty przez CIEBIE stojak (razem
+                    ze wszystkimi doczepionymi częściami) dokładnie tam,
+                    gdzie stał - po przypadkowym /stojak remove albo
+                    kliknięciu BARRIER. Pamiętany do restartu serwera / do
+                    następnego usunięcia (tylko ostatni).
+  /stojak lustro [x|z]
+                    lustrzane odbicie CAŁEGO stojaka - wszystkie doczepione
+                    części naraz (przesunięcia i obroty) + kierunek patrzenia.
+                    Idealne do symetrycznych wieżyczek: budujesz połowę,
+                    /stojak lustro, druga połowa staje odbita. /stojak undo cofa.
+  /stojak lustro czesc [x|z]
+                    lustrzana KOPIA WYBRANEJ części po drugiej stronie stojaka
+                    - nowa część z odbitym offsetem (tx lub tz), ujemną skalą
+                    (jak ODBICIE) i odbitymi obrotami, idealnie symetrycznie.
+                    Wybierz część STICKiem, potem /stojak lustro czesc x (albo z).
+                    WAŻNE: część musi być ODSUNIĘTA od środka stojaka - kopia
+                    ląduje w odbitym miejscu (-tx lub -tz); jeśli część stoi
+                    dokładnie na środku (tx=0), kopia wyląduje na niej.
+                    To samo w SUGAR: tryb LUSTRO - BLAZE_ROD (oś X)
+                    albo BONE (oś Z), bez SHIFT. /stojak undo cofa kopię.
+                    Aliasy: odbicie, odbij, mirrorpart, lustroczesc.
+  Wieżyczka (zapis z częściami obrotowymi, np. wiezyczka.yml) działa
+                    w pełni automatycznie, bez żadnych dodatkowych komend:
+                    postaw ją /stojak place wiezyczka. Górna część SAMA
+                    obraca się (pełne 360°, płynnie, najkrótszą drogą) w stronę
+                    najbliższego moba w zasięgu 8 bloków i podąża za nim.
+                    NAMIERZA KAŻDEGO moba - zombie, szkielety, golemy,
+                    zwierzęta - oprócz: graczy, wieśniaków (i wędrownych
+                    kupców) oraz mobów po stronie gracza (oswojonych albo
+                    oznaczonych tagiem vd_sojusz - np. komendą scoreboard:
+                    /scoreboard players tag @e[type=zombie] add vd_sojusz -
+                    tak oznaczysz przyszłe moby gracza, żeby wieżyczka ich
+                    nie atakowała). Raz na 2 sekundy strzela STRZAŁĄ, która przy
+                    trafieniu zadaje 3.0 obrażeń i lekko odrzuca moba (strzała
+                    nie rani graczy ani wieśniaków). W lufie wisi WIZUALNA
+                    strzała, która po wystrzale znika i wraca po 0.3 s (jak
+                    przeładowanie). Jak mob zginie albo wyjdzie z zasięgu,
+                    góra stoi w miejscu i przestaje strzelać - nie kręci się
+                    bez celu. Namierzanie zapisuje się z encją - po restarcie
+                    serwera wieżyczka dalej działa. Przy każdym strzale górna
+                    część dostaje ODRZUT (lekko cofa się wzdłuż lufy i wraca
+                    po chwili - jak odrzut broni).
+                    PASEK HP: nad wieżyczką wisi pasek [obecne/max ♥]
+                    (np. [250/250 ♥]) - to osobny tekst, nie taki jak u
+                    wieśniaków; podąża za wieżyczką i odświeża się przy
+                    każdym trafieniu.
+                    ŻYCIE I ZNISZCZENIE: wieżyczka ma 250 HP. Zniszczyć ją
+                    może WYŁĄCZNIE mob - i to tylko taki, do którego sama
+                    strzeliła (ostrzelany mob dostaje wieżyczkę jako cel i
+                    zaczyna ją atakować). Gracze, wybuchy, ogień itd. nie
+                    robią jej żadnej krzywdy. Krytyczne obrażenia w ogóle jej
+                    nie dotyczą (plugin krytów pomija stojaki, a wieżyczka
+                    strzela bez atakującego gracza). Przy 0 HP wieżyczka
+                    przestaje strzelać i po prostu ZNIKA (bez animacji -
+                    wszystkie części i blokady sprzątają się razem z nią). HP
+                    zapisuje się z encją (po restarcie wieżyczka ma tyle HP,
+                    ile jej zostało). Stawia się NA bloku, na który patrzysz
+                    (albo na wpisanym bloku: /stojak place wiezyczka <x> <y>
+                    <z> - podstawa ląduje na wierzchu tego bloku). Wokół
+                    wieżyczki stoją niewidzialne blokady (małe stojaki na
+                    krawędzi bloku) - moby zatrzymują się pół bloku od niej,
+                    zamiast wchodzić w wieżyczkę; sprzątają się przy
+                    zniszczeniu. Usuwanie zapisu jest wyłączone (chronione
+                    przed przypadkiem); stojącą wieżyczkę usuniesz /stojak
+                    remove na patrzonym stojaku. Wieżyczkę można
+                    też kupić w sklepie areny (kategoria „Inne", 10 pkt) -
+                    dostajesz przedmiot-STOJAK „Wieżyczka" i prawym klikiem
+                    stawiasz ją w dowolnym miejscu. Może ją postawić KAŻDY
+                    gracz (nie tylko vd.admin).
+  /stojak funkcja siedzenie [x y z]
+                    spawnuje GOTOWE krzesło: mini NIEWIDOCZNY stojak z SIODŁEM
+                    na głowie - widać tylko siodło (siedzisko). Na bloku, na
+                    który patrzysz, albo na wpisanych kordach (x y z = blok,
+                    środek w XZ, y = stopy). Kliknięcie siodła = siadanie
+                    (każdy gracz, bez przedmiotu i uprawnień), Shift = wstanie.
+                    Krzesło ZAPISUJE SIĘ jak normalny stojak: /stojak save
+                    <nazwa>, potem /stojak place <nazwa> albo /stojak item
+                    <nazwa> postawi DZIAŁAJĄCE krzesło (tag siedziska jedzie
+                    w pliku i wraca po postawieniu) - możesz je wkleić
+                    w domu / arenie, gdzie chcesz. Copy/paste też działa.
+  /stojak funkcja tv [szerokość] [wysokość]
+                    spawnuje GOTOWĄ dekorację: czarny ekran "telewizora" z
+                    czarnych banerów ustawionych obok siebie (siatka szer x
+                    wys; domyślnie 3x2, max 12x12). Na bloku, na który
+                    patrzysz, albo na wpisanych kordach ([x y z] na końcu =
+                    blok, środek w XZ, y = stopy). Każdy baner to osobna,
+                    edytowalna część (STICK+SUGAR: ROZCIĄGNIJ/SKALA/OBRÓT/
+                    PRZESUNIĘCIE...) - możesz go powiększyć, przesunąć,
+                    obrócić. Zapisujesz jak normalny stojak: /stojak save
+                    <nazwa>, potem /stojak place <nazwa> gdzie chcesz.
+  /stojak funkcja lampa [wysokość]
+                    spawnuje GOTOWĄ dekorację: wizualną LAMPĘ na niewidocznym
+                    stojaku. Wysokość 1 = sam świecący blok (glowstone - ma
+                    świecącą teksturę, więc wygląda jak zapalona latarnia),
+                    2 = ciemny cienki słup z desek + głowa na górze; działa
+                    też 3 i 4. Stoi na bloku, na który patrzysz. Każdy element
+                    to osobna część (STICK+SUGAR) - możesz zmienić materiał
+                    głowy (/stojak zamien czesc glowstone sea_lantern), wysokość,
+                    grubość słupa. Zapisujesz jak normalny stojak: /stojak
+                    save <nazwa>, potem /stojak place <nazwa> gdzie chcesz.
+  /stojak krzeslo [on|off]
+                    oznacza ISTNIEJĄCY stojak jako krzesło (np. zbudowane
+                    siedzisko z części; tag przetrwa restart). Klik = siadanie.
+                    Wysokość siedziska = pozycja stojaka, więc ustaw stojak
+                    tak, żeby gracz siedział na siedzisku.
+                    /stojak krzeslo off - zdejmuje oznaczenie.
+  /stojak zegar test | anuluj | tryb <normalny|zamiatajacy>
+                    podgląd zegara ze stojaka („zegar_wskazowki") bez areny:
+                    przez 1 minutę wskazówki kręcą się do przodu z prędkością
+                    z config.yml (zegar.test-speed, domyślnie 1.0 = normalna,
+                    prawdziwe tempo 1:1), żeby sprawdzić kierunek i pozycję
+                    wszystkich wskazówek (część 1 = godzinna, część 2 = minutowa,
+                    część 3 = sekundowa; obrót parametrem SKRĘT/rotZ).
+                    /stojak zegar anuluj - kończy test i przywraca wskazówki
+                    do pozycji startowej; start areny przerywa test sam.                    /stojak zegar tryb normalny|zamiatajacy - styl obrotu
+                    wskazówek w grze (bez config.yml): normalny = płynny obrót
+                    i prawdziwy czas; zamiatajacy = wszystkie wskazówki idą
+                    prawdziwymi kątami zegara bez przycinania do 10° (sekundowa
+                    6° co sekundę, minutowa 6° co minutę, godzinna 30° co
+                    godzinę; pełne koło 12 -> 3 -> 6 -> 9 -> 12) z podmianą
+                    wskazówki: na każdej ćwiartce (90°) stara wskazówka znika,
+                    a w tym samym miejscu pojawia się nowa - druga kopia części
+                    (tworzona automatycznie), która obraca się dalej swobodnie
+                    parametrem SKRĘT; w tym samym momencie,
+                    w którym wskazówka się obraca, część dostaje drobne
+                    przesunięcie w kierunku chodu (rośnie równo od 0 do 0.05 na
+                    ćwiartkę): 12->3 idzie skosem (+X i +Y), 3->6 tylko -Y,
+                    6->9 tylko -X, 9->12 tylko +Y. Nowa wskazówka startuje tam,
+                    gdzie poprzednia skończyła (ciągły chód wokół tarczy); na
+                    powrocie do 12 cykl zaczyna się od nowa od pozycji bazowej.
+                    Wybór zapisuje się na stojaku i przetrwa restart.
+                    WAŻNE: plugin NIE rusza pozycji wskazówek (mogą być celowo
+                    oddalone od stojaka) - każda kręci się wokół własnego
+                    środka. Opcję automatycznego wyśrodkowania na osi stojaka
+                    (X = 0) znajdziesz w config.yml (zegar.center, domyślnie
+                    wyłączone).
+  /stojak sprzataj [promień]
+                    usuwa osierocone części (BlockDisplay/ItemDisplay bez
+                    stojaka) w promieniu bloków (domyślnie 10) - np.
+                    pozostałości po usunięciu stojaka w starszej wersji
+                    pluginu. Nie rusza płytek /vslab ani wizualnego TNT min.
+  /stojak help      krótka pomoc
+
+========================================================
+ GDZIE CO JEST
+========================================================
+  Zapisane stojaki:  plugins/VillagerDefense/stojaki/<nazwa>.yml
+  Ta instrukcja:     plugins/VillagerDefense/stojak-info.txt
+  Kod w projekcie:   src/main/java/pl/vd/stand/
+                     (ArmorStandTuner - strojenie i części,
+                      StandPreset - format zapisu,
+                      StandPresetManager - pliki/przedmioty)
+
+========================================================
+ WSKAZÓWKI
+========================================================
+  - Kąty podajesz i odczytujesz w STOPNIACH (w kodzie to radiany,
+    ale narzędzie przelicza samo).
+  - Zapisane stojaki i części przeżywają restart serwera (pliki w
+    plugins/VillagerDefense/stojaki/).
+  - Po restarcie postawiony stojak nie jest edytowalny - dołącz go
+    komendą /stojak bind.
+  - Doczepione części to osobne encje - przy bardzo dużej liczbie
+    (kilkadziesiąt+) uważaj na wydajność.
+  - Wszystko działa na uprawnieniu vd.admin.

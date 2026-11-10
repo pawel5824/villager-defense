@@ -9,6 +9,12 @@
 
 set -u
 
+# Zawsze sprawdzajmy pliki PROJEKTU, a nie katalogu, z ktorego ktos uruchomil skrypt
+# (publish-all.sh wola go z dowolnego miejsca). Wlasne sciezki podawane w argumentach
+# sa liczone wzgledem katalogu projektu.
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT" || { echo "BRAK katalogu projektu: $ROOT"; exit 1; }
+
 files=("$@")
 if [ ${#files[@]} -eq 0 ]; then
   files=(AGENTS.md README.md)

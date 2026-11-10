@@ -1,6 +1,8 @@
 package pl.vd.listeners;
 
-import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,27 +13,57 @@ import org.bukkit.event.block.BlockBurnEvent;
 import pl.vd.VillagerDefensePlugin;
 import pl.vd.arena.Arena;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class BlockListener implements Listener {
 
     private final VillagerDefensePlugin plugin;
 
+    /** Postawione przez graczy pajęczyny (świat -> pozycje) - sprzątane po grze. */
+    private final Map<String, Set<Location>> placedCobwebs = new ConcurrentHashMap<>();
+
     public BlockListener(VillagerDefensePlugin plugin) {
         this.plugin = plugin;
+    }
+
+    /**
+     * Usuwa wszystkie postawione pajęczyny w danym świecie (po zakończeniu gry).
+     */
+    public void removePlacedCobwebs(World world) {
+        if (world == null) return;
+        Set<Location> locs = placedCobwebs.remove(world.getName());
+        if (locs == null) return;
+        for (Location loc : locs) {
+            if (loc.getWorld() != null && loc.getWorld().equals(world)
+                    && loc.getBlock().getType() == Material.COBWEB) {
+                loc.getBlock().setType(Material.AIR);
+            }
+        }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         if (isInArena(event.getPlayer())) {
             event.setCancelled(true);
-            event.getPlayer().sendMessage(Component.text("§cNie możesz niszczyć bloków w arenie."));
+            pl.vd.util.AntiSpam.send(event.getPlayer(), "§cNie możesz niszczyć bloków w arenie.");
         }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         if (isInArena(event.getPlayer())) {
+            // na arenie można stawiać wyłącznie pajęczynę (do spowalniania mobów)
+            if (event.getBlockPlaced().getType() == Material.COBWEB) {
+                // zapamiętaj, żeby posprzątać ją po zakończeniu gry
+                Location loc = event.getBlockPlaced().getLocation();
+                placedCobwebs.computeIfAbsent(loc.getWorld().getName(), k -> ConcurrentHashMap.newKeySet()).add(loc);
+                return; // dozwolone
+            }
             event.setCancelled(true);
-            event.getPlayer().sendMessage(Component.text("§cNie możesz stawiać bloków w arenie."));
+            pl.vd.util.AntiSpam.send(event.getPlayer(), "§cNa arenie możesz stawiać tylko pajęczynę.");
         }
     }
 

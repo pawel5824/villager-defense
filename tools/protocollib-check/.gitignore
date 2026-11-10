@@ -1,0 +1,3 @@
+# Wynik budowania proby (tools/protocollib-check.sh) — trzymamy tylko zrodlo
+build/
+*.class

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="https://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.vd</groupId>
@@ -9,8 +9,8 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>VillagerDefense</name>
-    <description>Minigra Villager Defense - fale mobow, obrona wieśniaków, sklep, kity, ranking.</description>
+    <name>ServerPlugin</name>
+    <description>Glowny plugin serwera - Villager Defense, Raft i przyszle tryby gry.</description>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
@@ -23,20 +23,43 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+        <!-- ProtocolLib jest teraz na Maven Central (central jest domyślnie dostępny) -->
     </repositories>
 
     <dependencies>
-        <!-- Zakres wersji [26.2.build,) automatycznie łapie najnowszy dostępny build 26.2 -->
+        <!-- netty: tylko do kompilacji KeyStateReceiver (ChannelDuplexHandler).
+             Na serwerze użyta zostanie netty z Papera (provided = nie pakujemy). -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport</artifactId>
+            <version>4.1.115.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Przypięte DOKŁADNIE do builda serwera (VD - serwer/start.bat -> paper-26.3-25.jar).
+             Wersja alpha, bo Paper 26.3 jest na razie tylko w alfie — przy przejściu na
+             stabilny build podmienić obie liczby (tę i paper-*.jar w start.bat) naraz.
+             Dlaczego nie zakres: [26.2.build,) bez górnej granicy ciągnęło już API 26.3,
+             a [26.3.build,26.4) wybiera 26.3-pre-2.build.0-alpha, bo Maven sortuje
+             kwalifikator "build" przed "pre" — czyli zakres nigdy nie trafia w build 25. -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>[26.2.build,)</version>
+            <version>26.3.build.25-alpha</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- ProtocolLib (softdepend): per-graczowe wyciszanie dźwięków mobów
+             (filtrowanie pakietów dźwiękowych). Bez niego plugin działa dalej -
+             wyciszenie mobów spada wtedy na tryb „cała arena". Wersja z Maven
+             Central (groupId net.dmulloy2, pakiety dalej com.comphenix.protocol). -->
+        <dependency>
+            <groupId>net.dmulloy2</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>5.4.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>VillagerDefense</finalName>
+    <build>            <finalName>ServerPlugin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -44,6 +67,10 @@
                 <version>3.10.1</version>
                 <configuration>
                     <release>25</release>
+                    <!-- Zawsze pełna rekompilacja: przyrostowa kompilacja potrafiła
+                         zostawić w target/classes brakujące klasy wewnętrzne (np.
+                         GameManager$1), przez co wgrywany JAR był niekompletny. -->
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
                 </configuration>
             </plugin>
             <!-- Kopiuje zasoby (plugin.yml, config.yml) z podmianą ${project.version} -->

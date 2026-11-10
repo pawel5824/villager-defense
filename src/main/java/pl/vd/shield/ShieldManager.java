@@ -12,8 +12,8 @@ import java.util.List;
 public class ShieldManager {
 
     /** O ile mocniejsze odepchnięcie w porównaniu do zwykłego blokowania (mnożnik). */
-    public static final double KNOCKBACK_STRENGTH = 1.6;
-    public static final double KNOCKBACK_VERTICAL = 0.45;
+    public static final double KNOCKBACK_STRENGTH = 1.2;
+    public static final double KNOCKBACK_VERTICAL = 0.40;
 
     private final NamespacedKey shieldKey;
 
@@ -24,12 +24,8 @@ public class ShieldManager {
     public ItemStack createKnockbackShield() {
         ItemStack item = new ItemStack(Material.SHIELD);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§9Tarcza Odrzutu");
-        meta.setLore(List.of(
-                "§7Blokując atak tą tarczą,",
-                "§7odpychasz przeciwnika znacznie",
-                "§7mocniej niż zwykła tarcza."
-        ));
+        meta.setDisplayName("§9Tank"); // nazwa kitu w kolorze kitu
+        // bez lore - ma zostać tylko nazwa i „Niezniszczalne”
         meta.getPersistentDataContainer().set(shieldKey, PersistentDataType.BYTE, (byte) 1);
         meta.setUnbreakable(true);
         item.setItemMeta(meta);

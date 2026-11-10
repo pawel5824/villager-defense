@@ -3,6 +3,7 @@ package pl.vd.shop;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 public class ShopItem {
 
@@ -13,6 +14,8 @@ public class ShopItem {
     // ITEM
     private Material material;
     private int amount = 1;
+    /** Własna nazwa przedmiotu w sklepie (name w configu) - np. dla klas. */
+    private String displayName;
 
     // Konkretny slot w GUI (-1 = automatyczne umieszczenie w kolejnym wolnym miejscu)
     private int slot = -1;
@@ -24,6 +27,15 @@ public class ShopItem {
     // ENCHANT
     private Enchantment enchantment;
     private int enchantLevel;
+    /** Limit poziomu tego zaklęcia w sklepie (0 = domyślny globalny MAX_ENCHANT_LEVEL). */
+    private int maxLevel;
+
+    // POTION (zwykła, waniliowa mikstura; material może nadpisać np. TIPPED_ARROW)
+    private PotionType potionType;
+    private boolean splash;
+
+    // FIREWORK (fajerwerk - wysokość lotu)
+    private int power = 1;
 
     public ShopItem(String id, ShopItemType type, int price) {
         this.id = id;
@@ -37,6 +49,9 @@ public class ShopItem {
 
     public Material getMaterial() { return material; }
     public void setMaterial(Material material) { this.material = material; }
+
+    public String getDisplayName() { return displayName; }
+    public void setDisplayName(String displayName) { this.displayName = displayName; }
 
     public int getAmount() { return amount; }
     public void setAmount(int amount) { this.amount = amount; }
@@ -56,12 +71,28 @@ public class ShopItem {
     public int getEnchantLevel() { return enchantLevel; }
     public void setEnchantLevel(int enchantLevel) { this.enchantLevel = enchantLevel; }
 
+    public int getMaxLevel() { return maxLevel; }
+    public void setMaxLevel(int maxLevel) { this.maxLevel = maxLevel; }
+
+    public PotionType getPotionType() { return potionType; }
+    public void setPotionType(PotionType potionType) { this.potionType = potionType; }
+
+    public boolean isSplash() { return splash; }
+    public void setSplash(boolean splash) { this.splash = splash; }
+
+    public int getPower() { return power; }
+    public void setPower(int power) { this.power = power; }
+
     /** Materiał używany jako ikona w GUI (dla EFFECT/ENCHANT to nie to samo co "material" transakcji). */
     public Material getIconMaterial() {
         return switch (type) {
             case ITEM -> material != null ? material : Material.STONE;
             case EFFECT -> Material.POTION;
             case ENCHANT -> Material.ENCHANTED_BOOK;
+            case MINE -> Material.SULFUR_CUBE_SPAWN_EGG;
+            case TURRET -> Material.ARMOR_STAND;
+            case POTION -> Material.POTION;
+            case FIREWORK -> Material.FIREWORK_ROCKET;
         };
     }
 }

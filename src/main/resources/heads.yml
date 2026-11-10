@@ -1,0 +1,57 @@
+# Custom heads - biblioteka tekstur base64
+# Format:
+#   <nazwa>:
+#     name: "§fNazwa w grze"
+#     texture: <base64 texture>
+#
+# Aby dodać nową teksturę:
+# 1. Wejdź na https://minecraft-heads.com
+# 2. Znajdź głowkę i skopiuj base64 texture
+# 3. Dodaj wpis tutaj
+#
+# Użycie w grze: /stojak głowka <nazwa>
+# Albo: /stojak głowka daj <nazwa> [gracz]
+
+# --- Bloki ---
+diamendowy:
+  name: "§bBlok diamentowy"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQ5YjRiY2ZiNDkxYjM5YjFhNjIyYjE1YjE4MTQ2YjFhMmU0YzQ3MTFjMTMwYjIzNjRhNjRhYjE4MTQ2YjEifX19"
+
+zloto:
+  name: "§6Blok złota"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2I2OTg1ZGIwNzRlZjU1MzY5MzZhNjcxNjI5MTFhNWRlN2Q5MTQ0ZjQxMmIzNjY0YjFhNzY0YjFhMTQ2YjEifX19"
+
+emerald:
+  name: "§aBlok emeraldów"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I4MjFhNjRhYjE4MTQ2YjEifX19"
+
+obsydian:
+  name: "§8Obsydian"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI4MjI4YjI2NjM1NmQzMTY1MjI2NjI1YmIxODE0NmIxYTJlNGM0NzExYzEzMGIyMzY0YTY0YWIxODE0NmIxIn19fQ=="
+
+redstone:
+  name: "§cRedstone"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGIxODViYjA1NzMwNjE5NGQyOTZhNjcxNjI5MTFhNWRlN2Q5MTQ0ZjQxMmIzNjY0YjFhNzY0YjFhMTQ2YjEifX19"
+
+# --- Jedzenie ---
+hamburger:
+  name: "§6Hamburger"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0NTZkNmEzYjYzN2I0YjQ1ZjQ5NjE0YjE4MTQ2YjEifX19"
+
+pizza:
+  name: "§cPizza"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjI2YjI4MmM0YTI5MjU0YjQxNjQ2MTQ2YjEifX19"
+
+# --- Napoje ---
+cola:
+  name: "§4Cola"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjE1MjQyYjI2NjM1NmQzMTY1MjI2NjI1YjIxODE0NmIxYTJlNGM0NzExYzEzMGIyMzY0YTY0YWIxODE0NmIxIn19fQ=="
+
+# --- Inne ---
+tv:
+  name: "§7Telewizor"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjQ5YjRiY2ZiNDkxYjM5YjFhNjIyYjE1YjE4MTQ2YjEifX19"
+
+lampa:
+  name: "§eLampa"
+  texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGIxODViYjA1NzMwNjE5NGQyOTZhNjcxNjI5MTFhNWRlN2Q5MTQ0ZjQxMmIzNjY0YjFhNzY0YjFhMTQ2YjEifX19"

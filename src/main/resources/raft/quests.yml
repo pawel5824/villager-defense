@@ -1,0 +1,155 @@
+# ============================================
+# RAFT PLUGIN - KONFIGURACJA QUESTÓW
+# ============================================
+# Tutaj możesz dodać własne questy
+# lub zmodyfikować istniejące
+# ============================================
+
+# Questy główne fabuły
+main-quests:
+  awakening:
+    name: "Budzenie się"
+    description: "Przeżyj pierwszą noc na pontonie."
+    type: MAIN
+    reward: 100
+    requirements:
+      - survive_night:1
+    unlocks:
+      - first_island
+
+  first_island:
+    name: "Pierwsza wyspa"
+    description: "Dopłyń do pierwszej wyspy i ją eksploruj."
+    type: MAIN
+    reward: 200
+    requirements:
+      - explore_island:1
+    unlocks:
+      - craft_tool
+
+  craft_tool:
+    name: "Pierwsze narzędzie"
+    description: "Stwórz swoje pierwsze narzędzie."
+    type: MAIN
+    reward: 150
+    requirements:
+      - craft_any:1
+    unlocks:
+      - build_shelter
+
+  build_shelter:
+    name: "Schronienie"
+    description: "Zbuduj schronienie na pontonie."
+    type: MAIN
+    reward: 250
+    requirements:
+      - build_any:5
+    unlocks:
+      - find_survivor
+
+  find_survivor:
+    name: "Inny rozbitkowie"
+    description: "Znajdź innego rozbitka na wyspie."
+    type: MAIN
+    reward: 300
+    requirements:
+      - find_npc:1
+    unlocks:
+      - sea_monster
+
+# Questy poboczne
+side-quests:
+  collect_fish:
+    name: "Połowy"
+    description: "Złap 10 ryb."
+    type: SIDE
+    reward: 50
+    requirements:
+      - catch_fish:10
+
+  explore_5_islands:
+    name: "Eksplorator"
+    description: "Eksploruj 5 różnych wysp."
+    type: SIDE
+    reward: 400
+    requirements:
+      - explore_island:5
+
+  defeat_shark:
+    name: "Pogromca rekinów"
+    description: "Pokonaj rekina."
+    type: SIDE
+    reward: 350
+    requirements:
+      - kill_mob:SHARK:1
+
+  build_compound:
+    name: "Budowniczy"
+    description: "Rozbuduj ponton do poziomu 3."
+    type: SIDE
+    reward: 500
+    requirements:
+      - upgrade_raft:3
+
+# Questy bossowe
+boss-quests:
+  sea_monster:
+    name: "Potwór morski"
+    description: "Pokonaj potwora morskiego."
+    type: BOSS
+    reward: 1000
+    requirements:
+      - kill_mob:ELDER_GUARDIAN:1
+    unlocks:
+      - pirate_lord
+
+  pirate_lord:
+    name: "Władca piratów"
+    description: "Pokonaj władcę piratów."
+    type: BOSS
+    reward: 1500
+    requirements:
+      - kill_mob:PILLAGER:10
+      - kill_mob:VINDICATOR:5
+      - kill_mob:EVOKER:1
+    unlocks:
+      - elder_god
+
+  elder_god:
+    name: "Pradawne bóstwo"
+    description: "Pokonaj pradawne bóstwo oceanu."
+    type: BOSS
+    reward: 2000
+    requirements:
+      - kill_mob:WARDEN:1
+
+# Questy dzienne
+daily-quests:
+  daily_fish:
+    name: "Dzienny Połów"
+    description: "Złap 5 ryb."
+    type: DAILY
+    reward: 50
+    requirements:
+      - catch_fish:5
+    reset: daily
+
+  daily_explore:
+    name: "Dzienna Eksploracja"
+    description: "Odwiedź 2 wyspy."
+    type: DAILY
+    reward: 75
+    requirements:
+      - visit_island:2
+    reset: daily
+
+# Questy tygodniowe
+weekly-quests:
+  weekly_islands:
+    name: "Tygodniowy Eksplorator"
+    description: "Odkryj 10 nowych wysp."
+    type: WEEKLY
+    reward: 500
+    requirements:
+      - explore_island:10
+    reset: weekly

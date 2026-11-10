@@ -1,6 +1,5 @@
 package pl.vd.ability;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -63,13 +62,13 @@ public class AbilityManager {
 
     private String displayName(AbilityType type) {
         return switch (type) {
-            case LASER_WAND -> "§dRóżdżka Ognia";
+            case LASER_WAND -> "§5Magik"; // nazwa kitu w kolorze kitu
         };
     }
 
     private List<String> lore(AbilityType type) {
         return switch (type) {
-            case LASER_WAND -> List.of("§7PPM: wystrzel laser", "§7Obrażenia: §c2.5", "§7Odnowienie: §f1.0s");
+            case LASER_WAND -> List.of();
         };
     }
 
@@ -100,7 +99,7 @@ public class AbilityManager {
 
     public void use(Player player, AbilityType type) {
         if (isOnCooldown(player)) {
-            player.sendMessage(Component.text("§cUmiejętność odnawia się jeszcze " + getRemainingCooldownSeconds(player) + "s"));
+            pl.vd.util.AntiSpam.send(player, "§cUmiejętność odnawia się jeszcze " + getRemainingCooldownSeconds(player) + "s");
             return;
         }
         switch (type) {
@@ -109,7 +108,7 @@ public class AbilityManager {
         setCooldown(player, type);
     }
 
-    private static final double LASER_RANGE = 25.0;
+    private static final double LASER_RANGE = 6.0;
     private static final double LASER_DAMAGE = 2.5;
 
     private void fireLaser(Player player) {
@@ -124,11 +123,14 @@ public class AbilityManager {
                 : eye.clone().add(direction.clone().multiply(LASER_RANGE));
 
         drawBeam(world, eye, endPoint);
-        world.playSound(eye, Sound.ENTITY_BLAZE_SHOOT, 1f, 1.4f);
+        // dźwięki klas odtwarzane per gracz (ustawienie „Klasy" w Dźwiękach)
+        plugin.getGameManager().playSoundNearby(eye, Sound.ENTITY_BLAZE_SHOOT, 1f, 1.4f,
+                pl.vd.shop.ShopGUI.SOUND_ABILITIES_KEY);
 
         if (result != null && result.getHitEntity() instanceof LivingEntity target) {
             target.damage(LASER_DAMAGE, player);
-            world.playSound(target.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.5f, 1.8f);
+            plugin.getGameManager().playSoundNearby(target.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.5f, 1.8f,
+                    pl.vd.shop.ShopGUI.SOUND_ABILITIES_KEY);
         }
     }
 

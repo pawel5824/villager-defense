@@ -1,8 +1,10 @@
 # build-and-deploy.ps1
+# Narzedzie CZESCIOWE (sam plugin). Cala publikacje — mod do graczy, plugin na serwer
+# i paczka zasobow, bez pytania o potwierdzenie — robi: bash tools/publish-all.sh
 # Usage: run in PowerShell as Administrator (if needed)
 
 $project = "C:\Users\wikto\Desktop\villager-defense"
-$serverPlugins = "C:\Users\wikto\Desktop\mc-server\plugins"
+$serverPlugins = "C:\Users\wikto\Desktop\VD - serwer\plugins"
 
 Push-Location $project
 
@@ -20,7 +22,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Determine JAR file. If pom.xml sets finalName, look for that; otherwise pick first jar in target
-$expectedJar = Join-Path $project "target\VillagerDefense.jar"
+$expectedJar = Join-Path $project "target\ServerPlugin.jar"
 if (Test-Path $expectedJar) {
     $jarPath = $expectedJar
 } else {
@@ -49,6 +51,17 @@ if (Test-Path $dest) {
     $backup = "$dest.bak.$timestamp"
     Copy-Item -Path $dest -Destination $backup -Force
     Write-Host "Backed up existing plugin to $backup"
+
+    # Trzymaj tylko 2 najnowsze backupy (np. ServerPlugin.jar.bak.<yyyyMMddHHmmss>).
+    # Sortowanie po nazwie = chronologiczne, bo znacznik czasu jest w nazwie.
+    $backupFilter = "$(Split-Path $dest -Leaf).bak.*"
+    $backups = Get-ChildItem -Path $serverPlugins -Filter $backupFilter -File |
+        Sort-Object Name -Descending
+    $toRemove = $backups | Select-Object -Skip 2
+    foreach ($old in $toRemove) {
+        Remove-Item -Path $old.FullName -Force
+        Write-Host "Removed old backup: $($old.Name)"
+    }
 }
 
 Copy-Item -Path $jarPath -Destination $dest -Force

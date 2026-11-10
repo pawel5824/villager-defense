@@ -12,7 +12,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import pl.vd.VillagerDefensePlugin;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,8 @@ public class BrushManager {
     private final VillagerDefensePlugin plugin;
     private final NamespacedKey toolKey;
     private final Map<UUID, BrushSettings> settings = new HashMap<>();
-    private final Map<UUID, List<BlockSnapshot>> lastUndo = new HashMap<>();
+    private final Map<UUID, Deque<List<BlockSnapshot>>> undoHistory = new HashMap<>();
+    private static final int MAX_UNDO_HISTORY = 20;
     private final Random random = new Random();
 
     public BrushManager(VillagerDefensePlugin plugin) {
@@ -37,14 +40,22 @@ public class BrushManager {
     }
 
     public boolean canUndo(Player player) {
-        List<BlockSnapshot> snapshots = lastUndo.get(player.getUniqueId());
-        return snapshots != null && !snapshots.isEmpty();
+        Deque<List<BlockSnapshot>> history = undoHistory.get(player.getUniqueId());
+        return history != null && !history.isEmpty();
     }
 
-    public int undo(Player player) {
-        List<BlockSnapshot> snapshots = lastUndo.remove(player.getUniqueId());
-        if (snapshots == null || snapshots.isEmpty()) return 0;
+    /** Ile akcji gracz może jeszcze cofnąć (max 20). */
+    public int undoCount(Player player) {
+        Deque<List<BlockSnapshot>> history = undoHistory.get(player.getUniqueId());
+        return history == null ? 0 : history.size();
+    }
 
+    /** Cofa NAJNOWSZĄ akcję ze stosu (jedno wywołanie = jedno cofnięcie). Zwraca liczbę przywróconych bloków. */
+    public int undo(Player player) {
+        Deque<List<BlockSnapshot>> history = undoHistory.get(player.getUniqueId());
+        if (history == null || history.isEmpty()) return 0;
+
+        List<BlockSnapshot> snapshots = history.removeLast(); // zdejmij tylko ostatnią akcję
         for (int i = snapshots.size() - 1; i >= 0; i--) {
             BlockSnapshot snapshot = snapshots.get(i);
             Block block = snapshot.location().getBlock();
@@ -54,15 +65,19 @@ public class BrushManager {
     }
 
     private void recordUndo(Player player, List<BlockSnapshot> snapshots) {
-        if (snapshots == null || snapshots.isEmpty()) {
-            lastUndo.remove(player.getUniqueId());
-        } else {
-            lastUndo.put(player.getUniqueId(), snapshots);
-        }
+        pushUndo(player, snapshots);
     }
 
-    private static record BlockSnapshot(Location location, BlockData blockData) {}
+    /** Dodaje akcję na stos cofania gracza (publiczne - używane też przez CopyPasteManager). Trzyma max 20 ostatnich akcji. */
+    public void pushUndo(Player player, List<BlockSnapshot> snapshots) {
+        if (snapshots == null || snapshots.isEmpty()) return;
 
+        Deque<List<BlockSnapshot>> history = undoHistory.computeIfAbsent(player.getUniqueId(), id -> new ArrayDeque<>());
+        history.addLast(snapshots);
+        while (history.size() > MAX_UNDO_HISTORY) {
+            history.removeFirst(); // najstarsza akcja "wypada" ze stosu
+        }
+    }
 
     // ---------- Narzędzie (motyka) ----------
 
@@ -76,6 +91,7 @@ public class BrushManager {
                 "§7Skonfiguruj go komendą §f/brush"
         ));
         meta.getPersistentDataContainer().set(toolKey, PersistentDataType.BYTE, (byte) 1);
+        meta.setUnbreakable(true);
         item.setItemMeta(meta);
         return item;
     }

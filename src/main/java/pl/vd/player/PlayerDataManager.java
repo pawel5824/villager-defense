@@ -14,6 +14,9 @@ public class PlayerDataManager {
     private final VillagerDefensePlugin plugin;
     private final File file;
     private final Map<UUID, PlayerData> cache = new HashMap<>();
+    // gracze, których dane wczytano z players.yml przy starcie - tylko NOWI gracze
+    // (bez wpisu w pliku) dostają domyślny język angielski w ustawieniach pluginu
+    private final Set<UUID> knownPlayers = new HashSet<>();
 
     public PlayerDataManager(VillagerDefensePlugin plugin) {
         this.plugin = plugin;
@@ -22,7 +25,15 @@ public class PlayerDataManager {
     }
 
     public PlayerData get(UUID uuid, String name) {
-        return cache.computeIfAbsent(uuid, id -> new PlayerData(id, name));
+        return cache.computeIfAbsent(uuid, id -> {
+            PlayerData data = new PlayerData(id, name);
+            // nowy gracz na serwerze: domyślny język angielski w pluginie
+            // (może zmienić w Ustawieniach -> Język; istniejący gracze bez zmian)
+            if (!knownPlayers.contains(id)) {
+                data.setSetting("language", "angielski");
+            }
+            return data;
+        });
     }
 
     public List<PlayerData> getTop(int size) {
@@ -44,6 +55,7 @@ public class PlayerDataManager {
         YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
         ConfigurationSection root = cfg.getConfigurationSection("players");
         cache.clear();
+        knownPlayers.clear();
         if (root == null) return;
 
         for (String key : root.getKeys(false)) {
@@ -55,7 +67,15 @@ public class PlayerDataManager {
             data.addKills(s.getInt("kills", 0));
             for (int i = 0; i < s.getInt("games", 0); i++) data.addGamePlayed();
             data.updateHighestWave(s.getInt("highest-wave", 0));
+            // osobne ustawienia gracza (dźwięki, cząsteczki itd.)
+            ConfigurationSection sett = s.getConfigurationSection("settings");
+            if (sett != null) {
+                for (String k : sett.getKeys(false)) {
+                    data.setSetting(k, sett.getString(k, "off"));
+                }
+            }
             cache.put(uuid, data);
+            knownPlayers.add(uuid);
         }
     }
 
@@ -68,6 +88,9 @@ public class PlayerDataManager {
             cfg.set(path + ".kills", data.getTotalKills());
             cfg.set(path + ".games", data.getGamesPlayed());
             cfg.set(path + ".highest-wave", data.getHighestWave());
+            for (Map.Entry<String, String> e : data.getSettings().entrySet()) {
+                cfg.set(path + ".settings." + e.getKey(), e.getValue());
+            }
         }
         try {
             cfg.save(file);

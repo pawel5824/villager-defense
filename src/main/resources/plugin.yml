@@ -1,18 +1,85 @@
-name: VillagerDefense
+name: ServerPlugin
 version: '${project.version}'
 main: pl.vd.VillagerDefensePlugin
-api-version: '26.2'
+api-version: '26.3'
 author: Ty
 description: Minigra Villager Defense - fale mobow, obrona wieśniaków, sklep, kity, ranking.
+softdepend: [ProtocolLib]
 
 commands:
   vd:
     description: Główna komenda pluginu Villager Defense
     usage: /vd <join|leave|create|setlobby|addspawn|addvillager|setend|setminmax|delete|kit|top|stats|reload>
     aliases: [villagerdefense, vdefense]
+  def:
+    description: Komenda VD
+    usage: /def
   brush:
     description: Pędzel budowlany do tworzenia terenu aren
     usage: /brush <give|sphere|smooth|random|overlay|radius|info>
+  arena:
+    description: Zarządzanie arenami
+    usage: /arena
+  hub:
+    description: Powrót do lobby
+    usage: /hub
+  lobby:
+    description: Powrót do lobby
+    usage: /lobby
+  przerwa:
+    description: Przerwa
+    usage: /przerwa
+  codzienna:
+    description: Dzienna nagroda
+    usage: /codzienna
+  copy:
+    description: Kopiowanie i wklejanie
+    usage: /copy
+  vslab:
+    description: Pionowe płytki
+    usage: /vslab
+  stojak:
+    description: Zarządzanie stojakami
+    usage: /stojak
+  tpwand:
+    description: Różdżka teleportacji
+    usage: /tpwand
+  region:
+    description: Zarządzanie regionami
+    usage: /region
+  ustawienia:
+    description: Ustawienia pluginu
+    usage: /ustawienia
+  osiagniecia:
+    description: Osiągnięcia
+    usage: /osiagniecia
+  report:
+    description: Raportowanie błędów
+    usage: /report
+  raporty:
+    description: Przegląd raportów
+    usage: /raporty
+  znajomi:
+    description: Zarządzanie znajomymi
+    usage: /znajomi
+  druzyna:
+    description: Zarządzanie drużyną
+    usage: /druzyna
+  urzadzenie:
+    description: Zarządzanie urządzeniami
+    usage: /urzadzenie
+  raft:
+    description: Komendy trybu Raft
+    usage: /raft
+  wytwarzanie:
+    description: GUI wytwarzania (tylko świat Raft)
+    usage: /wytwarzanie
+  muzyka:
+    description: Ustawienia muzyki trybu Raft (per gracz)
+    usage: /muzyka [wlacz|wylacz|glosnosc|ton|czestotliwosc|status]
+  latarenka:
+    description: Customowe latarenki
+    usage: /latarenka
 
 permissions:
   vd.admin:

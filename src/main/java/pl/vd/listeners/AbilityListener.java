@@ -1,6 +1,5 @@
 package pl.vd.listeners;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,9 +30,14 @@ public class AbilityListener implements Listener {
         event.setCancelled(true);
         Player player = event.getPlayer();
 
+        // duch po śmierci (spectator) NIE może używać umiejętności - żadnych strzałów z różdżki
+        if (player.getGameMode() == org.bukkit.GameMode.SPECTATOR) {
+            return;
+        }
+
         Arena arena = findArenaOf(player);
         if (arena == null || arena.getState() != ArenaState.INGAME) {
-            player.sendMessage(Component.text("§cTej umiejętności można używać tylko w trakcie gry."));
+            pl.vd.util.AntiSpam.send(player, "§cTej umiejętności można używać tylko w trakcie gry.");
             return;
         }
 

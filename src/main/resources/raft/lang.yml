@@ -1,0 +1,104 @@
+# ============================================
+# RAFT PLUGIN - KONFIGURACJA JĘZYKA
+# ============================================
+# Możesz zmienić wszystkie wiadomości w grze
+# ============================================
+
+# Wiadomości ogólne
+messages:
+  # Powitanie
+  welcome: "§6=== Witaj na Oceanie! ==="
+  welcome-sub: "§7Przetrwaj i odkryj tajemnice morza!"
+
+  # Dołączenie do gry
+  join-game: "§aDołączono do gry Raft!"
+  join-description: "§7Znajdujesz się na małym pontonie pośrodku oceanu."
+
+  # Opuszczenie gry
+  leave-game: "§7Opuściłeś grę Raft. Do zobaczenia!"
+
+  # Statystyki
+  stats-title: "§6=== Twoje Statystyki ==="
+  stats-days: "§eDni przetrwania: "
+  stats-xp: "§eZdobyte XP: "
+  stats-level: "§ePoziom: "
+  stats-coins: "§eZebrane monety: "
+  stats-kills: "§eZabite moby: "
+  stats-islands: "§eOdkryte wyspy: "
+
+  # Fabuła
+  story-title: "§6=== Rozdział "
+  story-chapter: "§e"
+  story-content: "§7"
+
+  # Questy
+  quest-started: "§aQuest rozpoczęty!"
+  quest-completed: "§a=== Quest ukończony! ==="
+  quest-reward: "§6Otrzymujesz "
+  quest-exp: " exp!"
+
+  # Ponton
+  raft-title: "§6=== Ponton ==="
+  raft-level: "§ePoziom: "
+  raft-size: "§eRozmiar: "
+  raft-speed: "§ePrędkość: "
+  raft-upgraded: "§aUlepszono ponton!"
+
+  # Wyspy
+  island-title: "§6=== Wyspa ==="
+  island-name: "§eNazwa: "
+  island-type: "§eTyp: "
+  island-radius: "§eRozmiar: "
+  island-explored: "§aEksplorujesz wyspę..."
+
+  # Crafting
+  craft-title: "§6Dostępne przedmioty do craftingu:"
+  craft-obtained: "§aOtrzymałeś: "
+
+  # Błędy
+  error-not-player: "§cTa komenda jest dostępna tylko dla graczy!"
+  error-unknown-command: "§cNieznana komenda! Użyj /raft help"
+  error-no-session: "§cNie masz aktywnej sesji!"
+  error-not-on-raft: "§cNie jesteś na pontonie!"
+  error-not-on-island: "§cNie jesteś na wyspie!"
+
+  # Fazy dnia
+  phase-dawn: "§eŚwit nadszedł! Nowe możliwości czekają..."
+  phase-day: "§aDzień w pełni! Czas na eksplorację i budowę."
+  phase-dusk: "§6Zmierzch! Przygotuj się na noc."
+  phase-night: "§4Noc! Niebezpieczne stworzenia wychodzą z ukrycia."
+
+  # Przetrwanie
+  hunger-low: "§cJesteś głodny! Zjedz coś!"
+  thirst-low: "§bMasz pragnienie! Napij się wody!"
+  stamina-low: "§eJesteś zmęczony! Odpocznij!"
+
+  # Przedmioty
+  item-obtained: "§aOtrzymałeś: "
+  item-used: "§7Używasz: "
+
+  # Eksploracja
+  island-nearby: "§aZbliżasz się do wyspy! Możesz ją teraz eksplorować."
+  island-explored: "§6Odkryłeś nową wyspę: "
+  treasure-found: "§6Znalazłeś skarb!"
+
+  # Walka
+  mob-killed: "§cPokonałeś: "
+  player-damaged: "§4Zostałeś ranny!"
+  player-drowned: "§4Topisz się!"
+
+  # Budowanie
+  build-allowed: "§aMożesz budować tutaj."
+  build-denied: "§cNie możesz budować poza pontonem!"
+
+  # Pomoc
+  help-title: "§6=== Raft Plugin - Komendy ==="
+  help-join: "§e/raft join - Dołącz do gry"
+  help-leave: "§e/raft leave - Opuść grę"
+  help-stats: "§e/raft stats - Pokaż statystyki"
+  help-story: "§e/raft story - Pokaż fabułę"
+  help-quest: "§e/raft quest - Zarządzaj questami"
+  help-raft: "§e/raft raft - Zarządzaj pontonem"
+  help-island: "§e/raft island - Zarządzaj wyspami"
+  help-craft: "§e/raft craft - Crafting przedmiotów"
+  help-help: "§e/raft help - Pokaż tę pomoc"

@@ -1,0 +1,34 @@
+# ============================================
+# RAFT PLUGIN - KONFIGURACJA WYSP
+# ============================================
+# Tutaj możesz dodać własne wyspy
+# lub zmodyfikować generowane automatycznie
+# ============================================
+
+# Przykład własnej wyspy
+custom-islands:
+  # Moja Wyspa
+  my_island:
+    name: "Moja Wyspa"
+    type: FOREST_ISLAND
+    x: 100
+    y: 63
+    z: 200
+    radius: 40
+    height: 25
+    explored: false
+    # Specjalne elementy
+    features:
+      - type: TREE
+        x: 5
+        z: 5
+      - type: CHEST
+        x: -3
+        z: 2
+        items:
+          - DIAMOND:3
+          - IRON_INGOT:10
+          - GOLD_INGOT:5
+
+# Lista odkrytych wysp (automatycznie aktualizowana)
+discovered-islands: []
