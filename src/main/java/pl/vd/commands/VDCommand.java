@@ -298,6 +298,10 @@ public class VDCommand implements CommandExecutor, TabCompleter {
                 pl.vd.util.HealthDisplay.setStyle(plugin.getConfig().getString("health-display-style", "bar"));
                 plugin.getShopGUI().loadFromConfig();
                 plugin.getArenaManager().load();
+                // Tabliczki też: bez tego po edycji signs.yml albo podmianie danych stara
+                // lista znaków zostaje w pamięci aż do restartu (klik nic wtedy nie robi).
+                plugin.getSignManager().load();
+                plugin.getSignManager().updateAllDisplays();
                 // Ustawienia tratwy (raft-collision + raft-debris) — bez rekompilacji
                 if (plugin.getRaftPlugin() != null) plugin.getRaftPlugin().reloadRaftConfig();
                 sender.sendMessage(Component.text("§aPrzeładowano konfigurację."));
