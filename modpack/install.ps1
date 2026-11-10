@@ -3,7 +3,7 @@
 # Pobiera packwiz-installer-bootstrap i konfiguruje auto-update
 
 $ErrorActionPreference = "Stop"
-$PackUrl = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/refs/heads/main/modpack/pack.toml"
+$PackUrl = "https://raw.githubusercontent.com/pawel5824/villager-defense/refs/heads/master/modpack/pack.toml"
 $MinecraftDir = "$env:APPDATA\.minecraft"
 
 Write-Host ""

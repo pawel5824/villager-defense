@@ -16,8 +16,8 @@ modpack/
 │   ├── pack.mcmeta
 │   └── assets/...
 ├── packwiz-installer-bootstrap.jar  # Bootstrap do auto-update
-├── INSTALL.bat                      # Instalator dla gracza
-├── update-and-launch.bat            # Script auto-update + launch
+├── INSTALL.bat                      # Instalator dla gracza (Windows)
+├── install.ps1                      # To samo w PowerShell
 └── README.md                        # Ten plik
 ```
 
@@ -29,21 +29,19 @@ modpack/
 cd villager-defense
 git add modpack/
 git commit -m "packwiz modpack z auto-update"
-git push origin main
+git push origin master
 ```
 
-### 2. Pobierz raw URL
+### 2. Raw URL pack.toml
 
-Po wypchnieciu, raw URL do pack.toml bedzie:
 ```
-https://raw.githubusercontent.com/<OWNER>/<REPO>/refs/heads/main/modpack/pack.toml
+https://raw.githubusercontent.com/pawel5824/villager-defense/refs/heads/master/modpack/pack.toml
 ```
 
-Zamien `<OWNER>` i `<REPO>` na prawdziwe wartosci.
+### 3. Adres w skryptach
 
-### 3. Zaktualizuj URL w skryptach
-
-W `update-and-launch.bat` zamien `YOUR_USERNAME/YOUR_REPO` na prawdziwe.
+`install.ps1` i `INSTALL.bat` maja juz wpisany ten adres. Zmien go tylko wtedy,
+gdy modpack przeniesie sie do innego repozytorium.
 
 ## Instalacja dla gracza
 
@@ -68,7 +66,7 @@ W `update-and-launch.bat` zamien `YOUR_USERNAME/YOUR_REPO` na prawdziwe.
 
 1. Gracz pobiera zip z `modpack/`
 2. Rozpakowuje do `.minecraft`
-3. Klika `INSTALL.bat` (lub uruchamia `update-and-launch.bat`)
+3. Klika `INSTALL.bat` (albo uruchamia `install.ps1`)
 
 ## Aktualizacja modpacka (dla Ciebie)
 

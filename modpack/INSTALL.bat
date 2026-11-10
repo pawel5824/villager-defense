@@ -44,7 +44,7 @@ echo [3/3] Tworzenie skryptu auto-update...
 echo @echo off
 echo title Villager Defense - Auto-Update
 echo cd /d "%%~dp0"
-echo java -jar packwiz-installer-bootstrap.jar https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/refs/heads/main/modpack/pack.toml
+echo java -jar packwiz-installer-bootstrap.jar https://raw.githubusercontent.com/pawel5824/villager-defense/refs/heads/master/modpack/pack.toml
 echo if %%errorlevel%% neq 0 ^(
 echo     echo [!] Auto-update nie powiodlo sie. Uruchamiam Minecraft...
 echo ^)
@@ -58,9 +58,9 @@ echo   INSTALACJA ZAKONCZONA
 echo ============================================
 echo.
 echo Nastepne kroki:
-echo 1. Edytuj launch-vd.bat i zmien URL na prawdziwy link GitHub
-echo 2. Uruchom launch-vd.bat przed kazda gra
-echo 3. Auto-update sprawdzi i pobierze nowosci
+echo 1. Uruchom launch-vd.bat przed kazda gra
+echo 2. Auto-update sprawdzi i pobierze nowosci
+echo 3. URL jest juz wpisany - nie trzeba go zmieniac
 echo.
 echo Aby uruchomic manualnie:
 echo   cd %MC_DIR%
