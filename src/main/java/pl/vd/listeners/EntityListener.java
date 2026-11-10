@@ -278,7 +278,7 @@ public class EntityListener implements Listener {
             if (owner.hasPotionEffect(PotionEffectType.LUCK)) points = applyLuckPointsBonus(points);
             arena.addSessionPoints(owner.getUniqueId(), points);
             arena.addSessionKill(owner.getUniqueId());
-            pl.vd.util.Lang.send(owner, "kill-points-turret", points);
+            pl.vd.util.Lang.sendActionBar(owner, "kill-points-turret", points);
             return;
         }
 
@@ -291,7 +291,7 @@ public class EntityListener implements Listener {
 
         arena.addSessionPoints(killer.getUniqueId(), points);
         arena.addSessionKill(killer.getUniqueId());
-        pl.vd.util.Lang.send(killer, "kill-points", points);
+        pl.vd.util.Lang.sendActionBar(killer, "kill-points", points);
     }
 
     /** Bonus mikstury szczęścia (efekt LUCK): +luck.points-bonus-percent% punktów
