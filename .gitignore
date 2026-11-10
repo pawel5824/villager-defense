@@ -1,0 +1,20 @@
+# Token do hostingu paczki (GitHub Releases) — NIE commitujemy.
+tools/.pack-host-token
+
+# Stan ostatniej publikacji paczki (lokalny; opisuje, co lezy na hostingu).
+tools/.publish-pack-state
+
+# Artefakt publikacji (buduje go tools/publish-pack.sh).
+pack.zip
+pack.zip.bak.*
+
+# Log builda moda z tools/publish-all.sh (zostaje na dysku tylko po nieudanym buildzie).
+tools/.publish-all-gradle.log
+
+# Katalogi wynikowe narzedzi deweloperskich (javac -d tools/out-*) i klasy obok zrodel.
+tools/out*/
+tools/**/*.class
+
+# Wyniki builda pluginu (mvn package) i log builda - nie commitujemy.
+target/
+build.log
