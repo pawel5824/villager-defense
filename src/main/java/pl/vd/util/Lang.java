@@ -178,6 +178,8 @@ public final class Lang {
         put("shop-amount", "§7Ilość: §f{0}", "§7Amount: §f{0}");
         put("shop-max-level", "§7Maksymalny poziom: §f{0}", "§7Max level: §f{0}");
         put("shop-click-buy", "§aKliknij, aby kupić", "§aClick to buy");
+        put("shop-class-locked", "§cNie dla Twojej klasy (§e{0}§c)",
+                "§cNot for your class (§e{0}§c)");
         put("shop-click-upgrade", "§aKliknij, aby ulepszyć", "§aClick to upgrade");
         put("shop-next-page", "§eNastępna strona", "§eNext page");
         put("shop-prev-page", "§ePoprzednia strona", "§ePrevious page");

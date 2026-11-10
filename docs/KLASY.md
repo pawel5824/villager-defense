@@ -6,11 +6,13 @@
 a nie rozrzucona po kodzie sklepu i listenerów. Nowa klasa = nowa sekcja w pliku, bez
 zmian w Javie.
 
-## Stan: etap 1 (same definicje)
+## Stan: etap 2 (sklep)
 
 - Plik: `plugins/ServerPlugin/class-rules.yml` (kopiowany z JAR-a przy pierwszym starcie).
 - Loader: `pl.vd.kits.ClassRulesManager`, model: `pl.vd.kits.ClassRule`.
-- **Nic jeszcze nie blokuje** zakupów ani użycia przedmiotów — gra działa jak dotąd.
+- **Sklep blokuje zakup** wg `shop-allow`/`shop-deny`: pozycja zostaje w GUI, ale ma
+  czerwony opis „Nie dla Twojej klasy”. Nie pobiera też punktów.
+- **Użycie przedmiotów nadal nie jest blokowane** — `use-*` to na razie definicje.
 - Podgląd w grze: `/def klasy` (uprawnienie `vd.admin`), przeładowanie: `/def reload`.
 
 ## Format
@@ -40,15 +42,13 @@ wpisu, nigdy crash.
 2. Dopisz sekcję z tym samym ID w `class-rules.yml`.
 3. `/def reload` i `/def klasy` — sprawdź, czy widać nową klasę.
 
-## Etap 2: podłączenie blokad
+## Podłączenie blokad
 
-Miejsca, które będą pytać o reguły (już przygotowane API):
+| Gdzie | Metoda | Stan |
+|---|---|---|
+| `ShopGUI.purchase`, zaklęcia, ikony kategorii | `allowsPurchase(player, itemId)` | **zrobione** |
+| `AbilityListener` / atak / picie / PPM | `allowsUse(player, material)` | do zrobienia |
 
-| Gdzie | Metoda |
-|---|---|
-| `ShopGUI.purchase` i budowa GUI kategorii | `allowsPurchase(player, itemId)` |
-| `AbilityListener` / atak / picie / PPM | `allowsUse(player, material)` |
-
-Etap 2 wymaga też oznaczenia przedmiotów klasowych (np. znacznik w `PersistentDataContainer`),
-bo sam materiał nie rozróżnia np. sztyletu łucznika od zwykłego drewnianego miecza —
-dlatego w pliku istnieje `use-except`.
+Blokada użycia wymaga oznaczenia przedmiotów klasowych (np. znacznik w
+`PersistentDataContainer`), bo sam materiał nie rozróżnia np. sztyletu łucznika od
+zwykłego drewnianego miecza — dlatego w pliku istnieje `use-except`.

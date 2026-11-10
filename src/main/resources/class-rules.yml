@@ -1,8 +1,8 @@
 # Zasady klas - jedno miejsce, w którym mówimy, co dana klasa może, a czego nie.
 #
-# ETAP 1: same definicje. Plugin czyta i sprawdza ten plik, ale blokady w sklepie
-# ani przy używaniu przedmiotów jeszcze NIE działają - gra wygląda jak dotąd.
-# Najpierw ustalamy zasady, potem podłączamy je do kodu.
+# ETAP 2: sklep już blokuje zakup wg shop-allow/shop-deny - pozycja zostaje
+# widoczna, ale ma czerwony opis "Nie dla Twojej klasy". Listy use-* to na razie
+# definicje; blokada użycia przedmiotów dojdzie osobno.
 #
 # Nowa klasa = nowa sekcja pod "classes"; kodu nie trzeba zmieniać.
 # Pusta lista = brak ograniczenia z tej strony.

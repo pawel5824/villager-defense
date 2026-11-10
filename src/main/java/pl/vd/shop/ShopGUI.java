@@ -1507,6 +1507,8 @@ public class ShopGUI {
      * na które gracz może nałożyć wybrane zaklęcie.
      */
     public void openEnchantTarget(Player player, Arena arena, ShopCategory category, ShopItem item, int page) {
+        // zaklęcie zastrzeżone dla innej klasy - nie otwieramy GUI zakupu
+        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) return;
         ShopHolder holder = new ShopHolder(ShopHolder.ViewType.ENCHANT_TARGET, category, item, page);
         Inventory inv = Bukkit.createInventory(holder, ENCHANT_TARGET_SIZE,
                 Component.text(Lang.get(player, "enchant-target-title")));
@@ -1654,6 +1656,11 @@ public class ShopGUI {
     public void purchase(Player player, Arena arena, ShopItem item) {
         if (!arena.isPlaying(player)) {
             return; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
+        }
+        // Zasady klas (class-rules.yml): przedmiot zastrzeżony dla innej klasy = brak zakupu.
+        // GUI pokazuje powód w opisie pozycji, więc kliknięcie nie potrzebuje komunikatu.
+        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+            return;
         }
         int points = arena.getSessionPoints(player.getUniqueId());
         if (points < item.getPrice()) {
@@ -1963,6 +1970,9 @@ public class ShopGUI {
     public boolean enchantEquipment(Player player, Arena arena, ShopItem item, int guiSlot) {
         if (!arena.isPlaying(player)) {
             return false; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
+        }
+        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+            return false; // zaklęcie zastrzeżone dla innej klasy - bez pobierania punktów
         }
         int targetSlot = resolveTargetSlot(player, guiSlot);
         if (targetSlot == NOT_FOUND) {
@@ -2341,6 +2351,13 @@ public class ShopGUI {
                 .build();
     }
 
+    /** Nazwa klasy gracza w jego języku (opis przedmiotu zastrzeżonego dla klasy). */
+    private String className(Player player) {
+        String kitId = plugin.getKitManager().getChosenKitId(player);
+        var kit = plugin.getKitManager().getKit(kitId);
+        return kit != null ? kit.localizedName(player) : kitId;
+    }
+
     private ItemStack createShopItemIcon(ShopItem item, Player player) {
         List<String> lore = new ArrayList<>();
         // Zaklęcia NIE pokazują ceny na książce - cena jest dopiero w GUI wyboru
@@ -2376,8 +2393,14 @@ public class ShopGUI {
                 lore.add(Lang.get(player, "shop-amount", item.getAmount()));
             }
         }
-        lore.add("");
-        lore.add(Lang.get(player, "shop-click-buy"));
+        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+            // Widoczne, ale jasno oznaczone - gracz wie, że to pozycja innej klasy.
+            lore.add("");
+            lore.add(Lang.get(player, "shop-class-locked", className(player)));
+        } else {
+            lore.add("");
+            lore.add(Lang.get(player, "shop-click-buy"));
+        }
 
         String name = switch (item.getType()) {
             case ITEM    -> item.getDisplayName() != null ? item.getDisplayName()

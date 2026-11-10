@@ -21,10 +21,8 @@ import java.util.Set;
 /**
  * Czyta plik {@code class-rules.yml}: co każda klasa może, a czego nie.
  *
- * Etap 1 - tylko definicje i sprawdzanie pliku. Nic tu nie blokuje zakupu ani
- * użycia przedmiotu; klasy nadal grają tak jak dotąd. Blokady podłączymy w
- * etapie 2 (sklep + listenery), korzystając z {@link #allowsUse} i
- * {@link #allowsPurchase}.
+ * Sklep już korzysta z {@link #allowsPurchase} (blokada zakupu wg shop-*),
+ * a {@link #allowsUse} czeka na podłączenie w listenerach użycia przedmiotów.
  *
  * Nowa klasa nie wymaga zmian w kodzie: wystarczy sekcja w YAML. Błędny wpis
  * (nieznana klasa, grupa albo materiał) daje jedno ostrzeżenie w logu i jest
@@ -183,7 +181,7 @@ public class ClassRulesManager {
         for (ClassRule rule : rules.values()) {
             lines.add(rule.describe());
         }
-        lines.add("§8Etap 1: same definicje - blokady w sklepie i przy użyciu jeszcze nie działają.");
+        lines.add("§8Etap 2: sklep blokuje zakup; blokada użycia przedmiotów jeszcze nie działa.");
         return lines;
     }
 }
