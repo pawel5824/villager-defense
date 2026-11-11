@@ -73,7 +73,11 @@ classes:
     # wpisz je w shop-deny (np. "mikstura_maga_*"). Wspólnych nie ruszaj, bo
     # wojownik dostaje od nas miksturę siły.
     use-deny: []
-    shop-deny: []
+    shop-deny:
+      # Broń dystansowa: wojownik ma tylko procę (nie łuk/kuszę/karabin).
+      - "bow"
+      - "crossbow"
+      - "karabin"
 
   lucznik:
     # Sztylet łucznika to WOODEN_SWORD pod własną nazwą, dlatego jest wyjątkiem.
@@ -85,6 +89,8 @@ classes:
     shop-deny:
       - "*_sword"
       - "*_axe"
+      # Tarcza jest tylko dla tanka, wojownika i inżyniera.
+      - "shield"
 
   tank:
     use-deny: []
@@ -97,6 +103,7 @@ classes:
     shop-deny:
       - "*_sword"
       - "*_axe"
+      - "shield"
 
   medyk:
     use-deny:
@@ -105,11 +112,21 @@ classes:
     shop-deny:
       - "*_sword"
       - "*_axe"
+      - "shield"
 
   assassin:
     use-deny: []
-    shop-deny: []
+    shop-deny:
+      # Tylko proca z broni dystansowej + tarcza jest niedostępna.
+      - "bow"
+      - "crossbow"
+      - "karabin"
+      - "shield"
 
   inzynier:
     use-deny: []
-    shop-deny: []
+    shop-deny:
+      # Tylko proca z broni dystansowej; tarczę może kupić.
+      - "bow"
+      - "crossbow"
+      - "karabin"

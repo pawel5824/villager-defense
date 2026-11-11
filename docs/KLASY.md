@@ -38,6 +38,16 @@ Kolejność użycia: `use-except` → `use-allow` → `use-deny`. Dla sklepu: `s
 Błędny wpis (nieznana klasa, grupa, materiał) = jedno ostrzeżenie w logu i pominięcie
 wpisu, nigdy crash.
 
+## Aktualne przypisania (2026-11-11)
+
+| Rzecz | Kto może kupić |
+|---|---|
+| Tarcza | wojownik, tank, inżynier |
+| Łuk, kusza, karabin | łucznik |
+| Proca | łucznik, wojownik, asasyn, inżynier (tank/magik/medyk bez zmian) |
+| Miecze i topory | wszyscy poza łucznikiem, magikiem i medykiem |
+| Trójząb | bez ograniczeń (świadomie pominięty) |
+
 ## Jak dodać klasę
 
 1. Dopisz klasę w `KitManager.registerDefaults()` (ID, przedmioty, zbroja).
