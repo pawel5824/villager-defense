@@ -70,23 +70,40 @@ public class CritListener implements Listener {
         // po zmianie broni w locie strzały). Rzucany trójząb NIE dostaje bonusu -
         // Szczęście na trójzębie działa tylko jako cios wręcz.
         double luckPerLevel = plugin.getConfig().getDouble("crits.luck-bonus-per-level", 5.0);
-        if (luckPerLevel > 0) {
-            if (ranged) {
-                if (event.getDamager() instanceof PersistentDataHolder holder) {
-                    int level = holder.getPersistentDataContainer().getOrDefault(
-                            fortuneKey, PersistentDataType.INTEGER, 0);
-                    if (level > 0) chance += level * luckPerLevel;
-                }
-            } else {
-                ItemStack weapon = attacker.getInventory().getItemInMainHand();
-                if (weapon != null && weapon.getType() != Material.AIR) {
-                    WeaponType wt = WeaponType.of(weapon.getType());
-                    boolean luckWeapon = wt == WeaponType.SWORD || wt == WeaponType.AXE
-                            || weapon.getType() == Material.TRIDENT; // trójząb tylko wręcz
-                    if (luckWeapon) {
-                        int level = weapon.getEnchantmentLevel(Enchantment.FORTUNE);
-                        if (level > 0) chance += level * luckPerLevel;
+        if (ranged) {
+            // Łuk/kusza (także proca): Szczęście liczy się od DYSTANSU strzału -
+            // za każde crits.ranged-luck-blocks-per-step bloków dodaje
+            // crits.ranged-luck-bonus-per-step % szansy (domyślnie 3% / 3 bloki).
+            if (event.getDamager() instanceof PersistentDataHolder holder) {
+                int level = holder.getPersistentDataContainer().getOrDefault(
+                        fortuneKey, PersistentDataType.INTEGER, 0);
+                if (level > 0) {
+                    double stepBlocks = plugin.getConfig()
+                            .getDouble("crits.ranged-luck-blocks-per-step", 3.0);
+                    double bonusPerStep = plugin.getConfig()
+                            .getDouble("crits.ranged-luck-bonus-per-step", 3.0);
+                    double distance = 0;
+                    if (event.getDamager() instanceof org.bukkit.entity.AbstractArrow arrow
+                            && arrow.getOrigin() != null
+                            && arrow.getOrigin().getWorld() == victim.getWorld()) {
+                        distance = arrow.getOrigin().distance(arrow.getLocation());
                     }
+                    if (stepBlocks > 0 && bonusPerStep > 0) {
+                        chance += Math.floor(distance / stepBlocks) * bonusPerStep;
+                    } else if (luckPerLevel > 0) {
+                        chance += level * luckPerLevel; // awaryjnie: stare, płaskie
+                    }
+                }
+            }
+        } else if (luckPerLevel > 0) {
+            ItemStack weapon = attacker.getInventory().getItemInMainHand();
+            if (weapon != null && weapon.getType() != Material.AIR) {
+                WeaponType wt = WeaponType.of(weapon.getType());
+                boolean luckWeapon = wt == WeaponType.SWORD || wt == WeaponType.AXE
+                        || weapon.getType() == Material.TRIDENT; // trójząb tylko wręcz
+                if (luckWeapon) {
+                    int level = weapon.getEnchantmentLevel(Enchantment.FORTUNE);
+                    if (level > 0) chance += level * luckPerLevel;
                 }
             }
         }

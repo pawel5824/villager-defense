@@ -230,6 +230,10 @@ crits:
   ranged-enabled: true
   ranged-chance-percent: 4.0
   ranged-damage-multiplier: 1.5
+  # Szczęście na łuku/kuszy/procy: zamiast płaskiego bonusu za poziom,
+  # za każde 3 bloki strzału dodaje 3% szansy na kryta.
+  ranged-luck-blocks-per-step: 3.0
+  ranged-luck-bonus-per-step: 3.0
   # Zaklęcie Szczęście (w sklepie = Fortune, fortune_1) na broni zwiększa szansę
   # na kryta o tyle % za poziom: miecz/siekiera/trójząb (cios wręcz) albo łuk/kusza
   # (strzał). Rzucany trójząb NIE dostaje bonusu - Szczęście na trójzębie działa
