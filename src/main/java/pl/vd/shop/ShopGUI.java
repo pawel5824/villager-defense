@@ -462,6 +462,26 @@ public class ShopGUI {
         return item != null && item.getMaxLevel() > 0 ? item.getMaxLevel() : MAX_ENCHANT_LEVEL;
     }
 
+    /**
+     * Maksymalny poziom efektu ze sklepu („Stałe efekty”). Najpierw bierze
+     * max-level z configu, a gdy go brak - domyślne limity balansu.
+     * 0 = brak limitu.
+     */
+    private static int effectMaxLevel(ShopItem item) {
+        if (item == null || item.getEffectType() == null) return 0;
+        if (item.getMaxLevel() > 0) return item.getMaxLevel();
+        return switch (item.getEffectType().getKey().getKey()) {
+            case "speed" -> 3;
+            case "strength" -> 4;
+            case "regeneration" -> 3;
+            case "jump_boost" -> 3;
+            case "fire_resistance" -> 1;
+            case "resistance" -> 5;
+            case "luck" -> 5;
+            default -> 0;
+        };
+    }
+
     // Rodzaje broni rozpoznawane w GUI zaklęć (szukane w rękach, potem w ekwipunku)
     // trzyma teraz enum WeaponType (SWORD / AXE / RANGED z listami materiałów).
     // Powrót (slot 22 = size-5) i punkty (slot 26 = size-1) - jak w kategorii
@@ -629,6 +649,9 @@ public class ShopGUI {
         ShopItem item = new ShopItem(id, type, price);
         item.setSlot(s.getInt("slot", -1));
         item.setDisplayName(s.getString("name", null));
+        // Wspólne pole limitu: dla ENCHANT to maks. poziom zaklęcia,
+        // dla EFFECT to maks. poziom efektu (I = 1, V = 5).
+        item.setMaxLevel(s.getInt("max-level", 0));
 
         switch (type) {
             case ITEM -> {
@@ -647,7 +670,6 @@ public class ShopGUI {
                 );
                 item.setEnchantment(ench);
                 item.setEnchantLevel(s.getInt("level", 1));
-                item.setMaxLevel(s.getInt("max-level", 0)); // 0 = globalny domyślny limit
             }
             case MINE -> {
                 // Mina nie potrzebuje dodatkowych pól - tylko cenę (już ustawioną wyżej)
@@ -1720,6 +1742,12 @@ public class ShopGUI {
                 int nextAmplifier = (current != null && current.getAmplifier() >= item.getAmplifier())
                         ? current.getAmplifier() + 1
                         : item.getAmplifier();
+                int maxLevel = effectMaxLevel(item);
+                if (maxLevel > 0 && nextAmplifier >= maxLevel) {
+                    // Limit osiągnięty: nie dodajemy efektu i nie pobieramy punktów.
+                    Lang.sendActionBar(player, "cannot-upgrade-more");
+                    return;
+                }
                 player.addPotionEffect(new PotionEffect(type, Integer.MAX_VALUE, nextAmplifier, true, false));
                 String effectLabel = item.getDisplayName() != null
                         ? Lang.getOr(player, "shop-item-" + item.getId(), item.getDisplayName())
@@ -2419,11 +2447,13 @@ public class ShopGUI {
     }
 
     /**
-     * Kategorie, w których klasy nie ograniczają zakupów: Jedzenie, Inne i Zaklęcia.
-     * Tam każda klasa kupuje bez listy klas i bez blokady - także przyszłe pozycje.
+     * Kategorie, w których klasy nie ograniczają zakupów: Jedzenie, Inne, Zaklęcia
+     * i Stałe efekty. Tam każda klasa kupuje bez listy klas i bez blokady - także
+     * przyszłe pozycje.
      */
     private boolean isClassRulesExempt(ShopItem item) {
-        return inCategory(item, ShopCategory.FOOD)
+        return (item != null && item.getType() == ShopItemType.EFFECT)
+                || inCategory(item, ShopCategory.FOOD)
                 || inCategory(item, ShopCategory.OTHER)
                 || inCategory(item, ShopCategory.ENCHANTS);
     }

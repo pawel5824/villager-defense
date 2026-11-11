@@ -1024,6 +1024,7 @@ shop:
         speed:
           type: EFFECT
           effect: SPEED
+          max-level: 3
           name: "§fSzybkość"
           amplifier: 0
           price: 200
@@ -1031,6 +1032,7 @@ shop:
         strength:
           type: EFFECT
           effect: STRENGTH
+          max-level: 4
           name: "§fSiła"
           amplifier: 0
           price: 250
@@ -1038,6 +1040,7 @@ shop:
         regeneration:
           type: EFFECT
           effect: REGENERATION
+          max-level: 3
           name: "§fRegeneracja"
           amplifier: 0
           price: 280
@@ -1045,6 +1048,7 @@ shop:
         jump_boost:
           type: EFFECT
           effect: JUMP_BOOST
+          max-level: 3
           name: "§fZwiększony Skok"
           amplifier: 0
           price: 170
@@ -1052,6 +1056,7 @@ shop:
         fire_resistance:
           type: EFFECT
           effect: FIRE_RESISTANCE
+          max-level: 1
           name: "§fOgnioodporność"
           amplifier: 0
           price: 300
@@ -1059,6 +1064,7 @@ shop:
         resistance:
           type: EFFECT
           effect: RESISTANCE
+          max-level: 5
           name: "§fOdporność"
           amplifier: 0
           price: 400
@@ -1066,6 +1072,7 @@ shop:
         luck:
           type: EFFECT
           effect: LUCK
+          max-level: 5
           name: "§fSzczęście"
           amplifier: 0
           price: 450
