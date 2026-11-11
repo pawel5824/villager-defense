@@ -90,6 +90,24 @@ public class CritListener implements Listener {
                 }
             }
         }
+        // Szczęście na zbroi: każdy poziom na dowolnej części dodaje
+        // crits.armor-luck-bonus-per-level % (domyślnie 2,5%), a poziomy
+        // z hełmu, klaty, spodni i butów SUMUJĄ się.
+        double armorLuckPerLevel = plugin.getConfig()
+                .getDouble("crits.armor-luck-bonus-per-level", 2.5);
+        if (armorLuckPerLevel > 0) {
+            int armorLevels = 0;
+            for (ItemStack piece : new ItemStack[]{
+                    attacker.getInventory().getHelmet(),
+                    attacker.getInventory().getChestplate(),
+                    attacker.getInventory().getLeggings(),
+                    attacker.getInventory().getBoots()}) {
+                if (piece == null || piece.getType() == Material.AIR) continue;
+                armorLevels += piece.getEnchantmentLevel(Enchantment.FORTUNE);
+            }
+            if (armorLevels > 0) chance += armorLevels * armorLuckPerLevel;
+        }
+
         if (chance <= 0 || Math.random() * 100.0 >= chance) return;
 
         event.setDamage(event.getDamage() * multiplier);

@@ -235,6 +235,10 @@ crits:
   # (strzał). Rzucany trójząb NIE dostaje bonusu - Szczęście na trójzębie działa
   # tylko jako cios wręcz.
   luck-bonus-per-level: 5.0
+  # Szczęście na zbroi: każdy poziom na hełmie/klacie/spodniach/butach dodaje
+  # tyle % szansy na kryta. Poziomy ze wszystkich czterech części SUMUJĄ się
+  # (np. pełny zestaw z Fortune I = +10%).
+  armor-luck-bonus-per-level: 2.5
   # Efekt cząsteczek przy trafieniu krytycznym (czerwone iskry + magiczny połysk)
   particle-enabled: true
   particle-count: 20
