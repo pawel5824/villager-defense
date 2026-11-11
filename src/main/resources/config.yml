@@ -334,6 +334,19 @@ luck:
   regen-level: 1                  # poziom regeneracji (1 = Regeneracja II)
   regen-duration-seconds: 3       # czas trwania regeneracji w sekundach
 
+# Obciążenie zbroi na arenie: kara do prędkości ruchu w procentach.
+# Wartość to kara dla CAŁEGO zestawu; części dostają:
+# hełm 15%, klata 40%, spodnie 30%, buty 15%.
+# Kolejność celowa: chainmail < miedź < złoto < żelazo < diament < netheryt.
+armor-weight:
+  leather: 2.5
+  chainmail: 4.0
+  copper: 7.0
+  gold: 9.0
+  iron: 13.0
+  diamond: 17.0
+  netherite: 21.0
+
 # Skalowanie fal: ile mobów spawnuje się w danej rundzie
 waves:
   # --- Liczba mobów w fali: segmenty z resetami ---

@@ -36,6 +36,7 @@ import pl.vd.commands.PartyCommand;
 import pl.vd.commands.TpWandCommand;
 import pl.vd.commands.VSlabCommand;
 import pl.vd.commands.VDCommand;
+import pl.vd.game.ArmorWeightManager;
 import pl.vd.game.GameManager;
 import pl.vd.kits.KitManager;
 import pl.vd.listeners.AbilityListener;
@@ -87,6 +88,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
     private KitManager kitManager;
     private ShopGUI shopGUI;
     private GameManager gameManager;
+    private ArmorWeightManager armorWeightManager;
     private BrushManager brushManager;
     private BlockListener blockListener;
     private pl.vd.region.RegionManager regionManager;
@@ -172,6 +174,9 @@ public class VillagerDefensePlugin extends JavaPlugin {
         this.classRulesManager = new pl.vd.kits.ClassRulesManager(this);
         this.classRulesManager.load();
         this.gameManager = new GameManager(this);
+        // Obciążenie zbroi na arenie - jeden modifier prędkości, liczony z założonych części.
+        this.armorWeightManager = new ArmorWeightManager(this);
+        this.armorWeightManager.start();
         this.restartManager = new pl.vd.restart.RestartManager(this);
         this.brushManager = new BrushManager(this);
         this.signManager = new SignManager(this);
@@ -430,6 +435,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
         if (restartManager != null) restartManager.shutdown();
         // teleportuj graczy do lobby, wyczyść areny (moby/wieśniacy) i ekwipunki
         if (supplyDropManager != null) supplyDropManager.shutdown();
+        if (armorWeightManager != null) armorWeightManager.stop();
         if (gameManager != null) gameManager.shutdownCleanup();
         // zamknij aktywne instancje (usuń światy klonów) - pozostałości i tak
         // sprzątnie cleanupLeftovers przy następnym starcie
@@ -524,6 +530,7 @@ public class VillagerDefensePlugin extends JavaPlugin {
     public KitManager getKitManager() { return kitManager; }
     public ShopGUI getShopGUI() { return shopGUI; }
     public GameManager getGameManager() { return gameManager; }
+    public ArmorWeightManager getArmorWeightManager() { return armorWeightManager; }
 
     /**
      * Czy ProtocolLib jest zainstalowany I poprawnie włączony na serwerze (softdepend)?
