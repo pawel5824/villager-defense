@@ -587,12 +587,12 @@ public class ShopListener implements Listener {
         // zaklęcie tylko na broń (Uderzenie/Punch): sloty zbroi są zablokowane -
         // kliknięcie w nie nic nie robi (i nie pobiera punktów)
         if (shopGUI.isWeaponRestrictedEnchant(item) && shopGUI.isEnchantArmorSlot(slot)) {
-            AntiSpam.sendActionBar(player, Lang.get(player, "enchant-weapons-only"));
+            AntiSpam.sendActionBar(player, Lang.get(player, "enchant-not-for-item"));
             return;
         }
         // zaklęcia tylko na zbroję (Ochrona/Ciernie): sloty broni są zablokowane
         if (shopGUI.isArmorOnlyEnchant(item) && shopGUI.isEnchantWeaponSlot(slot)) {
-            AntiSpam.sendActionBar(player, Lang.get(player, "enchant-armor-only"));
+            AntiSpam.sendActionBar(player, Lang.get(player, "enchant-not-for-item"));
             return;
         }
 

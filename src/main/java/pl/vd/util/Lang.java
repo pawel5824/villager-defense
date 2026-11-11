@@ -109,12 +109,6 @@ public final class Lang {
         put("max-level", "§cMaksymalny poziom tego zaklęcia to §e{0}§c.",
                 "§cMax level of this enchantment is §e{0}§c.");
         put("enchant-upgraded", "§aUlepszono: §f{0} {1}", "§aUpgraded: §f{0} {1}");
-        put("enchant-weapons-only", "§cTo zaklęcie działa tylko na broń (miecz/siekiera/łuk/kusza/trójząb).",
-                "§cThis enchantment only works on weapons (sword/axe/bow/crossbow/trident).");
-        put("enchant-armor-only", "§cTo zaklęcie działa tylko na zbroję (hełm/klata/spodnie/buty).",
-                "§cThis enchantment only works on armor (helmet/chestplate/leggings/boots).");
-        put("enchant-not-for-weapon", "§cTego zaklęcia nie można nałożyć na tę broń.",
-                "§cThis enchantment cannot be applied to this weapon.");
         put("must-wear-boots", "§cMusisz mieć założone buty", "§cYou must be wearing boots");
         put("need-bow", "§cMusisz posiadać łuk, aby go ulepszyć.",
                 "§cYou need a bow to upgrade it.");

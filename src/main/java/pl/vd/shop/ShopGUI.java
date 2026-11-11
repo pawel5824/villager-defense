@@ -1617,7 +1617,7 @@ public class ShopGUI {
             // zaklęcie tylko na broń (Uderzenie/Punch): sloty zbroi ZABLOKOWANE -
             // czerwone szyby z podpowiedzią, żeby książka nie marnowała się na zbroję
             ItemStack blocked = new ItemBuilder(Material.RED_STAINED_GLASS_PANE, 1)
-                    .name(Lang.get(player, "enchant-weapons-only")).build();
+                    .name(Lang.get(player, "enchant-not-for-item")).build();
             inv.setItem(ENCHANT_HELMET_SLOT, blocked);
             inv.setItem(ENCHANT_CHEST_SLOT, blocked);
             inv.setItem(ENCHANT_LEGS_SLOT, blocked);
@@ -1632,7 +1632,7 @@ public class ShopGUI {
             // zaklęcia tylko na zbroję (Ochrona/Ciernie): sloty broni ZABLOKOWANE -
             // czerwone szyby z podpowiedzią, żeby książka nie marnowała się na broń
             ItemStack blocked = new ItemBuilder(Material.RED_STAINED_GLASS_PANE, 1)
-                    .name(Lang.get(player, "enchant-armor-only")).build();
+                    .name(Lang.get(player, "enchant-not-for-item")).build();
             inv.setItem(ENCHANT_TRIDENT_SLOT, blocked);
             inv.setItem(ENCHANT_SWORD_SLOT, blocked);
             inv.setItem(ENCHANT_AXE_SLOT, blocked);
@@ -2145,7 +2145,7 @@ public class ShopGUI {
         // >0 = dodatkowy limit poziomu NA TEJ broni (np. Przeszycie na łuku max 3).
         int weaponMax = weaponEnchantRestriction(target, ench);
         if (weaponMax < 0) {
-            Lang.sendActionBar(player, "enchant-not-for-weapon");
+            Lang.sendActionBar(player, "enchant-not-for-item");
             return false;
         }
         if (!canApplyEnchant(ench, target)) {
