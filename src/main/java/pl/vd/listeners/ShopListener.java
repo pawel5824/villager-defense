@@ -95,10 +95,16 @@ public class ShopListener implements Listener {
         }
 
         if (holder.getViewType() == ShopHolder.ViewType.FOOD_BULK) {
+            if (slot == ShopGUI.FOOD_BULK_EXIT_SLOT) {
+                player.closeInventory();
+                return;
+            }
+            if (slot == ShopGUI.FOOD_BULK_POINTS_SLOT) return; // tylko podgląd punktów
             ShopItem food = holder.getSelectedItem();
             int quantity = shopGUI.foodBulkQuantityForSlot(slot);
             if (food != null && quantity > 0) {
                 shopGUI.purchaseFoodBulk(player, arena, food, quantity);
+                shopGUI.openFoodBulk(player, arena, food); // odśwież aktualne punkty
             }
             return;
         }
@@ -410,7 +416,7 @@ public class ShopListener implements Listener {
         if (item != null) {
             // PPM na jedzeniu otwiera zakup hurtowy; LPM kupuje 1 sztukę jak dotąd.
             if (event.isRightClick() && shopGUI.isBulkFoodItem(item)) {
-                shopGUI.openFoodBulk(player, item);
+                shopGUI.openFoodBulk(player, arena, item);
                 return;
             }
             if (item.getType() == ShopItemType.ENCHANT) {

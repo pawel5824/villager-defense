@@ -52,6 +52,10 @@ public class ShopGUI {
     private static final int FOOD_BULK_SIZE = 18;
     private static final int FOOD_BULK_FIRST_SLOT = 2;
     private static final int[] FOOD_BULK_QUANTITIES = {1, 5, 16, 32, 64};
+    /** Nether star w panelu hurtowym: slot 14 w grze (indeks 13). */
+    public static final int FOOD_BULK_EXIT_SLOT = 13;
+    /** Emerald z punktami: slot 18 w grze (indeks 17). */
+    public static final int FOOD_BULK_POINTS_SLOT = 17;
 
     // Główne menu - wyjście na środku dołu (slot 49), szmaragd w prawym rogu (slot 53),
     // ustawienia w lewym dolnym rogu (slot 45)
@@ -1467,7 +1471,7 @@ public class ShopGUI {
      * Otwiera panel masowego kupowania jedzenia (2x9). Ilości 1/5/16/32/64
      * są w slotach 3-7 widocznych dla gracza, reszta to szare tło.
      */
-    public void openFoodBulk(Player player, ShopItem item) {
+    public void openFoodBulk(Player player, Arena arena, ShopItem item) {
         if (!isBulkFoodItem(item)) return;
         String itemName = foodDisplayName(player, item);
         ShopHolder holder = new ShopHolder(ShopHolder.ViewType.FOOD_BULK,
@@ -1486,7 +1490,18 @@ public class ShopGUI {
                             Lang.get(player, "shop-click-buy")))
                     .build());
         }
+        inv.setItem(FOOD_BULK_EXIT_SLOT, createFoodBulkExit(player));
+        int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
+        inv.setItem(FOOD_BULK_POINTS_SLOT, createPointsItem(player, points));
         player.openInventory(inv);
+    }
+
+    /** Nether star zamykający panel hurtowego zakupu jedzenia. */
+    private ItemStack createFoodBulkExit(Player player) {
+        return new ItemBuilder(Material.NETHER_STAR, 1)
+                .name(Lang.get(player, "shop-exit"))
+                .lore(List.of(Lang.get(player, "shop-food-bulk-exit-lore")))
+                .build();
     }
 
     /** Czy to jedzenie z kategorii Jedzenie (PPM otwiera zakup hurtowy)? */
