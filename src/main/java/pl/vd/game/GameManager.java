@@ -189,6 +189,7 @@ public class GameManager {
             player.setHealth(20.0);
             player.setFoodLevel(20);
             player.setSaturation(20f);
+            clearArenaEffects(player);
         } catch (Throwable ignored) {}
 
         Location exit = exitLocation(arena);
@@ -206,6 +207,17 @@ public class GameManager {
         }
         // instancja bez graczy (lobby się opróżniło) - zamknij i usuń jej świat
         plugin.getInstanceManager().maybeDispose(arena);
+    }
+
+    /**
+     * Usuwa WSZYSTKIE efekty gracza po wyjściu z areny albo po końcu gry.
+     * Efekty kupione w sklepie mają czas Integer.MAX_VALUE, więc bez tego
+     * zostawały w lobby na stałe (np. Speed po zakończeniu areny).
+     */
+    private void clearArenaEffects(Player player) {
+        for (var effect : new ArrayList<>(player.getActivePotionEffects())) {
+            player.removePotionEffect(effect.getType());
+        }
     }
 
     private void startCountdown(Arena arena) {
@@ -581,6 +593,7 @@ public class GameManager {
                 player.setHealth(20.0);
                 player.setFoodLevel(20);
                 player.setSaturation(20f);
+                clearArenaEffects(player);
                 Location exit = exitLocation(arena);
                 if (exit != null) player.teleport(exit);
                 Lang.send(player, "session-points", arena.getSessionPoints(uuid));
@@ -928,6 +941,7 @@ public class GameManager {
                     player.setHealth(20.0);
                     player.setFoodLevel(20);
                     player.setSaturation(20f);
+                    clearArenaEffects(player);
                     Location dest = exitLocation(arena);
                     if (dest != null) player.teleport(dest);
                 } catch (Throwable ignored) {}
