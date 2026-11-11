@@ -1522,7 +1522,7 @@ public class ShopGUI {
         inv.setItem(ENCHANT_TARGET_SIZE - 1, createPointsItem(player, arena.getSessionPoints(player.getUniqueId())));
 
         if (isWeaponRestrictedEnchant(item)) {
-            // zaklęcia tylko na broń (Szczęście/Fortune): sloty zbroi ZABLOKOWANE -
+            // zaklęcie tylko na broń (Uderzenie/Punch): sloty zbroi ZABLOKOWANE -
             // czerwone szyby z podpowiedzią, żeby książka nie marnowała się na zbroję
             ItemStack blocked = new ItemBuilder(Material.RED_STAINED_GLASS_PANE, 1)
                     .name(Lang.get(player, "enchant-weapons-only")).build();
@@ -1924,6 +1924,11 @@ public class ShopGUI {
      */
     public boolean canApplyEnchant(Enchantment ench, ItemStack target) {
         if (ench == null || target == null || target.getType() == Material.AIR) return false;
+        // Szczęście (Fortune) to zaklęcie serwera na kryty - wolno je nakładać na
+        // zbroję, narzędzia i bronie; jedyny zakaz to tarcza.
+        if (ench.getKey().getKey().equals("fortune")) {
+            return target.getType() != Material.SHIELD;
+        }
         Material type = target.getType();
         boolean weapon = type == Material.BOW || type == Material.CROSSBOW || type == Material.TRIDENT
                 || type.name().endsWith("_SWORD") || type.name().endsWith("_AXE");
@@ -2054,15 +2059,14 @@ public class ShopGUI {
         return true;
     }
 
-    /** Zaklęcia, które można nałożyć TYLKO na broń (Szczęście/Fortune, Uderzenie/Punch):
-     *  w GUI wyboru celu sloty zbroi są zablokowane, a kliknięcia w nie są ignorowane -
-     *  książka nie może się zmarnować na zbroję (Fortune na zbroi nic nie daje). */
+    /** Zaklęcia, które można nałożyć TYLKO na broń (Uderzenie/Punch):
+     *  w GUI wyboru celu sloty zbroi są zablokowane, a kliknięcia w nie są ignorowane. */
     public boolean isWeaponRestrictedEnchant(ShopItem item) {
         if (item == null || item.getType() != ShopItemType.ENCHANT || item.getEnchantment() == null) {
             return false;
         }
         String key = item.getEnchantment().getKey().getKey();
-        return key.equals("fortune") || key.equals("punch");
+        return key.equals("punch");
     }
 
     /** Czy slot w GUI wyboru celu zaklęcia to zbroja (helmet/klata/spodnie/buty)? */
