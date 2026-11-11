@@ -2355,6 +2355,13 @@ public class ShopGUI {
                 .build();
     }
 
+    /** Uzupełnia nazwę spacjami do stałej szerokości, żeby znaczniki były w kolumnie. */
+    private static String padRight(String value, int width) {
+        StringBuilder out = new StringBuilder(value);
+        while (out.length() < width) out.append(' ');
+        return out.toString();
+    }
+
     /**
      * Wiersze „klasa + ✔/✖” dla przedmiotu. Pusta lista, gdy żadna klasa nie ma zakazu
      * (przedmiot jest dla wszystkich i nie warto rozwijać opisu).
@@ -2371,10 +2378,12 @@ public class ShopGUI {
                     .ruleFor(kitId).allowsPurchase(item.getId());
             if (!allowed) anyDenied = true;
 
-            // localizedName ma własne kolory klas (np. §cWojownik) - tu chcemy szary.
+            // localizedName ma własne kolory klas (np. §cWojownik) - nazwa dostaje
+            // kolor nagłówka (§8, ciemny szary), a własna klasa jest pogrubiona.
             String name = kit.localizedName(player).replaceAll("§.", "");
-            String nameColor = kitId.equalsIgnoreCase(viewerKit) ? "§7§l" : "§7";
-            rows.add(nameColor + name + " " + (allowed ? "§a✔" : "§c✖"));
+            String nameColor = kitId.equalsIgnoreCase(viewerKit) ? "§8§l" : "§8";
+            // Stała szerokość + odstęp: znaczniki stoją w jednej kolumnie po prawej.
+            rows.add(nameColor + padRight(name, 10) + "§r  " + (allowed ? "§a✔" : "§c✖"));
         }
         return anyDenied ? rows : List.of();
     }
@@ -2444,7 +2453,6 @@ public class ShopGUI {
                 : List.of();
         if (!classLore.isEmpty()) {
             lore.add("");
-            lore.add(Lang.get(player, "shop-classes-header"));
             lore.addAll(classLore);
         }
         if (classRulesApply && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {

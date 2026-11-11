@@ -180,7 +180,6 @@ public final class Lang {
         put("shop-click-buy", "§aKliknij, aby kupić", "§aClick to buy");
         put("shop-class-locked", "§cNie dla Twojej klasy (§e{0}§c)",
                 "§cNot for your class (§e{0}§c)");
-        put("shop-classes-header", "§8Klasy:", "§8Classes:");
         put("shop-click-upgrade", "§aKliknij, aby ulepszyć", "§aClick to upgrade");
         put("shop-next-page", "§eNastępna strona", "§eNext page");
         put("shop-prev-page", "§ePoprzednia strona", "§ePrevious page");
