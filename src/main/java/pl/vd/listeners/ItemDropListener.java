@@ -92,9 +92,8 @@ public class ItemDropListener implements Listener {
         ItemStack dropped = event.getItemDrop().getItemStack();
         if (dropped == null) return;
         if (PROTECTED.contains(dropped.getType())) {
+            // Cicho: przedmiot zostaje w ekwipunku, bez komunikatu na czacie (§1).
             event.setCancelled(true);
-            Player player = event.getPlayer();
-            pl.vd.util.AntiSpam.send(player, "§cNie możesz wyrzucić tego przedmiotu!");
         }
     }
 
