@@ -322,11 +322,14 @@ points-per-kill:
 # (min. 1 pkt). Np. 70 = 30% mniej: zombie (2 pkt) -> 1 pkt, ravager (50 pkt) -> 35 pkt.
 turret-kill-points-percent: 70
 
-# Mikstura szczęścia (efekt LUCK) - bonusy na czas jej trwania:
-#   - +% punktów za zabójstwa mobów (bezpośrednie i przez wieżyczki gracza),
+# Efekt szczęścia (LUCK) - bonusy na czas jego trwania:
+#   - szansa na bonusowe punkty za zabójstwa mobów zależy od poziomu:
+#     I 12%, II 24%, III 36%, IV 48%, V 60% (bezpośrednie i przez wieżyczki gracza),
+#   - bonusy sumują się z poziomem: I +1, II +2, III +4, IV +6, V +9 pkt,
 #   - szansa na Regenerację po otrzymaniu obrażeń (z dowolnego źródła).
 luck:
-  points-bonus-percent: 40        # +40% pkt za zabicie moba, gdy gracz ma efekt szczęścia
+  points-chance-percent-by-level: [12, 24, 36, 48, 60]
+  points-bonus-by-level: [1, 2, 4, 6, 9]
   regen-chance-percent: 8         # szansa na regenerację po otrzymaniu obrażeń (na trafienie)
   regen-level: 1                  # poziom regeneracji (1 = Regeneracja II)
   regen-duration-seconds: 3       # czas trwania regeneracji w sekundach

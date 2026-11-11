@@ -33,6 +33,10 @@ import pl.vd.game.MobSpawner;
 
 public class EntityListener implements Listener {
 
+    /** Domyślne wartości efektu Szczęścia dla poziomów I-V (config może je nadpisać). */
+    private static final int[] LUCK_CHANCES = {12, 24, 36, 48, 60};
+    private static final int[] LUCK_BONUSES = {1, 2, 4, 6, 9};
+
     private final VillagerDefensePlugin plugin;
 
     public EntityListener(VillagerDefensePlugin plugin) {
@@ -275,7 +279,8 @@ public class EntityListener implements Listener {
             int percent = plugin.getConfig().getInt("turret-kill-points-percent", 70);
             int points = (int) Math.floor(base * (percent / 100.0)); // pełne liczby, w dół
             if (points < 1) points = 1; // zawsze przynajmniej 1 pkt za zabójstwo wieżyczki
-            if (owner.hasPotionEffect(PotionEffectType.LUCK)) points = applyLuckPointsBonus(points);
+            PotionEffect luck = owner.getPotionEffect(PotionEffectType.LUCK);
+            if (luck != null) points = applyLuckPointsBonus(points, luck.getAmplifier() + 1);
             arena.addSessionPoints(owner.getUniqueId(), points);
             arena.addSessionKill(owner.getUniqueId());
             pl.vd.util.Lang.sendActionBar(owner, "kill-points-turret", points);
@@ -287,20 +292,27 @@ public class EntityListener implements Listener {
 
         int points = plugin.getConfig().getInt("points-per-kill." + entity.getType().name(),
                 plugin.getConfig().getInt("points-per-kill.DEFAULT", 2));
-        if (killer.hasPotionEffect(PotionEffectType.LUCK)) points = applyLuckPointsBonus(points);
+        PotionEffect luck = killer.getPotionEffect(PotionEffectType.LUCK);
+        if (luck != null) points = applyLuckPointsBonus(points, luck.getAmplifier() + 1);
 
         arena.addSessionPoints(killer.getUniqueId(), points);
         arena.addSessionKill(killer.getUniqueId());
         pl.vd.util.Lang.sendActionBar(killer, "kill-points", points);
     }
 
-    /** Bonus mikstury szczęścia (efekt LUCK): +luck.points-bonus-percent% punktów
-     *  za zabójstwo, zaokrąglone do najbliższej pełnej liczby (żeby zawsze było
-     *  widać wzrost, np. zombie 2 pkt -> 3 pkt przy 40%). */
-    private int applyLuckPointsBonus(int points) {
-        int percent = plugin.getConfig().getInt("luck.points-bonus-percent", 40);
-        if (percent <= 0) return points;
-        return (int) Math.round(points * (1 + percent / 100.0));
+    /** Efekt szczęścia (LUCK): na poziomie I-V daje 12/24/36/48/60% szansy
+     *  na bonusowe punkty za zabójstwo. Bonusy sumują się z poziomem:
+     *  I +1, II +2, III +4, IV +6, V +9 punktów (tabele z configu). */
+    private int applyLuckPointsBonus(int points, int level) {
+        int index = Math.min(level, LUCK_CHANCES.length) - 1;
+        if (index < 0) return points;
+
+        var chances = plugin.getConfig().getIntegerList("luck.points-chance-percent-by-level");
+        var bonuses = plugin.getConfig().getIntegerList("luck.points-bonus-by-level");
+        int chance = index < chances.size() ? chances.get(index) : LUCK_CHANCES[index];
+        int bonus = index < bonuses.size() ? bonuses.get(index) : LUCK_BONUSES[index];
+        if (chance <= 0 || Math.random() * 100.0 >= chance) return points;
+        return points + Math.max(0, bonus);
     }
 
     /** Mikstura szczęścia (efekt LUCK): gdy gracz na arenie dostanie obrażenia
