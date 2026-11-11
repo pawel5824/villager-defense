@@ -1508,7 +1508,9 @@ public class ShopGUI {
      */
     public void openEnchantTarget(Player player, Arena arena, ShopCategory category, ShopItem item, int page) {
         // zaklęcie zastrzeżone dla innej klasy - nie otwieramy GUI zakupu
-        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) return;
+        // (kategoria Zaklęcia jest wyłączona z zasad klas)
+        if (!isClassRulesExempt(item)
+                && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) return;
         ShopHolder holder = new ShopHolder(ShopHolder.ViewType.ENCHANT_TARGET, category, item, page);
         Inventory inv = Bukkit.createInventory(holder, ENCHANT_TARGET_SIZE,
                 Component.text(Lang.get(player, "enchant-target-title")));
@@ -1659,7 +1661,8 @@ public class ShopGUI {
         }
         // Zasady klas (class-rules.yml): przedmiot zastrzeżony dla innej klasy = brak zakupu.
         // Wyjątek: kategoria Jedzenie - każda klasa kupuje je bez ograniczeń.
-        if (!isFood(item) && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+        if (!isClassRulesExempt(item)
+                && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
             return;
         }
         int points = arena.getSessionPoints(player.getUniqueId());
@@ -1971,7 +1974,8 @@ public class ShopGUI {
         if (!arena.isPlaying(player)) {
             return false; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
         }
-        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+        if (!isClassRulesExempt(item)
+                && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
             return false; // zaklęcie zastrzeżone dla innej klasy - bez pobierania punktów
         }
         int targetSlot = resolveTargetSlot(player, guiSlot);
@@ -2375,11 +2379,18 @@ public class ShopGUI {
         return anyDenied ? rows : List.of();
     }
 
-    /** Czy przedmiot należy do kategorii Jedzenie (tam klasy nie ograniczają zakupów). */
-    private boolean isFood(ShopItem item) {
-        return item != null && categoryItems
-                .getOrDefault(ShopCategory.FOOD, Map.of())
-                .containsValue(item);
+    /**
+     * Kategorie, w których klasy nie ograniczają zakupów: Jedzenie, Inne i Zaklęcia.
+     * Tam każda klasa kupuje bez listy klas i bez blokady - także przyszłe pozycje.
+     */
+    private boolean isClassRulesExempt(ShopItem item) {
+        return inCategory(item, ShopCategory.FOOD)
+                || inCategory(item, ShopCategory.OTHER)
+                || inCategory(item, ShopCategory.ENCHANTS);
+    }
+
+    private boolean inCategory(ShopItem item, ShopCategory category) {
+        return item != null && categoryItems.getOrDefault(category, Map.of()).containsValue(item);
     }
 
     /** Nazwa klasy gracza w jego języku (opis przedmiotu zastrzeżonego dla klasy). */
@@ -2427,7 +2438,7 @@ public class ShopGUI {
         // Pod przedmiotem: która klasa może go kupić (✔ zielony / ✖ czerwony),
         // nazwy klas szare, własna klasa pogrubiona. Tylko gdy ktoś ma zakaz -
         // przy przedmiotach dla wszystkich nie zaśmiecamy opisu siedmioma liniami.
-        boolean classRulesApply = !isFood(item);
+        boolean classRulesApply = !isClassRulesExempt(item);
         List<String> classLore = classRulesApply
                 ? createClassAvailabilityLore(player, item)
                 : List.of();

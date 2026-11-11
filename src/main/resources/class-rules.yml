@@ -3,6 +3,8 @@
 # ETAP 2: sklep już blokuje zakup wg shop-allow/shop-deny - pozycja zostaje
 # widoczna, ale ma czerwony opis "Nie dla Twojej klasy". Listy use-* to na razie
 # definicje; blokada użycia przedmiotów dojdzie osobno.
+# Kategorie "Jedzenie", "Inne" i "Zaklęcia" są wyłączone z zasad klas -
+# tam każda klasa kupuje bez ograniczeń, niezależnie od wpisów niżej.
 #
 # Nowa klasa = nowa sekcja pod "classes"; kodu nie trzeba zmieniać.
 # Pusta lista = brak ograniczenia z tej strony.

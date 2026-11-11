@@ -14,6 +14,8 @@ zmian w Javie.
   czerwony opis „Nie dla Twojej klasy”. Nie pobiera też punktów.
 - **Użycie przedmiotów nadal nie jest blokowane** — `use-*` to na razie definicje.
 - Podgląd w grze: `/def klasy` (uprawnienie `vd.admin`), przeładowanie: `/def reload`.
+- Kategorie **Jedzenie**, **Inne** i **Zaklęcia** są wyłączone z zasad klas — tam każda
+  klasa kupuje bez ograniczeń, nawet gdyby wzorzec `shop-deny` pasował do ID.
 
 ## Format
 
