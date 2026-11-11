@@ -101,7 +101,7 @@ public class ArmorWeightManager {
             fallback = 2.5;
         } else if (name.startsWith("CHAINMAIL_")) {
             key = "chainmail";
-            fallback = 4.0;
+            fallback = 11.0;
         } else if (name.startsWith("COPPER_")) {
             key = "copper";
             fallback = 7.0;

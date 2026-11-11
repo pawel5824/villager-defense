@@ -337,10 +337,10 @@ luck:
 # Obciążenie zbroi na arenie: kara do prędkości ruchu w procentach.
 # Wartość to kara dla CAŁEGO zestawu; części dostają:
 # hełm 15%, klata 40%, spodnie 30%, buty 15%.
-# Kolejność celowa: chainmail < miedź < złoto < żelazo < diament < netheryt.
+# Kolejność celowa: skóra < miedź < złoto < chainmail < żelazo < diament < netheryt.
 armor-weight:
   leather: 2.5
-  chainmail: 4.0
+  chainmail: 11.0
   copper: 7.0
   gold: 9.0
   iron: 13.0
