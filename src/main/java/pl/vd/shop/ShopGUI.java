@@ -53,7 +53,7 @@ public class ShopGUI {
     private static final int FOOD_BULK_FIRST_SLOT = 2;
     private static final int[] FOOD_BULK_QUANTITIES = {1, 5, 16, 32, 64};
     /** Nether star w panelu hurtowym: slot 14 w grze (indeks 13). */
-    public static final int FOOD_BULK_EXIT_SLOT = 13;
+    public static final int FOOD_BULK_BACK_SLOT = 13;
     /** Emerald z punktami: slot 18 w grze (indeks 17). */
     public static final int FOOD_BULK_POINTS_SLOT = 17;
 
@@ -1490,17 +1490,17 @@ public class ShopGUI {
                             Lang.get(player, "shop-click-buy")))
                     .build());
         }
-        inv.setItem(FOOD_BULK_EXIT_SLOT, createFoodBulkExit(player));
+        inv.setItem(FOOD_BULK_BACK_SLOT, createFoodBulkBack(player));
         int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
         inv.setItem(FOOD_BULK_POINTS_SLOT, createPointsItem(player, points));
         player.openInventory(inv);
     }
 
-    /** Nether star zamykający panel hurtowego zakupu jedzenia. */
-    private ItemStack createFoodBulkExit(Player player) {
+    /** Nether star wracający z panelu hurtowego do zakładki jedzenia. */
+    private ItemStack createFoodBulkBack(Player player) {
         return new ItemBuilder(Material.NETHER_STAR, 1)
-                .name(Lang.get(player, "shop-exit"))
-                .lore(List.of(Lang.get(player, "shop-food-bulk-exit-lore")))
+                .name(Lang.get(player, "shop-food-bulk-back"))
+                .lore(List.of(Lang.get(player, "shop-food-bulk-back-lore")))
                 .build();
     }
 

@@ -95,8 +95,9 @@ public class ShopListener implements Listener {
         }
 
         if (holder.getViewType() == ShopHolder.ViewType.FOOD_BULK) {
-            if (slot == ShopGUI.FOOD_BULK_EXIT_SLOT) {
-                player.closeInventory();
+            if (slot == ShopGUI.FOOD_BULK_BACK_SLOT) {
+                // Nether star nie zamyka sklepu - wraca do zakładki jedzenia.
+                shopGUI.openCategory(player, arena, holder.getCategory(), holder.getPage());
                 return;
             }
             if (slot == ShopGUI.FOOD_BULK_POINTS_SLOT) return; // tylko podgląd punktów
