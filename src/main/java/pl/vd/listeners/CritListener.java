@@ -56,10 +56,10 @@ public class CritListener implements Listener {
         double multiplier;
         if (ranged) {
             if (!plugin.getConfig().getBoolean("crits.ranged-enabled", true)) return;
-            chance = plugin.getConfig().getDouble("crits.ranged-chance-percent", 5.0);
+            chance = plugin.getConfig().getDouble("crits.ranged-chance-percent", 4.0);
             multiplier = plugin.getConfig().getDouble("crits.ranged-damage-multiplier", 1.5);
         } else {
-            chance = plugin.getConfig().getDouble("crits.chance-percent", 5.0);
+            chance = plugin.getConfig().getDouble("crits.chance-percent", 4.0);
             multiplier = plugin.getConfig().getDouble("crits.damage-multiplier", 1.5);
         }
 

@@ -222,13 +222,13 @@ health-display-style: bar
 # (chance-percent) stać się ciosem krytycznym - zadaje bonusowe obrażenia
 # (damage-multiplier) i nie odrzuca moba (no-knockback), jak waniliowy kryt z wyskoku.
 crits:
-  chance-percent: 5.0
+  chance-percent: 4.0
   damage-multiplier: 1.5
   no-knockback: true
   # Krytyczne obrażenia ze strzał (łucznik i inne klasy strzelające łukiem/kuszą):
   # osobna szansa i mnożnik dla pocisków (strzały, trójzęby).
   ranged-enabled: true
-  ranged-chance-percent: 5.0
+  ranged-chance-percent: 4.0
   ranged-damage-multiplier: 1.5
   # Zaklęcie Szczęście (w sklepie = Fortune, fortune_1) na broni zwiększa szansę
   # na kryta o tyle % za poziom: miecz/siekiera/trójząb (cios wręcz) albo łuk/kusza
