@@ -2557,13 +2557,6 @@ public class ShopGUI {
         return false;
     }
 
-    /** Nazwa klasy gracza w jego języku (opis przedmiotu zastrzeżonego dla klasy). */
-    private String className(Player player) {
-        String kitId = plugin.getKitManager().getChosenKitId(player);
-        var kit = plugin.getKitManager().getKit(kitId);
-        return kit != null ? kit.localizedName(player) : kitId;
-    }
-
     private ItemStack createShopItemIcon(ShopItem item, Player player) {
         List<String> lore = new ArrayList<>();
         // Zaklęcia NIE pokazują ceny na książce - cena jest dopiero w GUI wyboru
@@ -2611,12 +2604,12 @@ public class ShopGUI {
             lore.add("");
             lore.addAll(classLore);
         }
-        if (playing && classRulesApply
-                && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
-            // Widoczne, ale jasno oznaczone - gracz wie, że to pozycja innej klasy.
-            lore.add("");
-            lore.add(Lang.get(player, "shop-class-locked", className(player)));
-        } else {
+        // Czerwonej linii „Nie dla Twojej klasy (...)” celowo tu nie ma:
+        // lista klas ✔/✖ powyżej wystarcza, a przy zakazie kliknięcie i tak
+        // niczego nie kupuje. Podpowiedź o zakupie zostaje tylko tam, gdzie
+        // gracz naprawdę może kupić.
+        if (!playing || !classRulesApply
+                || plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
             lore.add("");
             lore.add(Lang.get(player, "shop-click-buy"));
         }
