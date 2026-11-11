@@ -106,8 +106,8 @@ public class ItemDropListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         if (isRaftWorld(player)) return; // w RAFT zdejmowanie dozwolone
         if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
+            // Cicho: zbroja zostaje w slocie, bez komunikatu na czacie (§1).
             event.setCancelled(true);
-            pl.vd.util.AntiSpam.send(player, "§cNie możesz zdjąć zbroi!");
         }
     }
 
