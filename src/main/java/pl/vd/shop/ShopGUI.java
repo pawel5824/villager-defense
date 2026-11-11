@@ -1504,9 +1504,12 @@ public class ShopGUI {
     }
 
     private String foodDisplayName(Player player, ShopItem item) {
-        return item.getDisplayName() != null
-                ? Lang.getOr(player, "shop-item-" + item.getId(), item.getDisplayName())
+        String fallback = item.getDisplayName() != null
+                ? item.getDisplayName()
                 : "§f" + prettify(item.getMaterial().name());
+        // Nawet bez name: w configu bierzemy tłumaczenie po id (np. cooked_chicken
+        // -> „Pieczony kurczak"), tak jak robi to ikona w kategorii.
+        return Lang.getOr(player, "shop-item-" + item.getId(), fallback);
     }
 
     /** Slot strzałki „wstecz" dla kategorii: 48 (obok nether star) dla Bronie i Inne, 45 dla reszty. */
