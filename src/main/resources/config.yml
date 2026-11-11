@@ -998,7 +998,7 @@ shop:
           name: "§fPrzywołaj Nadzorce"
           price: 900
           amount: 1
-          slot: 25
+          slot: 24
         # --- Strona 2 (nowe GUI) ---
         # Slot 45+ = kolejna strona kategorii. TUTAJ dodawaj przedmioty dla strony 2.
         tnt:
@@ -1006,11 +1006,11 @@ shop:
           material: TNT
           price: 50
           amount: 1
-          slot: 45
+          slot: 55
         landmine:
           type: MINE
           price: 1
-          slot: 48
+          slot: 58
         wiezyczka:
           # Wieżyczka-obrona: kupujesz patyk „Zwykła Wieżyczka Strzelnicza", prawy klik = postawienie
           # (id = nazwa zapisu stojaka w plugins/.../stojaki/wiezyczka.yml).
@@ -1019,14 +1019,14 @@ shop:
           type: TURRET
           name: "Zwykła Wieżyczka Strzelnicza"
           price: 10
-          slot: 46
+          slot: 56
         wiezyczka_maga:
           # Wieżyczka Magii: jak zwykła wieżyczka, ale z animowaną kryształową kulą
           # (zapis stojaka wiezyczka_maga.yml). name: = nazwa przedmiotu po zakupie.
           type: TURRET
           name: "Wieżyczka Magii"
           price: 10
-          slot: 47
+          slot: 57
         peleryna_cienia:
           # Biały sztandar - „Peleryna Cienia" (kosmetyk/klasa).
           type: ITEM
@@ -1034,7 +1034,7 @@ shop:
           name: "§fPeleryna Cienia"
           price: 100
           amount: 1
-          slot: 47
+          slot: 59
     effects:
       items:
         speed:
