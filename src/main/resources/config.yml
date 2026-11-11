@@ -371,61 +371,61 @@ shop:
         bread:
           type: ITEM
           material: BREAD
-          price: 10
+          price: 5
           amount: 1
           slot: 11
         baked_potato:
           type: ITEM
           material: BAKED_POTATO
-          price: 25
+          price: 5
           amount: 1
           slot: 12
         cooked_porkchop:
           type: ITEM
           material: COOKED_PORKCHOP
-          price: 40
+          price: 10
           amount: 1
           slot: 13
         cooked_beef:
           type: ITEM
           material: COOKED_BEEF
-          price: 40
+          price: 10
           amount: 1
           slot: 14
         cooked_mutton:
           type: ITEM
           material: COOKED_MUTTON
-          price: 30
+          price: 7
           amount: 1
           slot: 15
         cooked_chicken:
           type: ITEM
           material: COOKED_CHICKEN
-          price: 35
+          price: 8
           amount: 1
           slot: 20
         cooked_rabbit:
           type: ITEM
           material: COOKED_RABBIT
-          price: 35
+          price: 7
           amount: 1
           slot: 21
         golden_carrot:
           type: ITEM
           material: GOLDEN_CARROT
-          price: 150
+          price: 20
           amount: 1
           slot: 22
         golden_apple:
           type: ITEM
           material: GOLDEN_APPLE
-          price: 350
+          price: 70
           amount: 1
           slot: 23
         enchanted_golden_apple:
           type: ITEM
           material: ENCHANTED_GOLDEN_APPLE
-          price: 600
+          price: 180
           amount: 1
           slot: 24
     swords:
