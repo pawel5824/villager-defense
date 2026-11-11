@@ -2385,7 +2385,8 @@ public class ShopGUI {
             // Znacznik zawsze startuje w tej samej kolumnie: krótsza nazwa dostaje
             // więcej spacji, więc ✔/✖ stoją równo nad i pod sobą. Spacje po §r
             // nie są pogrubione, żeby własna klasa nie przesuwała kolumny.
-            int gap = Math.max(2, CLASS_LORE_COLUMN - name.length());
+            // Odstęp skrócony do 1/4 poprzedniego (min. 1 spacja): znaczniki bliżej nazw.
+            int gap = Math.max(1, (CLASS_LORE_COLUMN - name.length()) / 4);
             rows.add(nameColor + name + "§r" + " ".repeat(gap)
                     + (allowed ? "§a✔" : "§c✖"));
         }

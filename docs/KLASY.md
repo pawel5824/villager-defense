@@ -44,7 +44,7 @@ wpisu, nigdy crash.
 |---|---|
 | Tarcza | wojownik, tank, inżynier |
 | Łuk, kusza, karabin | łucznik |
-| Proca | łucznik, wojownik, asasyn, inżynier (tank/magik/medyk bez zmian) |
+| Proca | łucznik, wojownik, asasyn, inżynier |
 | Miecze i topory | wszyscy poza łucznikiem, magikiem i medykiem |
 | Trójząb | bez ograniczeń (świadomie pominięty) |
 

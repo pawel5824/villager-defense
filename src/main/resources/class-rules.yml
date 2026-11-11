@@ -94,7 +94,9 @@ classes:
 
   tank:
     use-deny: []
-    shop-deny: []
+    shop-deny:
+      # Proca jest tylko dla łucznika, wojownika, asasyna i inżyniera.
+      - "proca"
 
   magik:
     use-deny:
@@ -104,6 +106,7 @@ classes:
       - "*_sword"
       - "*_axe"
       - "shield"
+      - "proca"
 
   medyk:
     use-deny:
@@ -113,6 +116,7 @@ classes:
       - "*_sword"
       - "*_axe"
       - "shield"
+      - "proca"
 
   assassin:
     use-deny: []
