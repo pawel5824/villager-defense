@@ -25,6 +25,7 @@ public final class ClassRule {
     private final Set<Material> useExcept;
     private final Set<Material> useDeny;
     private final List<String> shopAllow;
+    private final List<String> shopExcept;
     private final List<String> shopDeny;
 
     public ClassRule(String kitId,
@@ -32,18 +33,20 @@ public final class ClassRule {
                      Set<Material> useExcept,
                      Set<Material> useDeny,
                      List<String> shopAllow,
+                     List<String> shopExcept,
                      List<String> shopDeny) {
         this.kitId = kitId;
         this.useAllow = new LinkedHashSet<>(useAllow);
         this.useExcept = new LinkedHashSet<>(useExcept);
         this.useDeny = new LinkedHashSet<>(useDeny);
         this.shopAllow = List.copyOf(shopAllow);
+        this.shopExcept = List.copyOf(shopExcept);
         this.shopDeny = List.copyOf(shopDeny);
     }
 
     /** Klasa bez żadnych reguł - wszystko dozwolone (domyślne dla nowych klas). */
     public static ClassRule allowAll(String kitId) {
-        return new ClassRule(kitId, Set.of(), Set.of(), Set.of(), List.of(), List.of());
+        return new ClassRule(kitId, Set.of(), Set.of(), Set.of(), List.of(), List.of(), List.of());
     }
 
     public String getKitId() { return kitId; }
@@ -52,6 +55,7 @@ public final class ClassRule {
     public Set<Material> getUseExcept() { return Set.copyOf(useExcept); }
     public Set<Material> getUseDeny() { return Set.copyOf(useDeny); }
     public List<String> getShopAllow() { return shopAllow; }
+    public List<String> getShopExcept() { return shopExcept; }
     public List<String> getShopDeny() { return shopDeny; }
 
     public boolean hasUseRules() {
@@ -73,6 +77,7 @@ public final class ClassRule {
     /** Czy klasa może kupić wpis sklepu o tym ID (klucz z config.yml). */
     public boolean allowsPurchase(String itemId) {
         if (itemId == null || itemId.isEmpty()) return true;
+        if (shopExcept.stream().anyMatch(p -> matches(p, itemId))) return true;
         if (!shopAllow.isEmpty() && shopAllow.stream().noneMatch(p -> matches(p, itemId))) {
             return false;
         }
@@ -96,7 +101,8 @@ public final class ClassRule {
                 + ", zakaz " + useDeny.size()
                 + (useExcept.isEmpty() ? "" : ", wyjątki " + useExcept.size());
         String shop = (shopAllow.isEmpty() ? "wszystko" : "tylko " + shopAllow.size())
-                + ", zakaz " + shopDeny.size();
+                + ", zakaz " + shopDeny.size()
+                + (shopExcept.isEmpty() ? "" : ", wyjątki " + shopExcept.size());
         return "§e" + kitId + "§7 - użycie: " + use + " §8| §7sklep: " + shop;
     }
 }

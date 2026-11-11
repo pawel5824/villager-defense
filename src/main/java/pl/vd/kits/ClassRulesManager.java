@@ -106,6 +106,7 @@ public class ClassRulesManager {
                     resolveMaterials(classSection.getStringList("use-except"), path + ".use-except"),
                     resolveMaterials(classSection.getStringList("use-deny"), path + ".use-deny"),
                     classSection.getStringList("shop-allow"),
+                    classSection.getStringList("shop-except"),
                     classSection.getStringList("shop-deny"));
             rules.put(kitId.toLowerCase(Locale.ROOT), rule);
         }

@@ -73,11 +73,16 @@ classes:
     # wpisz je w shop-deny (np. "mikstura_maga_*"). Wspólnych nie ruszaj, bo
     # wojownik dostaje od nas miksturę siły.
     use-deny: []
+    shop-except:
+      # Zwykła i widmowa strzała są dostępne dla każdej klasy.
+      - "arrow"
+      - "spectral_arrow"
     shop-deny:
       # Broń dystansowa: wojownik ma tylko procę (nie łuk/kuszę/karabin).
       - "bow"
       - "crossbow"
       - "karabin"
+      - "*arrow*"
 
   lucznik:
     # Sztylet łucznika to WOODEN_SWORD pod własną nazwą, dlatego jest wyjątkiem.
@@ -94,43 +99,63 @@ classes:
 
   tank:
     use-deny: []
+    shop-except:
+      - "arrow"
+      - "spectral_arrow"
     shop-deny:
       # Proca jest tylko dla łucznika, wojownika, asasyna i inżyniera.
       - "proca"
+      - "*arrow*"
 
   magik:
     use-deny:
       - "@swords"
       - "@axes"
+    shop-except:
+      - "arrow"
+      - "spectral_arrow"
     shop-deny:
       - "*_sword"
       - "*_axe"
       - "shield"
       - "proca"
+      - "*arrow*"
 
   medyk:
     use-deny:
       - "@swords"
       - "@axes"
+    shop-except:
+      - "arrow"
+      - "spectral_arrow"
     shop-deny:
       - "*_sword"
       - "*_axe"
       - "shield"
       - "proca"
+      - "*arrow*"
 
   assassin:
     use-deny: []
+    shop-except:
+      - "arrow"
+      - "spectral_arrow"
     shop-deny:
       # Tylko proca z broni dystansowej + tarcza jest niedostępna.
       - "bow"
       - "crossbow"
       - "karabin"
       - "shield"
+      - "*arrow*"
 
   inzynier:
     use-deny: []
+    shop-except:
+      - "arrow"
+      - "spectral_arrow"
     shop-deny:
       # Tylko proca z broni dystansowej; tarczę może kupić.
       - "bow"
       - "crossbow"
       - "karabin"
+      - "*arrow*"

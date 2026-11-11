@@ -29,6 +29,7 @@ classes:
     use-allow: []       # puste = wszystko; niepuste = tylko te materiały
     use-deny: ["@swords"]
     shop-allow: []      # puste = wszystkie wpisy
+    shop-except: []     # zawsze dozwolone (nadpisuje shop-deny)
     shop-deny: ["*_sword"]
 ```
 
@@ -46,6 +47,7 @@ wpisu, nigdy crash.
 | Łuk, kusza, karabin | łucznik |
 | Proca | łucznik, wojownik, asasyn, inżynier |
 | Miecze i topory | wszyscy poza łucznikiem, magikiem i medykiem |
+| Strzały poza zwykłą i widmową | łucznik; zwykła i widmowa dla wszystkich |
 | Trójząb | bez ograniczeń (świadomie pominięty) |
 
 ## Jak dodać klasę
