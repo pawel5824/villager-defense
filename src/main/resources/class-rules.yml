@@ -1,8 +1,8 @@
 # Zasady klas - jedno miejsce, w którym mówimy, co dana klasa może, a czego nie.
 #
-# ETAP 2: sklep już blokuje zakup wg shop-allow/shop-deny - pozycja zostaje
-# widoczna, ale ma czerwony opis "Nie dla Twojej klasy". Listy use-* to na razie
-# definicje; blokada użycia przedmiotów dojdzie osobno.
+# ETAP 2: sklep już blokuje zakup wg shop-allow/shop-deny i armor-max - pozycja
+# zostaje widoczna, ale przy swojej klasie ma czerwony znacznik ✖. Listy use-* to
+# na razie definicje; blokada użycia przedmiotów dojdzie osobno.
 # Kategorie "Jedzenie", "Inne", "Zaklęcia" i "Stałe efekty" są wyłączone
 # z zasad klas - tam każda klasa kupuje bez ograniczeń, niezależnie od wpisów niżej.
 #
@@ -14,6 +14,8 @@
 #   2. use-allow  - jeśli niepuste, tylko te materiały,
 #   3. use-deny   - zabrane na końcu.
 # Dla zakupów: shop-allow (whitelist ID wpisów sklepu) i shop-deny.
+# armor-max: najwyższy tier zbroi, jaki klasa może kupić:
+#   miedź < złoto < chainmail < żelazo < diament < netheryt.
 # "*" w ID = dowolny fragment, wielkość liter bez znaczenia.
 #
 # "@nazwa" oznacza grupę materiałów z sekcji "groups".
@@ -69,6 +71,7 @@ groups:
 classes:
 
   wojownik:
+    armor-max: netherite
     # Mikstury maga/medyka nie mają jeszcze osobnych ID w sklepie. Gdy powstaną,
     # wpisz je w shop-deny (np. "mikstura_maga_*"). Wspólnych nie ruszaj, bo
     # wojownik dostaje od nas miksturę siły.
@@ -85,6 +88,7 @@ classes:
       - "*arrow*"
 
   lucznik:
+    armor-max: chainmail
     # Sztylet łucznika to WOODEN_SWORD pod własną nazwą, dlatego jest wyjątkiem.
     use-except:
       - WOODEN_SWORD
@@ -98,6 +102,7 @@ classes:
       - "shield"
 
   tank:
+    armor-max: netherite
     use-deny: []
     shop-except:
       - "arrow"
@@ -111,6 +116,7 @@ classes:
       - "*arrow*"
 
   magik:
+    armor-max: iron
     use-deny:
       - "@swords"
       - "@axes"
@@ -128,6 +134,7 @@ classes:
       - "*arrow*"
 
   medyk:
+    armor-max: gold
     use-deny:
       - "@swords"
       - "@axes"
@@ -145,6 +152,7 @@ classes:
       - "*arrow*"
 
   assassin:
+    armor-max: iron
     use-deny: []
     shop-except:
       - "arrow"
@@ -158,6 +166,7 @@ classes:
       - "*arrow*"
 
   inzynier:
+    armor-max: gold
     use-deny: []
     shop-except:
       - "arrow"

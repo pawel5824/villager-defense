@@ -10,8 +10,10 @@ zmian w Javie.
 
 - Plik: `plugins/ServerPlugin/class-rules.yml` (kopiowany z JAR-a przy pierwszym starcie).
 - Loader: `pl.vd.kits.ClassRulesManager`, model: `pl.vd.kits.ClassRule`.
-- **Sklep blokuje zakup** wg `shop-allow`/`shop-deny`: pozycja zostaje w GUI, ale ma
-  czerwony opis „Nie dla Twojej klasy”. Nie pobiera też punktów.
+- **Sklep blokuje zakup** wg `shop-allow`/`shop-deny` oraz limitu zbroi `armor-max`:
+  pozycja zostaje w GUI, ale przy klasie bez dostępu ma czerwony znacznik ✖. Nie pobiera też punktów.
+- **Nie kupisz części słabszej** od tej, którą masz już na tym samym slocie. Ten sam tier
+  można kupić; puste miejsce i skóra nie blokują zakupu.
 - **Użycie przedmiotów nadal nie jest blokowane** — `use-*` to na razie definicje.
 - Podgląd w grze: `/def klasy` (uprawnienie `vd.admin`), przeładowanie: `/def reload`.
 - Kategorie **Jedzenie**, **Inne** i **Zaklęcia** są wyłączone z zasad klas — tam każda
@@ -25,6 +27,7 @@ groups:                 # grupy materiałów, używane jako @nazwa
   swords: [IRON_SWORD, DIAMOND_SWORD]
 classes:
   wojownik:
+    armor-max: iron     # najwyższy tier zbroi, jaki klasa może kupić
     use-except: []      # zawsze dozwolone (np. własna broń klasy)
     use-allow: []       # puste = wszystko; niepuste = tylko te materiały
     use-deny: ["@swords"]
@@ -35,6 +38,15 @@ classes:
 
 Kolejność użycia: `use-except` → `use-allow` → `use-deny`. Dla sklepu: `shop-allow` →
 `shop-deny`. W `shop-*` działa `*` (dowolny fragment ID), bez znaczenia wielkości liter.
+
+`armor-max` to osobny górny próg. Kolejność tierów:
+
+```text
+miedź < złoto < chainmail < żelazo < diament < netheryt
+```
+
+Klasa może kupić swoją maksymalną zbroję i wszystkie słabsze. Brak `armor-max` w starym
+pliku = brak limitu (zgodność wstecz). Skóra nie ma tieru i nigdy nie blokuje zakupu.
 
 Błędny wpis (nieznana klasa, grupa, materiał) = jedno ostrzeżenie w logu i pominięcie
 wpisu, nigdy crash.
@@ -50,6 +62,21 @@ wpisu, nigdy crash.
 | Miecze i topory | wszyscy poza łucznikiem, magikiem i medykiem |
 | Strzały poza zwykłą i widmową | łucznik; zwykła i widmowa dla wszystkich |
 | Trójząb | bez ograniczeń (świadomie pominięty) |
+
+## Limity zbroi (2026-11-11)
+
+| Klasa | Najmocniejsza zbroja | Może kupić |
+|---|---|---|
+| Wojownik | netheryt | miedź, złoto, chainmail, żelazo, diament, netheryt |
+| Tank | netheryt | miedź, złoto, chainmail, żelazo, diament, netheryt |
+| Magik | żelazo | miedź, złoto, chainmail, żelazo |
+| Łucznik | chainmail | miedź, złoto, chainmail |
+| Medyk | złoto | miedź, złoto (może mieszać części) |
+| Asasyn | żelazo | miedź, złoto, chainmail, żelazo |
+| Inżynier | złoto | miedź, złoto |
+
+Kontrola jest przy zakupie, nie przy zakładaniu: posiadana mocniejsza zbroja nie jest
+zabierana, ale nie da się jej wymienić na słabszą część z tego samego slotu.
 
 ## Jak dodać klasę
 

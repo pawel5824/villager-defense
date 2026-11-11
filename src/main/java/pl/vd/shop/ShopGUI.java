@@ -24,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import pl.vd.VillagerDefensePlugin;
 import pl.vd.arena.Arena;
+import pl.vd.kits.ArmorTier;
 import pl.vd.kits.Kit;
 import pl.vd.stand.ArmorStandTuner;
 import pl.vd.stand.StandPreset;
@@ -1757,6 +1758,10 @@ public class ShopGUI {
                 && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
             return;
         }
+        // Limit zbroi klasy + zakaz kupna słabszej części na tym samym slocie.
+        if (!canBuyArmor(player, item)) {
+            return;
+        }
         int points = arena.getSessionPoints(player.getUniqueId());
         if (points < item.getPrice()) {
             Lang.sendActionBar(player, "not-enough-points");
@@ -2511,11 +2516,14 @@ public class ShopGUI {
                 ? plugin.getKitManager().getChosenKitId(player)
                 : null;
 
+        boolean armorItem = isArmorPurchase(item);
+        int armorTier = armorItem ? ArmorTier.of(item.getMaterial()) : ArmorTier.NONE;
         for (String kitId : KIT_SLOTS_ORDER) {
             var kit = plugin.getKitManager().getKit(kitId);
             if (kit == null) continue; // klasa w pliku, ale nie ma jej w kodzie
-            boolean allowed = plugin.getClassRulesManager()
-                    .ruleFor(kitId).allowsPurchase(item.getId());
+            var rule = plugin.getClassRulesManager().ruleFor(kitId);
+            boolean allowed = rule.allowsPurchase(item.getId())
+                    && (!armorItem || rule.allowsArmorTier(armorTier));
             if (!allowed) anyDenied = true;
 
             // localizedName ma własne kolory klas (np. §cWojownik) - nazwa dostaje
@@ -2547,6 +2555,35 @@ public class ShopGUI {
 
     private boolean inCategory(ShopItem item, ShopCategory category) {
         return item != null && categoryItems.getOrDefault(category, Map.of()).containsValue(item);
+    }
+
+    /** Czy to część zbroi z kategorii "Zbroje" (tarcza i inne przedmioty nie łapią się). */
+    private boolean isArmorPurchase(ShopItem item) {
+        return item != null
+                && item.getType() == ShopItemType.ITEM
+                && inCategory(item, ShopCategory.ARMOR)
+                && ArmorTier.of(item.getMaterial()) > ArmorTier.NONE;
+    }
+
+    /**
+     * Limit klasy + zakaz downgrade'u na tym samym slocie. Puste miejsce i skóra
+     * nie blokują zakupu; ten sam tier można kupić, bo nie jest słabszy.
+     */
+    private boolean canBuyArmor(Player player, ShopItem item) {
+        if (!isArmorPurchase(item)) return true;
+        int tier = ArmorTier.of(item.getMaterial());
+        if (!plugin.getClassRulesManager().allowsArmorTier(player, tier)) return false;
+        return currentArmorTier(player, item.getMaterial()) <= tier;
+    }
+
+    private int currentArmorTier(Player player, Material material) {
+        ItemStack current = null;
+        String name = material.name();
+        if (name.endsWith("_HELMET")) current = player.getInventory().getHelmet();
+        else if (name.endsWith("_CHESTPLATE")) current = player.getInventory().getChestplate();
+        else if (name.endsWith("_LEGGINGS")) current = player.getInventory().getLeggings();
+        else if (name.endsWith("_BOOTS")) current = player.getInventory().getBoots();
+        return current == null ? ArmorTier.NONE : ArmorTier.of(current.getType());
     }
 
     /** Czy gracz aktualnie gra na dowolnej arenie (a nie tylko ogląda sklep)? */
@@ -2609,7 +2646,8 @@ public class ShopGUI {
         // niczego nie kupuje. Podpowiedź o zakupie zostaje tylko tam, gdzie
         // gracz naprawdę może kupić.
         if (!playing || !classRulesApply
-                || plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+                || (plugin.getClassRulesManager().allowsPurchase(player, item.getId())
+                    && canBuyArmor(player, item))) {
             lore.add("");
             lore.add(Lang.get(player, "shop-click-buy"));
         }

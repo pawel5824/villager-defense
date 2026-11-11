@@ -9,18 +9,16 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * Definicja jednej klasy: czego może używać i co może kupić.
- *
- * Etap 1 systemu klas: ten obiekt tylko przechowuje reguły i odpowiada na pytania.
- * Nie jest jeszcze nigdzie podłączony do sklepu ani do użycia przedmiotów, więc
- * samo wczytanie pliku nie zmienia rozgrywki - to fundament pod blokady (etap 2).
+ * Definicja jednej klasy: czego może używać, co może kupić i do jakiego tieru zbroi.
  *
  * Kolejność dla użycia: use-except (zawsze wolno) → use-allow (whitelist) → use-deny.
  * Dla zakupów: shop-allow (whitelist ID) → shop-deny. Wzorzec "*" = dowolny fragment.
+ * Limit zbroi jest osobnym, górnym progiem (armor-max w class-rules.yml).
  */
 public final class ClassRule {
 
     private final String kitId;
+    private final int maxArmorTier;
     private final Set<Material> useAllow;
     private final Set<Material> useExcept;
     private final Set<Material> useDeny;
@@ -29,6 +27,7 @@ public final class ClassRule {
     private final List<String> shopDeny;
 
     public ClassRule(String kitId,
+                     int maxArmorTier,
                      Set<Material> useAllow,
                      Set<Material> useExcept,
                      Set<Material> useDeny,
@@ -36,6 +35,7 @@ public final class ClassRule {
                      List<String> shopExcept,
                      List<String> shopDeny) {
         this.kitId = kitId;
+        this.maxArmorTier = maxArmorTier;
         this.useAllow = new LinkedHashSet<>(useAllow);
         this.useExcept = new LinkedHashSet<>(useExcept);
         this.useDeny = new LinkedHashSet<>(useDeny);
@@ -46,10 +46,18 @@ public final class ClassRule {
 
     /** Klasa bez żadnych reguł - wszystko dozwolone (domyślne dla nowych klas). */
     public static ClassRule allowAll(String kitId) {
-        return new ClassRule(kitId, Set.of(), Set.of(), Set.of(), List.of(), List.of(), List.of());
+        return new ClassRule(kitId, ArmorTier.NO_LIMIT, Set.of(), Set.of(), Set.of(),
+                List.of(), List.of(), List.of());
     }
 
     public String getKitId() { return kitId; }
+
+    public int getMaxArmorTier() { return maxArmorTier; }
+
+    /** Czy klasa może kupić część o tym tierze (limit obejmuje sam szczyt). */
+    public boolean allowsArmorTier(int tier) {
+        return maxArmorTier == ArmorTier.NO_LIMIT || tier <= maxArmorTier;
+    }
 
     public Set<Material> getUseAllow() { return Set.copyOf(useAllow); }
     public Set<Material> getUseExcept() { return Set.copyOf(useExcept); }
@@ -103,6 +111,7 @@ public final class ClassRule {
         String shop = (shopAllow.isEmpty() ? "wszystko" : "tylko " + shopAllow.size())
                 + ", zakaz " + shopDeny.size()
                 + (shopExcept.isEmpty() ? "" : ", wyjątki " + shopExcept.size());
-        return "§e" + kitId + "§7 - użycie: " + use + " §8| §7sklep: " + shop;
+        return "§e" + kitId + "§7 - użycie: " + use + " §8| §7sklep: " + shop
+                + " §8| §7zbroja: §e" + ArmorTier.name(maxArmorTier);
     }
 }

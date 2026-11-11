@@ -100,8 +100,18 @@ public class ClassRulesManager {
             }
 
             String path = "classes." + kitId;
+            int maxArmorTier = ArmorTier.NO_LIMIT;
+            String rawArmorMax = classSection.getString("armor-max");
+            if (rawArmorMax != null && !rawArmorMax.isBlank()) {
+                maxArmorTier = ArmorTier.parse(rawArmorMax);
+                if (maxArmorTier == ArmorTier.UNKNOWN) {
+                    warn(path + ".armor-max", "nieznany tier zbroi '" + rawArmorMax + "'");
+                    maxArmorTier = ArmorTier.NO_LIMIT;
+                }
+            }
             ClassRule rule = new ClassRule(
                     kitId,
+                    maxArmorTier,
                     resolveMaterials(classSection.getStringList("use-allow"), path + ".use-allow"),
                     resolveMaterials(classSection.getStringList("use-except"), path + ".use-except"),
                     resolveMaterials(classSection.getStringList("use-deny"), path + ".use-deny"),
@@ -161,6 +171,11 @@ public class ClassRulesManager {
     /** Gotowe pytanie dla etapu 2: czy gracz może kupić ten wpis sklepu. */
     public boolean allowsPurchase(Player player, String itemId) {
         return ruleFor(player).allowsPurchase(itemId);
+    }
+
+    /** Czy klasa gracza pozwala kupić część o tym tierze zbroi. */
+    public boolean allowsArmorTier(Player player, int tier) {
+        return ruleFor(player).allowsArmorTier(tier);
     }
 
     public Map<String, ClassRule> getRules() {
