@@ -46,6 +46,7 @@ wpisu, nigdy crash.
 | Tarcza | wojownik, tank, inżynier |
 | Łuk, kusza, karabin | łucznik |
 | Proca | łucznik, wojownik, asasyn, inżynier |
+| Broń dystansowa (tank, magik, medyk) | brak dostępu |
 | Miecze i topory | wszyscy poza łucznikiem, magikiem i medykiem |
 | Strzały poza zwykłą i widmową | łucznik; zwykła i widmowa dla wszystkich |
 | Trójząb | bez ograniczeń (świadomie pominięty) |

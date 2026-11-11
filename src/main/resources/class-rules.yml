@@ -103,7 +103,10 @@ classes:
       - "arrow"
       - "spectral_arrow"
     shop-deny:
-      # Proca jest tylko dla łucznika, wojownika, asasyna i inżyniera.
+      # Tank nie kupuje żadnej broni dystansowej (także procy).
+      - "bow"
+      - "crossbow"
+      - "karabin"
       - "proca"
       - "*arrow*"
 
@@ -118,6 +121,9 @@ classes:
       - "*_sword"
       - "*_axe"
       - "shield"
+      - "bow"
+      - "crossbow"
+      - "karabin"
       - "proca"
       - "*arrow*"
 
@@ -132,6 +138,9 @@ classes:
       - "*_sword"
       - "*_axe"
       - "shield"
+      - "bow"
+      - "crossbow"
+      - "karabin"
       - "proca"
       - "*arrow*"
 
