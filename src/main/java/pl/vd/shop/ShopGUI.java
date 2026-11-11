@@ -1658,8 +1658,8 @@ public class ShopGUI {
             return; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
         }
         // Zasady klas (class-rules.yml): przedmiot zastrzeżony dla innej klasy = brak zakupu.
-        // GUI pokazuje powód w opisie pozycji, więc kliknięcie nie potrzebuje komunikatu.
-        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+        // Wyjątek: kategoria Jedzenie - każda klasa kupuje je bez ograniczeń.
+        if (!isFood(item) && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
             return;
         }
         int points = arena.getSessionPoints(player.getUniqueId());
@@ -2375,6 +2375,13 @@ public class ShopGUI {
         return anyDenied ? rows : List.of();
     }
 
+    /** Czy przedmiot należy do kategorii Jedzenie (tam klasy nie ograniczają zakupów). */
+    private boolean isFood(ShopItem item) {
+        return item != null && categoryItems
+                .getOrDefault(ShopCategory.FOOD, Map.of())
+                .containsValue(item);
+    }
+
     /** Nazwa klasy gracza w jego języku (opis przedmiotu zastrzeżonego dla klasy). */
     private String className(Player player) {
         String kitId = plugin.getKitManager().getChosenKitId(player);
@@ -2420,13 +2427,16 @@ public class ShopGUI {
         // Pod przedmiotem: która klasa może go kupić (✔ zielony / ✖ czerwony),
         // nazwy klas szare, własna klasa pogrubiona. Tylko gdy ktoś ma zakaz -
         // przy przedmiotach dla wszystkich nie zaśmiecamy opisu siedmioma liniami.
-        List<String> classLore = createClassAvailabilityLore(player, item);
+        boolean classRulesApply = !isFood(item);
+        List<String> classLore = classRulesApply
+                ? createClassAvailabilityLore(player, item)
+                : List.of();
         if (!classLore.isEmpty()) {
             lore.add("");
             lore.add(Lang.get(player, "shop-classes-header"));
             lore.addAll(classLore);
         }
-        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
+        if (classRulesApply && !plugin.getClassRulesManager().allowsPurchase(player, item.getId())) {
             // Widoczne, ale jasno oznaczone - gracz wie, że to pozycja innej klasy.
             lore.add("");
             lore.add(Lang.get(player, "shop-class-locked", className(player)));
