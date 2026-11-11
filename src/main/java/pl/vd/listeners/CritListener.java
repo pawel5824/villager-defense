@@ -63,25 +63,24 @@ public class CritListener implements Listener {
             multiplier = plugin.getConfig().getDouble("crits.damage-multiplier", 1.5);
         }
 
-        // ZAKLĘCIE SZCZĘŚCIE (w sklepie = Fortune, fortune_1): każdy poziom dodaje
-        // crits.luck-bonus-per-level % do szansy na kryta. Działa na: mieczu/siekierze/
-        // trójzębie jako CIOS WRĘCZ (poziom z broni w ręce) i na łuku/kuszy (poziom
-        // zapisany na pocisku przy strzale w BowDamageListener, żeby działało nawet
-        // po zmianie broni w locie strzały). Rzucany trójząb NIE dostaje bonusu -
-        // Szczęście na trójzębie działa tylko jako cios wręcz.
+        // ZAKLĘCIE SZCZĘŚCIE (w sklepie = Fortune, fortune_1): przy ciosie wręcz
+        // każdy poziom dodaje crits.luck-bonus-per-level %. Strzały z łuku/kuszy
+        // mają osobną tabelę poziomów: crits.ranged-luck-bonus-by-level.
+        // Poziom strzału jest zapisany na pocisku przy strzale (BowDamageListener),
+        // żeby działał nawet po zmianie broni w locie strzały. Rzucany trójząb
+        // NIE dostaje bonusu - Szczęście na trójzębie działa tylko jako cios wręcz.
         double luckPerLevel = plugin.getConfig().getDouble("crits.luck-bonus-per-level", 5.0);
         if (ranged) {
             // Łuk/kusza (także proca): Szczęście liczy się od DYSTANSU strzału -
-            // za każde crits.ranged-luck-blocks-per-step bloków dodaje
-            // crits.ranged-luck-bonus-per-step % szansy (domyślnie 3% / 3 bloki).
+            // za każde crits.ranged-luck-blocks-per-step bloków dodaje bonus
+            // zależny od poziomu: I = 3%, II = 4%, III = 5%, IV = 6%, V = 7%.
             if (event.getDamager() instanceof PersistentDataHolder holder) {
                 int level = holder.getPersistentDataContainer().getOrDefault(
                         fortuneKey, PersistentDataType.INTEGER, 0);
                 if (level > 0) {
                     double stepBlocks = plugin.getConfig()
                             .getDouble("crits.ranged-luck-blocks-per-step", 3.0);
-                    double bonusPerStep = plugin.getConfig()
-                            .getDouble("crits.ranged-luck-bonus-per-step", 3.0);
+                    double bonusPerStep = rangedLuckBonus(level);
                     double distance = 0;
                     if (event.getDamager() instanceof org.bukkit.entity.AbstractArrow arrow
                             && arrow.getOrigin() != null
@@ -149,6 +148,21 @@ public class CritListener implements Listener {
         }
 
         pl.vd.util.AntiSpam.send(attacker, "§c§lKRYT! §7(" + (int) Math.round(event.getDamage()) + " obrażeń)");
+    }
+
+    /**
+     * Bonus do szansy na kryt za każde pełne 3 bloki strzału, zależny od poziomu
+     * Szczęścia z tabeli crits.ranged-luck-bonus-by-level (I = 3% ... V = 7%).
+     * Poziom spoza tabeli bierze skrajną wartość; brak tabeli w configu daje
+     * wzór poziom + 2 (te same wartości dla I-V).
+     */
+    private double rangedLuckBonus(int level) {
+        var table = plugin.getConfig().getDoubleList("crits.ranged-luck-bonus-by-level");
+        if (!table.isEmpty()) {
+            int idx = Math.max(1, Math.min(level, table.size())) - 1;
+            return table.get(idx);
+        }
+        return Math.max(1, Math.min(level, 5)) + 2.0;
     }
 
     private Player extractPlayerDamager(org.bukkit.entity.Entity damager) {
