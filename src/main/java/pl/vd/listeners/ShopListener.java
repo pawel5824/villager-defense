@@ -89,6 +89,11 @@ public class ShopListener implements Listener {
             return;
         }
 
+        if (holder.getViewType() == ShopHolder.ViewType.ARMOR_DOWNGRADE) {
+            handleArmorDowngradeClick(player, arena, holder, slot);
+            return;
+        }
+
         if (holder.getViewType() == ShopHolder.ViewType.ENCHANT_TARGET) {
             handleEnchantTargetClick(player, arena, holder, slot, top);
             return;
@@ -438,6 +443,10 @@ public class ShopListener implements Listener {
                     shopGUI.openEnchantTarget(player, arena, category, item, page);
                 }
             } else {
+                // Słabsza zbroja: najpierw 1x9 z „Akceptuj”/„Anuluj”.
+                if (shopGUI.openArmorDowngradeConfirm(player, arena, item, page)) {
+                    return;
+                }
                 shopGUI.purchase(player, arena, item);
                 shopGUI.openCategory(player, arena, category, page); // odśwież widok (zaktualizowane punkty)
             }
@@ -560,6 +569,25 @@ public class ShopListener implements Listener {
         WeatherUtil.applyWeather(player, next);
         plugin.getShopGUI().openFloorSettings(player, arena); // odśwież widok
         AntiSpam.send(player, Lang.get(player, "set-weather-changed", WeatherUtil.label(player, next)));
+    }
+
+    /**
+     * Obsługa potwierdzenia zamiany zbroi na słabszą (1x9). Zielona szyba
+     * kupuje i zakłada wybraną część, czerwona tylko wraca do kategorii Zbroje.
+     */
+    private void handleArmorDowngradeClick(Player player, Arena arena, ShopHolder holder, int slot) {
+        var shopGUI = plugin.getShopGUI();
+        ShopItem item = holder.getSelectedItem();
+        if (item == null) {
+            shopGUI.openCategory(player, arena, ShopCategory.ARMOR, holder.getPage());
+            return;
+        }
+        if (slot == ShopGUI.ARMOR_CONFIRM_ACCEPT_SLOT) {
+            shopGUI.purchaseConfirmedArmorDowngrade(player, arena, item);
+            shopGUI.openCategory(player, arena, ShopCategory.ARMOR, holder.getPage());
+        } else if (slot == ShopGUI.ARMOR_CONFIRM_CANCEL_SLOT) {
+            shopGUI.openCategory(player, arena, ShopCategory.ARMOR, holder.getPage());
+        }
     }
 
     /**

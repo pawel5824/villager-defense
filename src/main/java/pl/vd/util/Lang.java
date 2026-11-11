@@ -165,6 +165,9 @@ public final class Lang {
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");
+        put("shop-armor-confirm-title", "§8Zamienić część zbroi?", "§8Replace armor piece?");
+        put("shop-armor-confirm-accept", "§aAkceptuj", "§aAccept");
+        put("shop-armor-confirm-cancel", "§cAnuluj", "§cCancel");
         // Tytuł panelu to sama nazwa jedzenia (np. „Chleb”), bez przedrostka.
         put("shop-food-bulk-title", "{0}", "{0}");
         put("shop-food-bulk-back", "§aWróć", "§aBack");

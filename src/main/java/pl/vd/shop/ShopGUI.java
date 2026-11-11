@@ -58,6 +58,12 @@ public class ShopGUI {
     /** Emerald z punktami: slot 18 w grze (indeks 17). */
     public static final int FOOD_BULK_POINTS_SLOT = 17;
 
+    // Potwierdzenie zamiany zbroi na słabszą: GUI 1x9, pozycje liczone od 1.
+    public static final int ARMOR_CONFIRM_SIZE = 9;
+    public static final int ARMOR_CONFIRM_ACCEPT_SLOT = 2; // 3. slot w grze
+    public static final int ARMOR_CONFIRM_ITEM_SLOT = 4;   // 5. slot w grze
+    public static final int ARMOR_CONFIRM_CANCEL_SLOT = 6; // 7. slot w grze
+
     // Główne menu - wyjście na środku dołu (slot 49), szmaragd w prawym rogu (slot 53),
     // ustawienia w lewym dolnym rogu (slot 45)
     private static final int STAR_SLOT    = 49;
@@ -1469,6 +1475,31 @@ public class ShopGUI {
     }
 
     /**
+     * Otwiera potwierdzenie zamiany założonej zbroi na słabszą. Zwraca false,
+     * gdy zakup nie jest downgradem (wtedy listener kupuje normalnie) albo gdy
+     * blokuje go limit klasy, punkty lub zasady sklepu.
+     */
+    public boolean openArmorDowngradeConfirm(Player player, Arena arena, ShopItem item, int page) {
+        if (!requiresArmorDowngradeConfirm(player, arena, item)) return false;
+        ShopHolder holder = new ShopHolder(ShopHolder.ViewType.ARMOR_DOWNGRADE,
+                ShopCategory.ARMOR, item, page);
+        Inventory inv = Bukkit.createInventory(holder, ARMOR_CONFIRM_SIZE,
+                Component.text(Lang.get(player, "shop-armor-confirm-title")));
+        holder.setInventory(inv);
+
+        fillGlass(inv);
+        inv.setItem(ARMOR_CONFIRM_ACCEPT_SLOT, new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, 1)
+                .name(Lang.get(player, "shop-armor-confirm-accept"))
+                .build());
+        inv.setItem(ARMOR_CONFIRM_ITEM_SLOT, createShopItemIcon(item, player, false));
+        inv.setItem(ARMOR_CONFIRM_CANCEL_SLOT, new ItemBuilder(Material.RED_STAINED_GLASS_PANE, 1)
+                .name(Lang.get(player, "shop-armor-confirm-cancel"))
+                .build());
+        player.openInventory(inv);
+        return true;
+    }
+
+    /**
      * Otwiera panel masowego kupowania jedzenia (2x9). Ilości 1/5/16/32/64
      * są w slotach 3-7 widocznych dla gracza, reszta to szare tło.
      */
@@ -1749,6 +1780,14 @@ public class ShopGUI {
     // ---------- Zakup ----------
 
     public void purchase(Player player, Arena arena, ShopItem item) {
+        purchase(player, arena, item, false);
+    }
+
+    /**
+     * Wspólna ścieżka zakupu. {@code allowArmorDowngrade} ustawia tylko zielona
+     * szyba „Akceptuj” - wtedy wolno podmienić założoną część na słabszą.
+     */
+    private void purchase(Player player, Arena arena, ShopItem item, boolean allowArmorDowngrade) {
         if (!arena.isPlaying(player)) {
             return; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
         }
@@ -1759,7 +1798,7 @@ public class ShopGUI {
             return;
         }
         // Limit zbroi klasy + zakaz kupna słabszej części na tym samym slocie.
-        if (!canBuyArmor(player, item)) {
+        if (!canBuyArmor(player, item, allowArmorDowngrade)) {
             return;
         }
         int points = arena.getSessionPoints(player.getUniqueId());
@@ -1896,6 +1935,11 @@ public class ShopGUI {
         if (!specificMessage) {
             Lang.sendActionBar(player, "bought");
         }
+    }
+
+    /** Kończy zakup dopiero po kliknięciu zielonej szyby „Akceptuj”. */
+    public void purchaseConfirmedArmorDowngrade(Player player, Arena arena, ShopItem item) {
+        purchase(player, arena, item, true);
     }
 
     /**
@@ -2570,10 +2614,38 @@ public class ShopGUI {
      * nie blokują zakupu; ten sam tier można kupić, bo nie jest słabszy.
      */
     private boolean canBuyArmor(Player player, ShopItem item) {
+        return canBuyArmor(player, item, false);
+    }
+
+    private boolean canBuyArmor(Player player, ShopItem item, boolean allowDowngrade) {
         if (!isArmorPurchase(item)) return true;
         int tier = ArmorTier.of(item.getMaterial());
         if (!plugin.getClassRulesManager().allowsArmorTier(player, tier)) return false;
-        return currentArmorTier(player, item.getMaterial()) <= tier;
+        return allowDowngrade || currentArmorTier(player, item.getMaterial()) <= tier;
+    }
+
+    /** Czy kliknięcie otworzy potwierdzenie zamiany na słabszą część. */
+    private boolean requiresArmorDowngradeConfirm(Player player, Arena arena, ShopItem item) {
+        if (arena == null || !arena.isPlaying(player)) return false;
+        if (!isArmorDowngrade(player, item)) return false;
+        if (isClassRulesExempt(item)) return false;
+        if (!plugin.getClassRulesManager().allowsPurchase(player, item.getId())) return false;
+        if (!plugin.getClassRulesManager().allowsArmorTier(player, ArmorTier.of(item.getMaterial()))) {
+            return false;
+        }
+        return arena.getSessionPoints(player.getUniqueId()) >= item.getPrice();
+    }
+
+    /** Czy to zakup słabszej części niż obecna na tym samym slocie. */
+    private boolean isArmorDowngrade(Player player, ShopItem item) {
+        return isArmorPurchase(item)
+                && currentArmorTier(player, item.getMaterial()) > ArmorTier.of(item.getMaterial());
+    }
+
+    /** Czy klasa pozwala w ogóle próbować kupić tę część (limit górny). */
+    private boolean canStartArmorPurchase(Player player, ShopItem item) {
+        if (!isArmorPurchase(item)) return true;
+        return plugin.getClassRulesManager().allowsArmorTier(player, ArmorTier.of(item.getMaterial()));
     }
 
     private int currentArmorTier(Player player, Material material) {
@@ -2595,6 +2667,10 @@ public class ShopGUI {
     }
 
     private ItemStack createShopItemIcon(ShopItem item, Player player) {
+        return createShopItemIcon(item, player, true);
+    }
+
+    private ItemStack createShopItemIcon(ShopItem item, Player player, boolean showBuyHint) {
         List<String> lore = new ArrayList<>();
         // Zaklęcia NIE pokazują ceny na książce - cena jest dopiero w GUI wyboru
         // elementu zbroi (250 pkt, +250 za każdy poziom już na danym elemencie).
@@ -2645,9 +2721,9 @@ public class ShopGUI {
         // lista klas ✔/✖ powyżej wystarcza, a przy zakazie kliknięcie i tak
         // niczego nie kupuje. Podpowiedź o zakupie zostaje tylko tam, gdzie
         // gracz naprawdę może kupić.
-        if (!playing || !classRulesApply
+        if (showBuyHint && (!playing || !classRulesApply
                 || (plugin.getClassRulesManager().allowsPurchase(player, item.getId())
-                    && canBuyArmor(player, item))) {
+                    && canStartArmorPurchase(player, item)))) {
             lore.add("");
             lore.add(Lang.get(player, "shop-click-buy"));
         }

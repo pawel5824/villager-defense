@@ -76,7 +76,9 @@ wpisu, nigdy crash.
 | Inżynier | złoto | miedź, złoto |
 
 Kontrola jest przy zakupie, nie przy zakładaniu: posiadana mocniejsza zbroja nie jest
-zabierana, ale nie da się jej wymienić na słabszą część z tego samego slotu.
+zabierana. Próba wymiany na słabszą część z tego samego slotu otwiera GUI 1x9
+„Zamienić część zbroi?” z zielonym „Akceptuj” (kupuje i zakłada) oraz czerwonym
+„Anuluj” (wraca do kategorii Zbroje). Punkty schodzą dopiero po akceptacji.
 
 ## Jak dodać klasę
 
