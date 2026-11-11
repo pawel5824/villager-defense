@@ -47,6 +47,12 @@ public class ShopGUI {
     // każda kategoria, w tym zbroja, używa tego samego rozmiaru
     private static final int SIZE = 54;
 
+    // Panel masowego kupowania jedzenia: 2x9 = 18 slotów. Ilości leżą w slotach
+    // 3-7 WIDOCZNYCH dla gracza, czyli pod indeksami 2-6.
+    private static final int FOOD_BULK_SIZE = 18;
+    private static final int FOOD_BULK_FIRST_SLOT = 2;
+    private static final int[] FOOD_BULK_QUANTITIES = {1, 5, 16, 32, 64};
+
     // Główne menu - wyjście na środku dołu (slot 49), szmaragd w prawym rogu (slot 53),
     // ustawienia w lewym dolnym rogu (slot 45)
     private static final int STAR_SLOT    = 49;
@@ -1457,6 +1463,52 @@ public class ShopGUI {
         player.openInventory(inv);
     }
 
+    /**
+     * Otwiera panel masowego kupowania jedzenia (2x9). Ilości 1/5/16/32/64
+     * są w slotach 3-7 widocznych dla gracza, reszta to szare tło.
+     */
+    public void openFoodBulk(Player player, ShopItem item) {
+        if (!isBulkFoodItem(item)) return;
+        String itemName = foodDisplayName(player, item);
+        ShopHolder holder = new ShopHolder(ShopHolder.ViewType.FOOD_BULK,
+                ShopCategory.FOOD, item, 0);
+        Inventory inv = Bukkit.createInventory(holder, FOOD_BULK_SIZE,
+                Component.text(Lang.get(player, "shop-food-bulk-title", itemName)));
+        holder.setInventory(inv);
+        fillGlass(inv);
+        for (int i = 0; i < FOOD_BULK_QUANTITIES.length; i++) {
+            int quantity = FOOD_BULK_QUANTITIES[i];
+            inv.setItem(FOOD_BULK_FIRST_SLOT + i, new ItemBuilder(item.getMaterial(), quantity)
+                    .name(itemName + " §7x" + quantity)
+                    .lore(List.of(
+                            Lang.get(player, "shop-amount", quantity),
+                            Lang.get(player, "shop-price", item.getPrice() * quantity),
+                            Lang.get(player, "shop-click-buy")))
+                    .build());
+        }
+        player.openInventory(inv);
+    }
+
+    /** Czy to jedzenie z kategorii Jedzenie (PPM otwiera zakup hurtowy)? */
+    public boolean isBulkFoodItem(ShopItem item) {
+        return item != null && item.getType() == ShopItemType.ITEM
+                && item.getMaterial() != null
+                && inCategory(item, ShopCategory.FOOD);
+    }
+
+    /** Ilość z panelu hurtowego dla slotu; 0 = slot nie jest przyciskiem ilości. */
+    public int foodBulkQuantityForSlot(int slot) {
+        int index = slot - FOOD_BULK_FIRST_SLOT;
+        if (index < 0 || index >= FOOD_BULK_QUANTITIES.length) return 0;
+        return FOOD_BULK_QUANTITIES[index];
+    }
+
+    private String foodDisplayName(Player player, ShopItem item) {
+        return item.getDisplayName() != null
+                ? Lang.getOr(player, "shop-item-" + item.getId(), item.getDisplayName())
+                : "§f" + prettify(item.getMaterial().name());
+    }
+
     /** Slot strzałki „wstecz" dla kategorii: 48 (obok nether star) dla Bronie i Inne, 45 dla reszty. */
     public int prevPageSlot(ShopCategory category) {
         return (category == ShopCategory.SWORDS || category == ShopCategory.OTHER)
@@ -1821,6 +1873,23 @@ public class ShopGUI {
         if (!specificMessage) {
             Lang.sendActionBar(player, "bought");
         }
+    }
+
+    /**
+     * Kupuje od razu wybraną liczbę sztuk jedzenia. Cena to cena jednostkowa
+     * razy ilość; przy braku punktów nie pobieramy opłaty.
+     */
+    public void purchaseFoodBulk(Player player, Arena arena, ShopItem item, int quantity) {
+        if (arena == null || !arena.isPlaying(player)) return;
+        if (!isBulkFoodItem(item) || quantity <= 0) return;
+        int totalPrice = item.getPrice() * quantity;
+        if (arena.getSessionPoints(player.getUniqueId()) < totalPrice) {
+            Lang.sendActionBar(player, "not-enough-points");
+            return;
+        }
+        giveItem(player, new ItemStack(item.getMaterial(), quantity));
+        arena.addSessionPoints(player.getUniqueId(), -totalPrice);
+        Lang.sendActionBar(player, "bought");
     }
 
     /**

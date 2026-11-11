@@ -171,6 +171,7 @@ public final class Lang {
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");
+        put("shop-food-bulk-title", "§8Kup hurtowo: {0}", "§8Buy in bulk: {0}");
         put("shop-exit", "§cWyjdź", "§cExit");
         put("shop-exit-lore", "§7Kliknij, aby zamknąć panel ulepszeń",
                 "§7Click to close the upgrade panel");

@@ -94,6 +94,15 @@ public class ShopListener implements Listener {
             return;
         }
 
+        if (holder.getViewType() == ShopHolder.ViewType.FOOD_BULK) {
+            ShopItem food = holder.getSelectedItem();
+            int quantity = shopGUI.foodBulkQuantityForSlot(slot);
+            if (food != null && quantity > 0) {
+                shopGUI.purchaseFoodBulk(player, arena, food, quantity);
+            }
+            return;
+        }
+
         if (shopGUI.isPointsSlot(slot, top.getSize())) return; // tylko podgląd, nieklikalne
 
         // strzałki „Poprzednia/Następna kategoria" w panelach KATEGORII ustawień
@@ -399,6 +408,11 @@ public class ShopListener implements Listener {
 
         ShopItem item = shopGUI.getItemBySlot(category, page, slot);
         if (item != null) {
+            // PPM na jedzeniu otwiera zakup hurtowy; LPM kupuje 1 sztukę jak dotąd.
+            if (event.isRightClick() && shopGUI.isBulkFoodItem(item)) {
+                shopGUI.openFoodBulk(player, item);
+                return;
+            }
             if (item.getType() == ShopItemType.ENCHANT) {
                 // Punch -> łuk, Sweeping Edge -> miecz: bez GUI wyboru, zaklęcie prosto
                 // na właściwą broń gracza. Gdy gracz nie ma wymaganej broni - komunikat
