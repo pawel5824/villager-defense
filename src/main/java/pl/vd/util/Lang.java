@@ -165,7 +165,8 @@ public final class Lang {
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");
-        put("shop-food-bulk-title", "§8Kup hurtowo: {0}", "§8Buy in bulk: {0}");
+        // Tytuł panelu to sama nazwa jedzenia (np. „Chleb”), bez przedrostka.
+        put("shop-food-bulk-title", "{0}", "{0}");
         put("shop-food-bulk-back", "§aWróć", "§aBack");
         put("shop-food-bulk-back-lore", "§7Kliknij, aby wrócić do zakładki jedzenia",
                 "§7Click to go back to the food tab");

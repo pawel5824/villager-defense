@@ -234,7 +234,7 @@ belki podpiętrza (v42), zawalanie bez podparcia + odzysk materiału (v43/v44), 
 (v45). Każdy ma kryteria w `docs/OTWARTE_TEMATY.md`.
 
 **Restart serwera:** nowy JAR wgrywamy **dopiero przy restarcie**, a serwer restartujemy
-**co 5 nowych wersji pluginu** (licznik: `tools/.restart-counter`, lokalny, poza gitem).
+**co 10 nowych wersji pluginu** (licznik: `tools/.restart-counter`, lokalny, poza gitem).
 Podmiana pliku na działającym serwerze psuje doczytywane klasy — 2026-11-10 dało 158 ×
 `ClassNotFoundException` (`SupplyDropManager$SlotMachineHolder`) i błędne eventy GUI.
 Do restartu zmiany nie działają w grze — to świadoma decyzja właściciela, nie błąd deployu.
