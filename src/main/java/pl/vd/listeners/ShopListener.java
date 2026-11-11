@@ -556,6 +556,9 @@ public class ShopListener implements Listener {
         }
 
         if (shopGUI.isPointsSlot(slot, top.getSize())) return; // tylko podgląd
+        // czerwona szyba = zaklęcie nie pasuje do tej części; kliknięcie nic nie robi
+        ItemStack clicked = top.getItem(slot);
+        if (clicked != null && clicked.getType() == Material.RED_STAINED_GLASS_PANE) return;
         if (shopGUI.isBackSlot(slot, top.getSize())) {
             shopGUI.openCategory(player, arena, category, page);
             return;

@@ -180,6 +180,8 @@ public final class Lang {
         put("shop-click-buy", "§aKliknij, aby kupić", "§aClick to buy");
         put("shop-class-locked", "§cNie dla Twojej klasy (§e{0}§c)",
                 "§cNot for your class (§e{0}§c)");
+        put("enchant-not-for-item", "§cZaklęcie nie pasuje do tego przedmiotu",
+                "§cThis enchantment doesn't fit this item");
         put("shop-click-upgrade", "§aKliknij, aby ulepszyć", "§aClick to upgrade");
         put("shop-next-page", "§eNastępna strona", "§eNext page");
         put("shop-prev-page", "§ePoprzednia strona", "§ePrevious page");

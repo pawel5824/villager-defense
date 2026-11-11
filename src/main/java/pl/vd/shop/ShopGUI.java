@@ -1916,6 +1916,23 @@ public class ShopGUI {
      *  - kusza: szybkie ładowanie, przeszycie, wielostrzał, szczęście,
      *  - proca (kusza): moc, uderzenie, szczęście; wielostrzał max 3, szybkie ładowanie
      *    max 2 (proca ma bazowe I, więc można ulepszyć tylko do II). */
+    /**
+     * Czy zaklęcie pasuje do tego przedmiotu.
+     * Bronie: dotychczasowe reguły serwera (proca, trójząb, limity per broń).
+     * Zbroja i inne: waniliowa zgodność - ochrona tylko na zbroję, łagodny upadek
+     * tylko na buty, moc/uderzenie tylko na łuk itd.
+     */
+    public boolean canApplyEnchant(Enchantment ench, ItemStack target) {
+        if (ench == null || target == null || target.getType() == Material.AIR) return false;
+        Material type = target.getType();
+        boolean weapon = type == Material.BOW || type == Material.CROSSBOW || type == Material.TRIDENT
+                || type.name().endsWith("_SWORD") || type.name().endsWith("_AXE");
+        if (weapon) {
+            return weaponEnchantRestriction(target, ench) >= 0;
+        }
+        return ench.canEnchantItem(target);
+    }
+
     private int weaponEnchantRestriction(ItemStack target, Enchantment ench) {
         Material t = target.getType();
         String key = ench.getKey().getKey();
@@ -2009,6 +2026,10 @@ public class ShopGUI {
         int weaponMax = weaponEnchantRestriction(target, ench);
         if (weaponMax < 0) {
             Lang.sendActionBar(player, "enchant-not-for-weapon");
+            return false;
+        }
+        if (!canApplyEnchant(ench, target)) {
+            Lang.sendActionBar(player, "enchant-not-for-item");
             return false;
         }
 
@@ -2566,6 +2587,13 @@ public class ShopGUI {
             return new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE, 1)
                     .name("§8" + label)
                     .lore(List.of(Lang.get(player, "shop-no-item")))
+                    .build();
+        }
+        if (!canApplyEnchant(enchantItem.getEnchantment(), item)) {
+            // Niepasujące zaklęcie: czerwona szyba zamiast przedmiotu - gracz od razu
+            // widzi, że ta część nie przyjmie zaklęcia (kliknięcie nic nie pobiera).
+            return new ItemBuilder(Material.RED_STAINED_GLASS_PANE, 1)
+                    .name(Lang.get(player, "enchant-not-for-item"))
                     .build();
         }
         ItemStack copy = item.clone();
