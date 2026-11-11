@@ -2355,12 +2355,8 @@ public class ShopGUI {
                 .build();
     }
 
-    /** Uzupełnia nazwę spacjami do stałej szerokości, żeby znaczniki były w kolumnie. */
-    private static String padRight(String value, int width) {
-        StringBuilder out = new StringBuilder(value);
-        while (out.length() < width) out.append(' ');
-        return out.toString();
-    }
+    /** Numer znaku, w którym zaczyna się ✔/✖ (wspólna kolumna dla wszystkich klas). */
+    private static final int CLASS_LORE_COLUMN = 16;
 
     /**
      * Wiersze „klasa + ✔/✖” dla przedmiotu. Pusta lista, gdy żadna klasa nie ma zakazu
@@ -2386,8 +2382,12 @@ public class ShopGUI {
             // kolor nagłówka (§8, ciemny szary), a własna klasa jest pogrubiona.
             String name = kit.localizedName(player).replaceAll("§.", "");
             String nameColor = kitId.equalsIgnoreCase(viewerKit) ? "§8§l" : "§8";
-            // Stała szerokość + odstęp: znaczniki stoją w jednej kolumnie po prawej.
-            rows.add(nameColor + padRight(name, 10) + "§r  " + (allowed ? "§a✔" : "§c✖"));
+            // Znacznik zawsze startuje w tej samej kolumnie: krótsza nazwa dostaje
+            // więcej spacji, więc ✔/✖ stoją równo nad i pod sobą. Spacje po §r
+            // nie są pogrubione, żeby własna klasa nie przesuwała kolumny.
+            int gap = Math.max(2, CLASS_LORE_COLUMN - name.length());
+            rows.add(nameColor + name + "§r" + " ".repeat(gap)
+                    + (allowed ? "§a✔" : "§c✖"));
         }
         return anyDenied ? rows : List.of();
     }
