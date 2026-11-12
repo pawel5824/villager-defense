@@ -835,19 +835,24 @@ public class SupplyDropManager implements Listener {
         return false;
     }
 
-    /** Mały okrąg ognia na ziemi nad miejscem lądowania (FLAME, promień 1 blok) -
-     *  dokładne miejsce lądowania, widoczne z daleka; bez pionowej wiązki.
+    /** Mały okrąg ognia na ziemi nad miejscem lądowania (FLAME) - dokładnie
+     *  w obrębie JEDNEGO bloku, widoczny z daleka; bez pionowej wiązki.
      *  Powtarzane co 10 ticków, dopóki skrzynia nie wyląduje. */
     private void spawnLandingMarker(World world, Location landing) {
-        spawnFlameCircle(world, landing.clone().add(0.5, 0.6, 0.5));
+        // landing z findLandingSpot ma już x+0.5 / z+0.5 (środek bloku). Nie dodawaj
+        // drugi raz 0.5 - inaczej pierścień trafia na styk czterech bloków.
+        Location center = new Location(world,
+                landing.getBlockX() + 0.5, landing.getY() + 0.15, landing.getBlockZ() + 0.5);
+        spawnFlameCircle(world, center);
     }
 
-    /** Okrąg cząsteczek ognia (FLAME) w promieniu 1 bloka wokół punktu na ziemi -
-     *  tylko te cząsteczki, bez żadnych innych. */
+    /** Okrąg cząsteczek ognia (FLAME) wpisany w jeden blok - tylko te cząsteczki. */
     private void spawnFlameCircle(World world, Location center) {
+        final double radius = 0.45; // < 0.5, żeby płomienie nie wchodziły na sąsiednie bloki
         for (int i = 0; i < 12; i++) {
             double angle = 2 * Math.PI * i / 12.0;
-            world.spawnParticle(Particle.FLAME, center.clone().add(Math.cos(angle), 0, Math.sin(angle)),
+            world.spawnParticle(Particle.FLAME,
+                    center.clone().add(Math.cos(angle) * radius, 0, Math.sin(angle) * radius),
                     1, 0, 0, 0, 0.01);
         }
     }
@@ -878,8 +883,8 @@ public class SupplyDropManager implements Listener {
         World world = loc.getWorld();
         plugin.getGameManager().playSoundNearby(loc, Sound.ENTITY_GENERIC_EXPLODE, 2.0f, 0.6f,
                 pl.vd.shop.ShopGUI.SOUND_SUPPLY_LANDED_KEY);
-        // okrąg ognia wokół lądującej skrzyni (FLAME, promień 1 blok)
-        spawnFlameCircle(world, loc.clone().add(0, 0.3, 0));
+        // okrąg ognia wokół lądującej skrzyni (FLAME, wpisany w jej blok)
+        spawnFlameCircle(world, loc.clone().add(0, 0.55, 0));
         for (UUID uuid : drop.arena.getPlayers()) {
             Player p = plugin.getServer().getPlayer(uuid);
             if (p == null || !p.isOnline()) continue;
