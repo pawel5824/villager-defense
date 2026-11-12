@@ -162,6 +162,8 @@ public final class Lang {
         put("shop-custom-arrows-open", "§6Niestandardowe strzały", "§6Custom Arrows");
         put("shop-click-category", "§7Kliknij, aby otworzyć kategorię",
                 "§7Click to open the category");
+        put("shop-goto-category", "§7Kliknij, aby przejść do kategorii {0}",
+                "§7Click to go to the {0} category");
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");

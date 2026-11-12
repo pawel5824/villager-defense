@@ -438,6 +438,9 @@ public class ShopGUI {
     /** Nowa strzała otwierająca podmenu „Strzały - Niestandardowe Strzały" w
      *  kategorii Strzały: slot 50 (o 1 więcej niż nether star na slocie 49). */
     private static final int BOWS_CUSTOM_ARROWS_SLOT = 50;
+    /** Przejścia między Broniami i Strzałami - sloty widoczne na danej stronie. */
+    private static final int SWORDS_TO_BOWS_NAV_SLOT = 26; // 2. strona, 27 slot w grze (globalnie 71)
+    private static final int BOWS_TO_SWORDS_NAV_SLOT = 18; // 1. strona, 19 slot w grze
     /** Sloty (w kodzie) zwykłej i widmowej strzały w podmenu „Niestandardowe strzały"
      *  (PIERWSZA i jedyna strona: slot 20/21 = pozycje 20/21 - bez pustej strony
      *  na starcie). */
@@ -1465,6 +1468,14 @@ public class ShopGUI {
             }
         }
 
+        // Przejścia między powiązanymi kategoriami. To przyciski GUI, a nie
+        // przedmioty sklepu - listener przechwytuje kliknięcie przed zakupem.
+        if (category == ShopCategory.SWORDS && page == 1) {
+            inv.setItem(SWORDS_TO_BOWS_NAV_SLOT, createCategoryNavigationItem(player, ShopCategory.BOWS));
+        } else if (category == ShopCategory.BOWS && page == 0) {
+            inv.setItem(BOWS_TO_SWORDS_NAV_SLOT, createCategoryNavigationItem(player, ShopCategory.SWORDS));
+        }
+
         // Nawigacja stron: strzałki tylko gdy jest ich więcej niż jedna. Kategorie
         // Bronie, Inne i Strzały mają strzałki przy nether starze (48/50).
         if (page > 0) inv.setItem(prevPageSlot(category), createPageArrow(player, false));
@@ -1728,6 +1739,17 @@ public class ShopGUI {
     public boolean isPointsSlot(int slot, int size) { return slot == size - 1; }
     public boolean isPrevPageSlot(int slot)      { return slot == PAGE_PREV_SLOT; }
     public boolean isNextPageSlot(int slot)      { return slot == PAGE_NEXT_SLOT; }
+
+    /** Cel przejścia dla przycisku kategorii na danej stronie; null, gdy to nie ten slot. */
+    public ShopCategory categoryNavigationTarget(ShopCategory category, int page, int slot) {
+        if (category == ShopCategory.SWORDS && page == 1 && slot == SWORDS_TO_BOWS_NAV_SLOT) {
+            return ShopCategory.BOWS;
+        }
+        if (category == ShopCategory.BOWS && page == 0 && slot == BOWS_TO_SWORDS_NAV_SLOT) {
+            return ShopCategory.SWORDS;
+        }
+        return null;
+    }
 
     /** Strzałka „wstecz" w podmenu niestandardowych strzał: slot 48 (po lewej nether stara). */
     public boolean isCustomArrowsPrevPageSlot(int slot) { return slot == PAGE_PREV_SLOT_NEAR_STAR; }
@@ -2465,6 +2487,16 @@ public class ShopGUI {
         return new ItemBuilder(Material.ARROW, 1)
                 .name(Lang.get(player, "shop-next-page"))
                 .lore(List.of(Lang.get(player, "shop-scroll-lore")))
+                .build();
+    }
+
+    /** Przycisk przejścia do innej kategorii sklepu (np. Strzały <-> Bronie). */
+    private ItemStack createCategoryNavigationItem(Player player, ShopCategory target) {
+        Material icon = target == ShopCategory.BOWS
+                ? Material.SPECTRAL_ARROW : Material.GOLDEN_SWORD;
+        return new ItemBuilder(icon, 1)
+                .name(target.localizedName(player))
+                .lore(List.of(Lang.get(player, "shop-goto-category", target.localizedName(player))))
                 .build();
     }
 

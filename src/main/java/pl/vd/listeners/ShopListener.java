@@ -420,6 +420,11 @@ public class ShopListener implements Listener {
             shopGUI.openCategory(player, arena, category, page + 1);
             return;
         }
+        ShopCategory navTarget = shopGUI.categoryNavigationTarget(category, page, slot);
+        if (navTarget != null) {
+            shopGUI.openCategory(player, arena, navTarget, 0);
+            return;
+        }
 
         ShopItem item = shopGUI.getItemBySlot(category, page, slot);
         if (item != null) {
