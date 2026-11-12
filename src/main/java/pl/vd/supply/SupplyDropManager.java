@@ -123,8 +123,9 @@ public class SupplyDropManager implements Listener {
     private static final float FLASH_SCALE = 0.93f;
     // o ile niżej siedzi szkło poświaty względem środka skrzyni (0,05 bloka w dół)
     private static final float FLASH_Y_OFFSET = 0.05f;
-    // watchdog: jeśli skrzynia nie wylądowała w 45 s (np. rozładowany chunk), sprzątamy
-    private static final long WATCHDOG_TICKS = 45L * 20L;
+    // watchdog: jeśli skrzynia nie wylądowała w 90 s (np. rozładowany chunk),
+    // sprzątamy. Lot z 160 bloków trwa nominalnie 40 s; zapas na lag serwera.
+    private static final long WATCHDOG_TICKS = 90L * 20L;
 
     // ===================== AUTOMAT ŁUPU (slot machine) =====================
     // GUI zrzutu: 5x9 = 45 slotów. Przewijające się sloty (bębny) to 2-6, 11-15,
@@ -356,15 +357,23 @@ public class SupplyDropManager implements Listener {
         final double startZ = spawnLoc.getZ();
         final double startY = spawnLoc.getY();
         final int[] tickCounter = {0};
+        final UUID fbId = fb.getUniqueId();
         BukkitTask velocityTask = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-            if (fb.isValid()) {
-                fb.setVelocity(new Vector(0, -FALL_SPEED, 0));
-                tickCounter[0]++;
-                double currentY = startY - (tickCounter[0] * FALL_SPEED);
-                if (vis.isValid()) vis.teleport(new Location(world, startX, currentY, startZ));
-                for (ArmorStand bal : balloons) {
-                    if (bal != null && bal.isValid()) bal.teleport(new Location(world, startX, currentY + bh, startZ));
-                }
+            if (pendingDrops.get(fbId) == null) return; // już wylądował
+            if (fb.isValid()) fb.setVelocity(new Vector(0, -FALL_SPEED, 0));
+            tickCounter[0]++;
+            double currentY = startY - (tickCounter[0] * FALL_SPEED);
+            // Lądujemy na podstawie pozycji wyświetlacza, a nie tylko eventu
+            // FallingBlocka. Bariera nie zawsze go wywołuje, a przy lagu watchdog
+            // mógł wcześniej usuwać lot w połowie.
+            if (currentY <= landing.getY()) {
+                PendingDrop d = pendingDrops.remove(fbId);
+                if (d != null) finishDrop(d, fb, landing.getBlock());
+                return;
+            }
+            if (vis.isValid()) vis.teleport(new Location(world, startX, currentY, startZ));
+            for (ArmorStand bal : balloons) {
+                if (bal != null && bal.isValid()) bal.teleport(new Location(world, startX, currentY + bh, startZ));
             }
         }, 0L, 1L);
 
@@ -486,16 +495,23 @@ public class SupplyDropManager implements Listener {
         final double startY2 = spawnLoc.getY();
         final int[] tickCounter2 = {0};
         final int bh2 = balloonHeight;
+        final UUID fbId2 = fb.getUniqueId();
         BukkitTask velocityTask = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-            if (fb.isValid()) {
-                fb.setVelocity(new Vector(0, -FALL_SPEED, 0));
-                tickCounter2[0]++;
-                double currentY = startY2 - (tickCounter2[0] * FALL_SPEED);
-                if (vis.isValid()) vis.teleport(new Location(world, startX2, currentY, startZ2));
-                for (ArmorStand b : balloons) {
-                    if (b != null && b.isValid()) {
-                        b.teleport(new Location(world, startX2, currentY + bh2, startZ2));
-                    }
+            if (pendingDrops.get(fbId2) == null) return; // już wylądował
+            if (fb.isValid()) fb.setVelocity(new Vector(0, -FALL_SPEED, 0));
+            tickCounter2[0]++;
+            double currentY = startY2 - (tickCounter2[0] * FALL_SPEED);
+            // Ręczne lądowanie: event bariery bywa niewywoływany, a wyświetlacz
+            // musi dolecieć do samej ziemi i dopiero tam postawić skrzynię.
+            if (currentY <= landing.getY()) {
+                PendingDrop d = pendingDrops.remove(fbId2);
+                if (d != null) finishDrop(d, fb, landing.getBlock());
+                return;
+            }
+            if (vis.isValid()) vis.teleport(new Location(world, startX2, currentY, startZ2));
+            for (ArmorStand b : balloons) {
+                if (b != null && b.isValid()) {
+                    b.teleport(new Location(world, startX2, currentY + bh2, startZ2));
                 }
             }
         }, 0L, 1L);
@@ -888,12 +904,22 @@ public class SupplyDropManager implements Listener {
         if (drop == null) return;
 
         event.setCancelled(true); // sami stawiamy skrzynię (żeby mieć pełną kontrolę)
+        finishDrop(drop, fb, event.getBlock());
+    }
+
+    /**
+     * Wspólne zakończenie lotu. Wywoływane przez event FallingBlocka albo ręcznie,
+     * gdy wyświetlacz dotrze do ziemi. Najpierw sprzątamy wizualia, potem stawiamy
+     * prawdziwą skrzynię i wsypujemy łup.
+     */
+    private void finishDrop(PendingDrop drop, FallingBlock fb, Block block) {
+        if (drop == null || block == null) return;
         if (drop.markerTask != null) drop.markerTask.cancel();
         if (drop.velocityTask != null) drop.velocityTask.cancel(); // przestań pchać skrzynię w dół
         if (drop.visual != null && drop.visual.isValid()) drop.visual.remove(); // wyświetlacz znika, staje prawdziwa
         removeBalloons(drop.balloons); // balony kończą lot razem ze skrzynią
+        if (fb != null && fb.isValid()) fb.remove();
 
-        Block block = event.getBlock();
         org.bukkit.block.BlockState originalBlock = block.getState(); // zapisz oryginalny blok (trawa itd.)
         block.setType(Material.WAXED_EXPOSED_COPPER_CHEST, false);
 
