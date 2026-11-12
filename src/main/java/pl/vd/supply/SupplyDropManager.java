@@ -88,12 +88,15 @@ public class SupplyDropManager implements Listener {
     // otwarte automaty łupu: gracz -> zadanie przewijania (żeby nie otworzyć dwóch naraz)
     private final Map<UUID, SlotMachineRunnable> slotMachines = new HashMap<>();
 
-    // wysokość, z której spada skrzynia nad ziemią. 40 bloków mieści się w zasięgu
-    // renderowania gracza, więc skrzynię widać od razu, a nie dopiero przy ziemi.
-    private static final int FALL_BLOCKS = 40;
-    // stała prędkość spadania: 40 bloków / 8 s = 5 bloków/s = 0,25 bloka/tick.
+    // wysokość, z której spada skrzynia nad ziemią. 160 bloków to dawna wysokość;
+    // zasięg renderowania displayów podnosimy niżej, żeby nie zniknęła w powietrzu.
+    private static final int FALL_BLOCKS = 160;
+    // stała prędkość spadania: 160 bloków / 40 s = 4 bloki/s = 0,20 bloka/tick.
     // Nadpisujemy prędkość co tick, żeby grawitacja jej nie przyspieszała.
-    private static final double FALL_SPEED = 0.25;
+    private static final double FALL_SPEED = 0.20;
+    // Display ma domyślnie 64 bloki zasięgu; 4.0 = 256 bloków, czyli z zapasem
+    // obejmuje cały lot z 160 bloków (łącznie z balonem).
+    private static final float DISPLAY_VIEW_RANGE = 4.0f;
     // animacja znikania (fajerwerka): skrzynia leci do góry 46 ticków (~2,3 s -
     // 50 bloków zamiast 66, czyli ~15 niżej), potem wystrzeliwuje fajerwerka
     private static final int FLIGHT_3_TICKS = 46;
@@ -318,13 +321,16 @@ public class SupplyDropManager implements Listener {
         int spawnY = Math.min(landing.getBlockY() + FALL_BLOCKS, world.getMaxHeight() - 5);
         Location spawnLoc = new Location(world, landing.getX(), spawnY, landing.getZ());
 
-        FallingBlock fb = world.spawnFallingBlock(spawnLoc, Material.WAXED_EXPOSED_COPPER_CHEST.createBlockData());
+        // Niewidzialna bariera tylko wykrywa lądowanie; widoczną skrzynią jest BlockDisplay.
+        FallingBlock fb = world.spawnFallingBlock(spawnLoc, Material.BARRIER.createBlockData());
         fb.setDropItem(false);
         fb.setHurtEntities(false);
         fb.getPersistentDataContainer().set(dropKey, PersistentDataType.BYTE, (byte) 1);
 
         BlockDisplay vis = world.spawn(spawnLoc, BlockDisplay.class);
         vis.setBlock(Material.WAXED_EXPOSED_COPPER_CHEST.createBlockData());
+        vis.setViewRange(DISPLAY_VIEW_RANGE);
+        vis.setTeleportDuration(1); // płynna interpolacja ruchu między tickami
         // display jest ustawiony na środku bloku - przesunięcie -0.5 wyrównuje
         // skrzynię do miejsca lądowania (wcześniej była o pół bloku z boku).
         vis.setTransformation(new Transformation(
@@ -423,7 +429,8 @@ public class SupplyDropManager implements Listener {
         Location spawnLoc = new Location(world, landing.getX(), spawnY, landing.getZ());
 
         // REALNY spadający blok: tylko do wykrywania lądowania (EntityChangeBlockEvent).
-        FallingBlock fb = world.spawnFallingBlock(spawnLoc, Material.WAXED_EXPOSED_COPPER_CHEST.createBlockData());
+        // Niewidzialna bariera tylko wykrywa lądowanie; widoczną skrzynią jest BlockDisplay.
+        FallingBlock fb = world.spawnFallingBlock(spawnLoc, Material.BARRIER.createBlockData());
         fb.setDropItem(false);
         fb.setHurtEntities(false);
         fb.getPersistentDataContainer().set(dropKey, PersistentDataType.BYTE, (byte) 1);
@@ -435,6 +442,8 @@ public class SupplyDropManager implements Listener {
         // Podąża za prawdziwym blokiem i znika przy lądowaniu.
         BlockDisplay vis = world.spawn(spawnLoc, BlockDisplay.class);
         vis.setBlock(Material.WAXED_EXPOSED_COPPER_CHEST.createBlockData());
+        vis.setViewRange(DISPLAY_VIEW_RANGE);
+        vis.setTeleportDuration(1); // płynna interpolacja ruchu między tickami
         // display jest ustawiony na środku bloku - przesunięcie -0.5 wyrównuje
         // skrzynię do miejsca lądowania (wcześniej była o pół bloku z boku).
         vis.setTransformation(new Transformation(
@@ -535,6 +544,14 @@ public class SupplyDropManager implements Listener {
         preset.applyTo(stand); // nakłada zapisany wygląd (może nadpisać small/visible)
         for (StandPreset.PartData part : preset.parts) {
             plugin.getArmorStandTuner().attachPart(stand, part);
+        }
+        // Części balonu też muszą być widoczne z 160 bloków i płynnie podążać
+        // za stojakiem; domyślny zasięg displayu to tylko 64 bloki.
+        for (Entity passenger : stand.getPassengers()) {
+            if (passenger instanceof Display display) {
+                display.setViewRange(DISPLAY_VIEW_RANGE);
+                display.setTeleportDuration(1);
+            }
         }
         return stand;
     }
