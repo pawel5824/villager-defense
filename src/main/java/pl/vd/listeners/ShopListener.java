@@ -118,11 +118,17 @@ public class ShopListener implements Listener {
             return;
         }
 
+        if (holder.getViewType() == ShopHolder.ViewType.MAGE_ELEMENT_UPGRADES) {
+            return; // panel 5x9 jest na razie zupełnie pusty
+        }
+
         if (holder.getViewType() == ShopHolder.ViewType.MAGE_UPGRADES) {
             if (shopGUI.isBackSlot(slot, top.getSize())) {
                 shopGUI.openMain(player, arena); // gwiazda wraca do menu sklepu
+            } else {
+                shopGUI.openMageElementAtSlot(player, arena, slot);
             }
-            return; // na razie nie ma innych przycisków
+            return;
         }
 
         if (shopGUI.isPointsSlot(slot, top.getSize())) return; // tylko podgląd, nieklikalne

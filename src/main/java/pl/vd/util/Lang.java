@@ -171,6 +171,16 @@ public final class Lang {
         put("shop-mage-upgrade-frequency", "§eCzęstotliwość", "§eFrequency");
         put("shop-mage-upgrade-max", "§7Maksymalna liczba ulepszeń: §f{0}",
                 "§7Max upgrades: §f{0}");
+        put("shop-mage-element-fire", "§cUlepszenie Ogniste", "§cFire Upgrade");
+        put("shop-mage-element-electric", "§eUlepszenie Elektryczne", "§eElectric Upgrade");
+        put("shop-mage-element-ice", "§bUlepszenie Lodowe", "§bIce Upgrade");
+        put("shop-mage-element-fire-title", "§8Ulepszenie Ogniste", "§8Fire Upgrade");
+        put("shop-mage-element-electric-title", "§8Ulepszenie Elektryczne", "§8Electric Upgrade");
+        put("shop-mage-element-ice-title", "§8Ulepszenie Lodowe", "§8Ice Upgrade");
+        put("shop-mage-element-unknown-title", "§8Ulepszenie", "§8Upgrade");
+        put("shop-mage-element-locked",
+                "§7Zablokowane: najpierw wykup Obrażenia, Zasięg i Częstotliwość do maksimum",
+                "§7Locked: first max out Damage, Range and Frequency");
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");

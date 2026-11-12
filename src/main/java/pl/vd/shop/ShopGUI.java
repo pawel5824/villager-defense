@@ -444,12 +444,26 @@ public class ShopGUI {
     /** Przycisk ulepszeń magika w Bronach: 1. strona, 28 slot w grze. */
     private static final int MAGE_UPGRADES_ITEM_SLOT = 27;
 
-    /** Jeden wiersz panelu ulepszeń magika: ikona, slot GUI (0-based) i limit. */
-    private record MageUpgrade(Material material, int slot, String nameKey, int maxLevel) {}
+    /** Jeden wiersz panelu ulepszeń magika: ikona, slot GUI (0-based), limit i klucz poziomu. */
+    private record MageUpgrade(Material material, int slot, String nameKey, int maxLevel, String levelKey) {}
     private static final List<MageUpgrade> MAGE_UPGRADE_ITEMS = List.of(
-            new MageUpgrade(Material.NETHERITE_SWORD, 11, "shop-mage-upgrade-damage", 10), // 12 w grze
-            new MageUpgrade(Material.ARROW, 13, "shop-mage-upgrade-range", 8),             // 14 w grze
-            new MageUpgrade(Material.REPEATER, 15, "shop-mage-upgrade-frequency", 6)      // 16 w grze
+            new MageUpgrade(Material.NETHERITE_SWORD, 11, "shop-mage-upgrade-damage", 10, "mage-upgrade-damage"), // 12 w grze
+            new MageUpgrade(Material.ARROW, 13, "shop-mage-upgrade-range", 8, "mage-upgrade-range"),             // 14 w grze
+            new MageUpgrade(Material.REPEATER, 15, "shop-mage-upgrade-frequency", 6, "mage-upgrade-frequency")    // 16 w grze
+    );
+
+    /** Żywiołowe ulepszenia różdżki odblokowywane po maksie trzech podstawowych. */
+    private record MageElementUpgrade(Material material, int slot, String nameKey, String titleKey) {}
+    private static final int MAGE_ELEMENT_SIZE = 45;
+    private static final List<MageElementUpgrade> MAGE_ELEMENT_UPGRADES = List.of(
+            new MageElementUpgrade(Material.RED_STAINED_GLASS_PANE, 28,
+                    "shop-mage-element-fire", "shop-mage-element-fire-title"),          // 29 w grze
+            new MageElementUpgrade(Material.YELLOW_STAINED_GLASS_PANE, 30,
+                    "shop-mage-element-electric", "shop-mage-element-electric-title"),  // 31 w grze
+            new MageElementUpgrade(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 32,
+                    "shop-mage-element-ice", "shop-mage-element-ice-title"),            // 33 w grze
+            new MageElementUpgrade(Material.PURPLE_STAINED_GLASS_PANE, 34,
+                    null, "shop-mage-element-unknown-title")                              // 35 w grze
     );
     /** Sloty (w kodzie) zwykłej i widmowej strzały w podmenu „Niestandardowe strzały"
      *  (PIERWSZA i jedyna strona: slot 20/21 = pozycje 20/21 - bez pustej strony
@@ -1522,8 +1536,22 @@ public class ShopGUI {
         for (MageUpgrade upgrade : MAGE_UPGRADE_ITEMS) {
             inv.setItem(upgrade.slot(), createMageUpgradeItem(player, upgrade));
         }
+        for (MageElementUpgrade element : MAGE_ELEMENT_UPGRADES) {
+            inv.setItem(element.slot(), createMageElementItem(player, element));
+        }
 
         player.openInventory(inv);
+    }
+
+    /** Otwiera pusty panel 5x9 dla żywiołowego ulepszenia różdżki. */
+    private void openMageElementUpgrades(Player player, Arena arena, MageElementUpgrade element) {
+        if (!isMage(player) || element == null) return;
+        ShopHolder holder = new ShopHolder(ShopHolder.ViewType.MAGE_ELEMENT_UPGRADES,
+                ShopCategory.SWORDS, null, 0);
+        Inventory inv = Bukkit.createInventory(holder, MAGE_ELEMENT_SIZE,
+                Component.text(Lang.get(player, element.titleKey())));
+        holder.setInventory(inv);
+        player.openInventory(inv); // na razie zupełnie puste
     }
 
     /**
@@ -1799,6 +1827,16 @@ public class ShopGUI {
     public boolean isMageUpgradesSlot(Player player, ShopCategory category, int page, int slot) {
         return category == ShopCategory.SWORDS && page == 0
                 && slot == MAGE_UPGRADES_ITEM_SLOT && isMage(player);
+    }
+
+    /** Obsługuje kliknięcie żywiołowego ulepszenia w panelu magika. */
+    public void openMageElementAtSlot(Player player, Arena arena, int slot) {
+        for (MageElementUpgrade element : MAGE_ELEMENT_UPGRADES) {
+            if (element.slot() != slot) continue;
+            if (!areMageBaseUpgradesMaxed(player)) return; // widoczne, ale zablokowane
+            openMageElementUpgrades(player, arena, element);
+            return;
+        }
     }
 
     /** Strzałka „wstecz" w podmenu niestandardowych strzał: slot 48 (po lewej nether stara). */
@@ -2563,6 +2601,29 @@ public class ShopGUI {
                 .name(Lang.get(player, upgrade.nameKey()))
                 .lore(List.of(Lang.get(player, "shop-mage-upgrade-max", upgrade.maxLevel())))
                 .build();
+    }
+
+    /**
+     * Ikona żywiołowego ulepszenia. Jest widoczna zawsze, ale zablokowana,
+     * dopóki gracz nie ma maksymalnych obrażeń, zasięgu i częstotliwości.
+     */
+    private ItemStack createMageElementItem(Player player, MageElementUpgrade element) {
+        ItemBuilder builder = new ItemBuilder(element.material(), 1);
+        builder.name(element.nameKey() == null
+                ? " " : Lang.get(player, element.nameKey())); // fioletowa szyba bez nazwy
+        if (!areMageBaseUpgradesMaxed(player)) {
+            builder.lore(List.of(Lang.get(player, "shop-mage-element-locked")));
+        }
+        return builder.build();
+    }
+
+    /** Czy gracz wykupił wszystkie trzy podstawowe ulepszenia do maksimum. */
+    private boolean areMageBaseUpgradesMaxed(Player player) {
+        var data = plugin.getPlayerDataManager().get(player.getUniqueId(), player.getName());
+        for (MageUpgrade upgrade : MAGE_UPGRADE_ITEMS) {
+            if (data.getSettingInt(upgrade.levelKey(), 0) < upgrade.maxLevel()) return false;
+        }
+        return true;
     }
 
     private ItemStack createSettingsBackButton(Player player) {
