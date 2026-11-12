@@ -118,6 +118,13 @@ public class ShopListener implements Listener {
             return;
         }
 
+        if (holder.getViewType() == ShopHolder.ViewType.MAGE_UPGRADES) {
+            if (shopGUI.isBackSlot(slot, top.getSize())) {
+                shopGUI.openMain(player, arena); // gwiazda wraca do menu sklepu
+            }
+            return; // na razie nie ma innych przycisków
+        }
+
         if (shopGUI.isPointsSlot(slot, top.getSize())) return; // tylko podgląd, nieklikalne
 
         // strzałki „Poprzednia/Następna kategoria" w panelach KATEGORII ustawień
@@ -423,6 +430,10 @@ public class ShopListener implements Listener {
         ShopCategory navTarget = shopGUI.categoryNavigationTarget(category, page, slot);
         if (navTarget != null) {
             shopGUI.openCategory(player, arena, navTarget, 0);
+            return;
+        }
+        if (shopGUI.isMageUpgradesSlot(player, category, page, slot)) {
+            shopGUI.openMageUpgrades(player, arena);
             return;
         }
 

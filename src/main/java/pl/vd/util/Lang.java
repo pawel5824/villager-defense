@@ -164,6 +164,8 @@ public final class Lang {
                 "§7Click to open the category");
         put("shop-goto-category", "§7Kliknij, aby przejść do kategorii {0}",
                 "§7Click to go to the {0} category");
+        put("shop-mage-upgrades-name", "§6Ulepszenia Magika", "§6Mage Upgrades");
+        put("shop-mage-upgrades-title", "§8Ulepszenia Magika", "§8Mage Upgrades");
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");

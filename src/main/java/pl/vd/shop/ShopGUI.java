@@ -441,6 +441,8 @@ public class ShopGUI {
     /** Przejścia między Broniami i Strzałami - sloty widoczne na danej stronie. */
     private static final int SWORDS_TO_BOWS_NAV_SLOT = 26; // 2. strona, 27 slot w grze (globalnie 71)
     private static final int BOWS_TO_SWORDS_NAV_SLOT = 18; // 1. strona, 19 slot w grze
+    /** Przycisk ulepszeń magika w Bronach: 1. strona, 28 slot w grze. */
+    private static final int MAGE_UPGRADES_ITEM_SLOT = 27;
     /** Sloty (w kodzie) zwykłej i widmowej strzały w podmenu „Niestandardowe strzały"
      *  (PIERWSZA i jedyna strona: slot 20/21 = pozycje 20/21 - bez pustej strony
      *  na starcie). */
@@ -1475,6 +1477,11 @@ public class ShopGUI {
         } else if (category == ShopCategory.BOWS && page == 0) {
             inv.setItem(BOWS_TO_SWORDS_NAV_SLOT, createCategoryNavigationItem(player, ShopCategory.SWORDS));
         }
+        // Ulepszenia magika: tylko dla gracza z wybraną klasą magika i tylko
+        // na pierwszej stronie Broni (slot widoczny 28 = indeks 27).
+        if (category == ShopCategory.SWORDS && page == 0 && isMage(player)) {
+            inv.setItem(MAGE_UPGRADES_ITEM_SLOT, createMageUpgradesButton(player));
+        }
 
         // Nawigacja stron: strzałki tylko gdy jest ich więcej niż jedna. Kategorie
         // Bronie, Inne i Strzały mają strzałki przy nether starze (48/50).
@@ -1484,6 +1491,26 @@ public class ShopGUI {
         // Gwiazda ustawiana NA KOŃCU, żeby żaden przedmiot strony nie nadpisał
         // powrotu do menu głównego sklepu.
         inv.setItem(size - 5, createBackButton(player));
+
+        player.openInventory(inv);
+    }
+
+    /**
+     * Pusty na razie panel ulepszeń magika (6x9): nether star wraca do menu
+     * sklepu (slot 50 w grze), a emerald pokazuje aktualne punkty (slot 54).
+     */
+    public void openMageUpgrades(Player player, Arena arena) {
+        if (!isMage(player)) return;
+        ShopHolder holder = new ShopHolder(ShopHolder.ViewType.MAGE_UPGRADES,
+                ShopCategory.SWORDS, null, 0);
+        Inventory inv = Bukkit.createInventory(holder, SIZE,
+                Component.text(Lang.get(player, "shop-mage-upgrades-title")));
+        holder.setInventory(inv);
+
+        // Bez szkła - panel ma być na razie pusty; tylko wyjście i punkty.
+        inv.setItem(SIZE - 5, createBackButton(player));
+        int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
+        inv.setItem(SIZE - 1, createPointsItem(player, points));
 
         player.openInventory(inv);
     }
@@ -1749,6 +1776,18 @@ public class ShopGUI {
             return ShopCategory.SWORDS;
         }
         return null;
+    }
+
+    /** Czy gracz ma wybraną klasę magika. */
+    public boolean isMage(Player player) {
+        return player != null && "magik".equalsIgnoreCase(
+                plugin.getKitManager().getChosenKitId(player));
+    }
+
+    /** Czy kliknięty slot to przycisk ulepszeń magika na pierwszej stronie Broni. */
+    public boolean isMageUpgradesSlot(Player player, ShopCategory category, int page, int slot) {
+        return category == ShopCategory.SWORDS && page == 0
+                && slot == MAGE_UPGRADES_ITEM_SLOT && isMage(player);
     }
 
     /** Strzałka „wstecz" w podmenu niestandardowych strzał: slot 48 (po lewej nether stara). */
@@ -2497,6 +2536,13 @@ public class ShopGUI {
         return new ItemBuilder(icon, 1)
                 .name(target.localizedName(player))
                 .lore(List.of(Lang.get(player, "shop-goto-category", target.localizedName(player))))
+                .build();
+    }
+
+    /** Blaze rod otwierający panel ulepszeń klasy magika. */
+    private ItemStack createMageUpgradesButton(Player player) {
+        return new ItemBuilder(Material.BLAZE_ROD, 1)
+                .name(Lang.get(player, "shop-mage-upgrades-name"))
                 .build();
     }
 
