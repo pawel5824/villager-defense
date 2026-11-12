@@ -84,7 +84,10 @@ public class ShopListener implements Listener {
         // ustawienia z /ustawienia niezależnie od gry.
         if (arena == null && !isSettingsCategoryView(holder.getViewType())
                 && holder.getViewType() != ShopHolder.ViewType.SETTINGS
-                && holder.getViewType() != ShopHolder.ViewType.SUPPLY_SOUNDS) {
+                && holder.getViewType() != ShopHolder.ViewType.SUPPLY_SOUNDS
+                && holder.getViewType() != ShopHolder.ViewType.FOOD_BULK) {
+            // FOOD_BULK obsługujemy niżej: gwiazda ma wrócić do jedzenia nawet
+            // wtedy, gdy podgląd areny nie jest już dostępny (bez zamykania GUI).
             player.closeInventory();
             return;
         }

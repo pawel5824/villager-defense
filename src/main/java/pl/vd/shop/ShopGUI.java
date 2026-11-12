@@ -1448,7 +1448,8 @@ public class ShopGUI {
             // otwiera podmenu „Strzały - Niestandardowe Strzały".
             inv.setItem(BOWS_CUSTOM_ARROWS_SLOT, createCustomArrowsButton(player));
         }
-        inv.setItem(size - 1, createPointsItem(player, arena.getSessionPoints(player.getUniqueId())));
+        int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
+        inv.setItem(size - 1, createPointsItem(player, points));
 
         Map<Integer, ShopItem> items = categoryItems.getOrDefault(category, Map.of());
         int pages = pageCount(items);
@@ -1591,7 +1592,8 @@ public class ShopGUI {
 
         fillGlass(inv);
         inv.setItem(size - 5, createBackButton(player));
-        inv.setItem(size - 1, createPointsItem(player, arena.getSessionPoints(player.getUniqueId())));
+        int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
+        inv.setItem(size - 1, createPointsItem(player, points));
 
         Map<Integer, ShopItem> items = customArrowsItems;
         int pages = pageCount(items);
@@ -1643,7 +1645,8 @@ public class ShopGUI {
         fillGlass(inv, Material.GRAY_STAINED_GLASS_PANE); // szare tło; białe szyby = sloty zbroi/narzędzi
         inv.setItem(ENCHANT_BOOK_SLOT, createEnchantBookInfo(player, item));
         inv.setItem(ENCHANT_TARGET_SIZE - 5, createBackButton(player));
-        inv.setItem(ENCHANT_TARGET_SIZE - 1, createPointsItem(player, arena.getSessionPoints(player.getUniqueId())));
+        int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
+        inv.setItem(ENCHANT_TARGET_SIZE - 1, createPointsItem(player, points));
 
         if (isWeaponRestrictedEnchant(item)) {
             // zaklęcie tylko na broń (Uderzenie/Punch): sloty zbroi ZABLOKOWANE -
@@ -1788,7 +1791,7 @@ public class ShopGUI {
      * szyba „Akceptuj” - wtedy wolno podmienić założoną część na słabszą.
      */
     private void purchase(Player player, Arena arena, ShopItem item, boolean allowArmorDowngrade) {
-        if (!arena.isPlaying(player)) {
+        if (arena == null || !arena.isPlaying(player)) {
             return; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
         }
         // Zasady klas (class-rules.yml): przedmiot zastrzeżony dla innej klasy = brak zakupu.
@@ -2157,7 +2160,7 @@ public class ShopGUI {
     }
 
     public boolean enchantEquipment(Player player, Arena arena, ShopItem item, int guiSlot) {
-        if (!arena.isPlaying(player)) {
+        if (arena == null || !arena.isPlaying(player)) {
             return false; // podgląd sklepu (/def shop_arena) - bez zakupów, bez komunikatu
         }
         if (!isClassRulesExempt(item)
