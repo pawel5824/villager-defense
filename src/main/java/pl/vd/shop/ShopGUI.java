@@ -431,8 +431,8 @@ public class ShopGUI {
     private static final int PAGE_PREV_SLOT = 45;
     private static final int PAGE_INFO_SLOT = 47;
     private static final int PAGE_NEXT_SLOT = 51;
-    // Kategorie Bronie i Inne: strzałki stron stoją tuż przy nether starze (49) -
-    // „wstecz" na 48 (o 1 mniej niż nether star), „dalej" na 50 (o 1 w prawo od 51).
+    // Kategorie Bronie, Inne i Strzały: strzałki stron stoją tuż przy nether starze
+    // (49) - „wstecz" na 48 (o 1 mniej niż nether star), „dalej" na 50.
     private static final int PAGE_PREV_SLOT_NEAR_STAR = 48;
     private static final int PAGE_NEXT_SLOT_NEAR_STAR = 50;
     /** Nowa strzała otwierająca podmenu „Strzały - Niestandardowe Strzały" w
@@ -1442,7 +1442,6 @@ public class ShopGUI {
         holder.setInventory(inv);
 
         fillGlass(inv);
-        inv.setItem(size - 5, createBackButton(player));
         if (category == ShopCategory.BOWS) {
             // Kategoria Strzały: nowa strzała (slot 50, o 1 więcej niż nether star na 49)
             // otwiera podmenu „Strzały - Niestandardowe Strzały".
@@ -1467,10 +1466,13 @@ public class ShopGUI {
         }
 
         // Nawigacja stron: strzałki tylko gdy jest ich więcej niż jedna. Kategorie
-        // Bronie i Inne mają strzałki przy nether starze (48/50) - patrz prevPageSlot/nextPageSlot
+        // Bronie, Inne i Strzały mają strzałki przy nether starze (48/50).
         if (page > 0) inv.setItem(prevPageSlot(category), createPageArrow(player, false));
         if (page + 1 < pages) inv.setItem(nextPageSlot(category), createPageArrow(player, true));
         if (pages > 1) inv.setItem(PAGE_INFO_SLOT, createPageInfo(player, page, pages));
+        // Gwiazda ustawiana NA KOŃCU, żeby żaden przedmiot strony nie nadpisał
+        // powrotu do menu głównego sklepu.
+        inv.setItem(size - 5, createBackButton(player));
 
         player.openInventory(inv);
     }
@@ -1560,9 +1562,10 @@ public class ShopGUI {
         return Lang.getOr(player, "shop-item-" + item.getId(), fallback);
     }
 
-    /** Slot strzałki „wstecz" dla kategorii: 48 (obok nether star) dla Bronie i Inne, 45 dla reszty. */
+    /** Slot strzałki „wstecz" dla kategorii: 48 (obok nether star) dla Bronie, Inne i Strzały, 45 dla reszty. */
     public int prevPageSlot(ShopCategory category) {
-        return (category == ShopCategory.SWORDS || category == ShopCategory.OTHER)
+        return (category == ShopCategory.SWORDS || category == ShopCategory.OTHER
+                || category == ShopCategory.BOWS)
                 ? PAGE_PREV_SLOT_NEAR_STAR : PAGE_PREV_SLOT;
     }
 

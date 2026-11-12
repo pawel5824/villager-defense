@@ -591,13 +591,13 @@ shop:
           material: TIPPED_ARROW
           potion: LUCK
           price: 8
-          slot: 1
+          slot: 55
         slow_falling_arrow:
           type: POTION
           material: TIPPED_ARROW
           potion: SLOW_FALLING
           price: 20
-          slot: 2
+          slot: 56
         firework_1:
           type: FIREWORK
           power: 1
