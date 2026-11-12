@@ -2554,8 +2554,9 @@ public class ShopGUI {
     private static final int CLASS_LORE_COLUMN = 16;
 
     /**
-     * Wiersze „klasa + ✔/✖” dla przedmiotu. Pusta lista, gdy żadna klasa nie ma zakazu
-     * (przedmiot jest dla wszystkich i nie warto rozwijać opisu).
+     * Wiersze „klasa + ✔/✖” dla przedmiotu. Przy zbroi pokazujemy je zawsze -
+     * także przy miedzi i złocie, gdzie wszystkie klasy mają dostęp, żeby gracz
+     * widział limit swojej klasy. Poza zbroją pusta lista, gdy nikt nie ma zakazu.
      */
     private List<String> createClassAvailabilityLore(Player player, ShopItem item) {
         List<String> rows = new ArrayList<>();
@@ -2588,7 +2589,7 @@ public class ShopGUI {
             rows.add(nameColor + name + "§r" + " ".repeat(gap)
                     + (allowed ? "§a✔" : "§c✖"));
         }
-        return anyDenied ? rows : List.of();
+        return (anyDenied || armorItem) ? rows : List.of();
     }
 
     /**
