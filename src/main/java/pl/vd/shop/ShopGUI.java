@@ -443,6 +443,14 @@ public class ShopGUI {
     private static final int BOWS_TO_SWORDS_NAV_SLOT = 18; // 1. strona, 19 slot w grze
     /** Przycisk ulepszeń magika w Bronach: 1. strona, 28 slot w grze. */
     private static final int MAGE_UPGRADES_ITEM_SLOT = 27;
+
+    /** Jeden wiersz panelu ulepszeń magika: ikona, slot GUI (0-based) i limit. */
+    private record MageUpgrade(Material material, int slot, String nameKey, int maxLevel) {}
+    private static final List<MageUpgrade> MAGE_UPGRADE_ITEMS = List.of(
+            new MageUpgrade(Material.NETHERITE_SWORD, 11, "shop-mage-upgrade-damage", 10), // 12 w grze
+            new MageUpgrade(Material.ARROW, 13, "shop-mage-upgrade-range", 8),             // 14 w grze
+            new MageUpgrade(Material.REPEATER, 15, "shop-mage-upgrade-frequency", 6)      // 16 w grze
+    );
     /** Sloty (w kodzie) zwykłej i widmowej strzały w podmenu „Niestandardowe strzały"
      *  (PIERWSZA i jedyna strona: slot 20/21 = pozycje 20/21 - bez pustej strony
      *  na starcie). */
@@ -1496,8 +1504,8 @@ public class ShopGUI {
     }
 
     /**
-     * Pusty na razie panel ulepszeń magika (6x9): nether star wraca do menu
-     * sklepu (slot 50 w grze), a emerald pokazuje aktualne punkty (slot 54).
+     * Panel ulepszeń magika (6x9): nether star wraca do menu sklepu
+     * (slot 50 w grze), a emerald pokazuje aktualne punkty (slot 54).
      */
     public void openMageUpgrades(Player player, Arena arena) {
         if (!isMage(player)) return;
@@ -1507,10 +1515,13 @@ public class ShopGUI {
                 Component.text(Lang.get(player, "shop-mage-upgrades-title")));
         holder.setInventory(inv);
 
-        // Bez szkła - panel ma być na razie pusty; tylko wyjście i punkty.
+        // Bez szkła - panel ma tylko ulepszenia, wyjście i punkty.
         inv.setItem(SIZE - 5, createBackButton(player));
         int points = arena != null ? arena.getSessionPoints(player.getUniqueId()) : 0;
         inv.setItem(SIZE - 1, createPointsItem(player, points));
+        for (MageUpgrade upgrade : MAGE_UPGRADE_ITEMS) {
+            inv.setItem(upgrade.slot(), createMageUpgradeItem(player, upgrade));
+        }
 
         player.openInventory(inv);
     }
@@ -2543,6 +2554,14 @@ public class ShopGUI {
     private ItemStack createMageUpgradesButton(Player player) {
         return new ItemBuilder(Material.BLAZE_ROD, 1)
                 .name(Lang.get(player, "shop-mage-upgrades-name"))
+                .build();
+    }
+
+    /** Ikona jednego ulepszenia różdżki z jego maksymalnym poziomem. */
+    private ItemStack createMageUpgradeItem(Player player, MageUpgrade upgrade) {
+        return new ItemBuilder(upgrade.material(), 1)
+                .name(Lang.get(player, upgrade.nameKey()))
+                .lore(List.of(Lang.get(player, "shop-mage-upgrade-max", upgrade.maxLevel())))
                 .build();
     }
 

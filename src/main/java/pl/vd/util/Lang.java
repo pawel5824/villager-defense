@@ -166,6 +166,11 @@ public final class Lang {
                 "§7Click to go to the {0} category");
         put("shop-mage-upgrades-name", "§6Ulepszenia Magika", "§6Mage Upgrades");
         put("shop-mage-upgrades-title", "§8Ulepszenia Magika", "§8Mage Upgrades");
+        put("shop-mage-upgrade-damage", "§cObrażenia", "§cDamage");
+        put("shop-mage-upgrade-range", "§aZasięg", "§aRange");
+        put("shop-mage-upgrade-frequency", "§eCzęstotliwość", "§eFrequency");
+        put("shop-mage-upgrade-max", "§7Maksymalna liczba ulepszeń: §f{0}",
+                "§7Max upgrades: §f{0}");
         put("shop-mine", "Mina lądowa", "Land mine");
         put("shop-firework", "§fFajerwerk", "§fFirework");
         put("shop-title-main", "§8Sklep", "§8Shop");
