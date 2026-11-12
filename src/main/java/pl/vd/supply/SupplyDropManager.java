@@ -88,11 +88,12 @@ public class SupplyDropManager implements Listener {
     // otwarte automaty łupu: gracz -> zadanie przewijania (żeby nie otworzyć dwóch naraz)
     private final Map<UUID, SlotMachineRunnable> slotMachines = new HashMap<>();
 
-    // wysokość, z której spada skrzynia nad ziemią
-    private static final int FALL_BLOCKS = 160;
-    // stała prędkość spadania: 160 bloków / 40 s = 4,0 bloka/s = 0,20 bloka/tick.
+    // wysokość, z której spada skrzynia nad ziemią. 40 bloków mieści się w zasięgu
+    // renderowania gracza, więc skrzynię widać od razu, a nie dopiero przy ziemi.
+    private static final int FALL_BLOCKS = 40;
+    // stała prędkość spadania: 40 bloków / 8 s = 5 bloków/s = 0,25 bloka/tick.
     // Nadpisujemy prędkość co tick, żeby grawitacja jej nie przyspieszała.
-    private static final double FALL_SPEED = 0.20;
+    private static final double FALL_SPEED = 0.25;
     // animacja znikania (fajerwerka): skrzynia leci do góry 46 ticków (~2,3 s -
     // 50 bloków zamiast 66, czyli ~15 niżej), potem wystrzeliwuje fajerwerka
     private static final int FLIGHT_3_TICKS = 46;
@@ -324,8 +325,10 @@ public class SupplyDropManager implements Listener {
 
         BlockDisplay vis = world.spawn(spawnLoc, BlockDisplay.class);
         vis.setBlock(Material.WAXED_EXPOSED_COPPER_CHEST.createBlockData());
+        // display jest ustawiony na środku bloku - przesunięcie -0.5 wyrównuje
+        // skrzynię do miejsca lądowania (wcześniej była o pół bloku z boku).
         vis.setTransformation(new Transformation(
-                new Vector3f(0f, 0f, 0f),
+                new Vector3f(-0.5f, -0.5f, -0.5f),
                 new AxisAngle4f(0f, 0f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
                 new AxisAngle4f(0f, 0f, 0f, 1f)));
@@ -426,14 +429,16 @@ public class SupplyDropManager implements Listener {
         fb.getPersistentDataContainer().set(dropKey, PersistentDataType.BYTE, (byte) 1);
 
         // WYŚWIETLACZ skrzyni w STANDARDOWYM rozmiarze (skala 1.0 = 1 blok): zwykły
-        // FallingBlock spadający z 160 bloków bywał niewidoczny (render distance /
+        // FallingBlock spadający z dużej wysokości bywał niewidoczny (render distance /
         // culling), a ten wyświetlacz jest gwarantowanie renderowany i ma pomarańczową
         // poświatę, więc widać go z daleka. Bez nazwy - sam blok skrzyni z poświatą.
         // Podąża za prawdziwym blokiem i znika przy lądowaniu.
         BlockDisplay vis = world.spawn(spawnLoc, BlockDisplay.class);
         vis.setBlock(Material.WAXED_EXPOSED_COPPER_CHEST.createBlockData());
+        // display jest ustawiony na środku bloku - przesunięcie -0.5 wyrównuje
+        // skrzynię do miejsca lądowania (wcześniej była o pół bloku z boku).
         vis.setTransformation(new Transformation(
-                new Vector3f(0f, 0f, 0f),
+                new Vector3f(-0.5f, -0.5f, -0.5f),
                 new AxisAngle4f(0f, 0f, 0f, 1f),
                 new Vector3f(1f, 1f, 1f),
                 new AxisAngle4f(0f, 0f, 0f, 1f)));
@@ -464,7 +469,7 @@ public class SupplyDropManager implements Listener {
         }
 
         // stała prędkość spadania: nadpisujemy prędkość co tick, żeby grawitacja
-        // nie przyspieszała skrzyni - 0,32 bloka/tick = 160 bloków w 25 s; wyświetlacz
+        // nie przyspieszała skrzyni - stała prędkość FALL_SPEED; wyświetlacz
         // skrzyni i balon podążają za prawdziwym blokiem
         // display i balon liczą pozycję samodzielnie (z .5), nie podążają za FallingBlock (snapuje do siatki)
         final double startX2 = spawnLoc.getX();
