@@ -233,8 +233,15 @@ przy dwóch graczach, restart serwera dla każdej nowej rzeczy z §12.
 belki podpiętrza (v42), zawalanie bez podparcia + odzysk materiału (v43/v44), piętrowa Podłoga
 (v45). Każdy ma kryteria w `docs/OTWARTE_TEMATY.md`.
 
-**Restart serwera:** nowy JAR wgrywamy **dopiero przy restarcie**, a serwer restartujemy
-**co 10 nowych wersji pluginu** (licznik: `tools/.restart-counter`, lokalny, poza gitem).
+**Restart serwera:** nowy JAR wgrywamy **tylko przy restarcie**. Po **10. zmianie od
+ostatniego restartu** agent sam wykonuje pełny restart (licznik: `tools/.restart-counter`,
+lokalny, poza gitem):
+1. Jeśli serwer działa, zatrzymaj go **czysto** (konsola/`stop`, nie zabijaj procesu bez
+   zapisu).
+2. Podmień `plugins/ServerPlugin.jar` na świeży JAR z `target/ServerPlugin.jar`; zachowaj
+   kopię poprzedniego JAR-a.
+3. Uruchom serwer i sprawdź, czy wstał oraz czy port 25565 nasłuchuje.
+4. Dopiero po udanym starcie ustaw licznik na `0/10` i wyczyść `pending_sha`.
 Podmiana pliku na działającym serwerze psuje doczytywane klasy — 2026-11-10 dało 158 ×
 `ClassNotFoundException` (`SupplyDropManager$SlotMachineHolder`) i błędne eventy GUI.
 Do restartu zmiany nie działają w grze — to świadoma decyzja właściciela, nie błąd deployu.
