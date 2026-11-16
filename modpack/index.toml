@@ -23,7 +23,7 @@ metafile = true
 
 [[files]]
 file = "mods/raft-hud-1.0.0.jar"
-hash = "803dbca47ea72f8805e42972c60449548836665f145548412641919d22a2eaef"
+hash = "872a0f21e3cd23f93ee539091a33f25aeafe303fd741d3e5791603692a8dc57d"
 
 [[files]]
 file = "packwiz-installer-bootstrap.jar"
