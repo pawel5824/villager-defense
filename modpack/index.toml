@@ -23,7 +23,7 @@ metafile = true
 
 [[files]]
 file = "mods/raft-hud-1.0.0.jar"
-hash = "872a0f21e3cd23f93ee539091a33f25aeafe303fd741d3e5791603692a8dc57d"
+hash = "f815034d6e9e2276ae05ae0e22fe9292b301fb27db643f553bec9906b69f282a"
 
 [[files]]
 file = "packwiz-installer-bootstrap.jar"
@@ -127,19 +127,19 @@ hash = "0f9fbe0dc56ea8db9b109d2d7272cecd3cdfcd7579f4b2c2fc2d8dfe8b43cad6"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/bucket.json"
-hash = "31bc2f8c7d4189c32c6814c0d9e4cea3a36fe24358ea41bdc32a5cac59531865"
+hash = "5fbe1c9de8809aa9b1196e2da36fd77d93e7b297f99a2b14c5fd634722b80b98"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/copper_ingot.json"
-hash = "59c9b80a52a5d75df3246c0629cfe3ad5c45f91a1a1cf249d8dfcf444fd04d87"
+hash = "ee6b4a601f3e985fa64c92b48260332760995b19621b1f7799f3472a935b5b50"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/dead_tube_coral_block.json"
-hash = "6dc95ff2cc51913296be251ee2a12c6831e5e11e12412813f353a1102b942c81"
+hash = "f73641710821f88e49b2f517344adbf438f95897ae79168569317ae7d49071e2"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/diamond.json"
-hash = "c1c2885465eeca5169be46970b8909438b03fb3d481d59ad678a24cbd6e37580"
+hash = "f019b7fb344480e16600282a486b0200b4c5e410ae92d907f0f90a8372e7b791"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/diamond_custom.json"
@@ -147,7 +147,7 @@ hash = "8c14484cd4e24df5ca77cdc2f1cd0966aebbeb1cc6bfeb64334afc80000a98e2"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/dirt.json"
-hash = "49ab7c5fecbddc82d6a2d60cfdc9ca259117e1573b651097ad468445ce346583"
+hash = "b31926417301590406ad61731d9a0d7f4aa3fcd63009434d13b8fcf828a4bcf0"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/duza_beczka.json"
@@ -155,15 +155,15 @@ hash = "2a42f3789cea6008b011cf007078648881838d4736923e2ee26a9170eb75945a"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/exposed_lightning_rod.json"
-hash = "3a1940ca3f3647635ce39be13ff6359c5f05010152c22b6f2d3aa831e94670df"
+hash = "349bec69fb8db8fe6b7106d8706df77a4f964988a8e1d4eb7d81afa2d3c78dae"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/glass_pane.json"
-hash = "5ae0cd8e5f1d05c0abcad8d8c37450c00b5c506d45aef252be4016b2bf61029b"
+hash = "4fa64fe7fa801c99882fd207576d6b09bb3cc01cc5d4b5f5fe02e35ec667884d"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/gold_ingot.json"
-hash = "99f27d33d9ae1966c9accb7ccaba7b46898c768bf039492a20ac240af4089ef8"
+hash = "3bca60a5d631fa1c06a9fb52aee7ed21374ad698c88f3348905199da5b4f2e2b"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/gwozdz_custom.json"
@@ -171,11 +171,11 @@ hash = "ee1e50e7982bda2059a42a2bd0bf288cd31a58263c39d6393abb9af887781618"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/honeycomb.json"
-hash = "234671a2b0d729f8b0f7d77727d5b93ff54bb34ae18d5cc5e8920c684ee87c5c"
+hash = "414f3a5c486346dcc2cb7287fa4130dddbf2766bab4421d8cbb4d1443a11e451"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/iron_ingot.json"
-hash = "da5e09a791b721dde67cc2dde3b34ce1eaee64449ee8bc68f96dd6731fab3df5"
+hash = "60130437f31e1d66d6272b22dd17534fbd16737a799f3c928364eb66ea9b8f56"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/kostka_odpadow_custom.json"
@@ -223,7 +223,7 @@ hash = "20ca39b15041a69e2cd0b029d979dd826d72e6e7797c2f05e0ffdafc3d4eaf46"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/lead.json"
-hash = "2008adfbd204313fe838af7987999a7f61ffc44cc2fc3f6bec968069d959b7fb"
+hash = "3fd85f7d2f73ae6276838664d984c43a30d64b8e99b7a0889f3742a88a3839a3"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/lina_custom.json"
@@ -315,15 +315,15 @@ hash = "f08a851975beaae635714387d37d81f7c4ea0b122b558cafaf8e14c6efe94bc5"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/raw_copper.json"
-hash = "f01f951e509fb3ab838fcbaede22c27c4a7dcfedcf40f31d56a4a2ec81b19be0"
+hash = "2b642e79331760172438ac5c0c3d1391f131d8b2f8f13bae35a98d8637b3ee55"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/raw_gold.json"
-hash = "1064de6307852a824860241dba6c213a9ce192a167bbca49b3a829198c6f25dd"
+hash = "61a1d63314d2fa432c30562ab8f9b6ebb6d1e23dbe0117cac083947c2e10b2e2"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/raw_iron.json"
-hash = "04e9c03a28a2b26507a3ef86a26c0be674e9d8423f5e078afcc519b1873b3d7a"
+hash = "1f9158ea36ba31e5ad98a7b6b5408f59a6705c4d6a37e120eca04c2dd044eaed"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/rowing_paddle.json"
@@ -343,15 +343,15 @@ hash = "125404c27ab57229ccfc901a3d017490c2fa7d4aad5c158e4c8a94c607582e45"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/slime_ball.json"
-hash = "652191eea8187202bd268c223aefe17beffa25fe61a493474a26f0ea63277588"
+hash = "d12a2732ea941237d81adbf12aa2d93756b5f103561e104933b330c7c8a4ce37"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/stick.json"
-hash = "5e1e89166fe5b8d63d8a40c5766a61ee0ce55d00fc4895b56e2f6b837fb5cdbb"
+hash = "dea86827fa0b0e60365be58d79874479b12a52d5482d896871b341ced26f248c"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/sunflower.json"
-hash = "401f04341a57862fd84ad268093a2b1ab69ecdcbaeb833c011a1d792385d2316"
+hash = "f80f777158a8fe14ecd0cc922b492d46cfd0c3e941ae2563ab95e14aa1f86f33"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/raft/models/item/sunflower_moneta.json"
@@ -660,6 +660,134 @@ hash = "8480a264063ba1ab2d5c797a3a979fd3a05c84204c0304d2fa9d5a4e023e6e89"
 [[files]]
 file = "resourcepacks/raft-hud/assets/villagerdefense/models/item/sniper_rifle.json"
 hash = "167b48416bdfc3d8bd6db81ca948b8ef6b1905da7a467fff9f0cda92b9c219e2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/kolorowe_tlo/czarne_background.png"
+hash = "7e589bdb2f1fe3b10f354ab6bdeb77a166ee2dd61a24cb726e118e9976106af3"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/kolorowe_tlo/czarne_background.png.mcmeta"
+hash = "ad6e922929ebfddbbdf43c477239e47f9c73f410020d1cf168e356b69ae1ff16"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/kolorowe_tlo/czarne_frame.png"
+hash = "46a42303f8d329f8f0902007fbf69799d461993ca88476b766bca97d47efa9b8"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/kolorowe_tlo/czarne_frame.png.mcmeta"
+hash = "c2ed08b41d6411dcaeba24352837b13fad8158a4889b9f79a95aa1e48a09854c"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/vd_background.png"
+hash = "264299e63d4b567676ae05cda1c806bc490d7af1cda976eeb319096a828fb7a7"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/vd_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/vd_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/vd_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/chainmail_background.png"
+hash = "b2a489e1457f8ea8b398f2043ace38132916fc386182b3c275ee676eb4489c6f"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/chainmail_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/chainmail_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/chainmail_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/diament_background.png"
+hash = "e6574ccbbd9dce3a53abd63085c3b5fa259579c54ddb2715d01d06b08cb88fc4"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/diament_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/diament_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/diament_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/miedz_background.png"
+hash = "44641ae49c4e22f7a6a9b296d47878e98376e6c8af9a7175da3522f1e14df3fd"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/miedz_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/miedz_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/miedz_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/netheryt_background.png"
+hash = "83f5631fb22de31f1c8cda68561d5749ee8f405173e086a03d18544137885a78"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/netheryt_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/netheryt_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/netheryt_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zelazo_background.png"
+hash = "47308f50a7e2d445b294e1dfded061e845cd930808fe4853ccbd0e0ea6e5038f"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zelazo_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zelazo_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zelazo_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zloto_background.png"
+hash = "ce124f5eba463bcd505a3cae1b63e473c1f3617f6e0d795dad18df8df553423e"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zloto_background.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zloto_frame.png"
+hash = "63fe8d08ec249f75cd30fa63ec5686515d661c13f0068c04d6e93ec84807b519"
+
+[[files]]
+file = "resourcepacks/raft-hud/assets/villagerdefense/textures/gui/sprites/tooltip/zbroja/zloto_frame.png.mcmeta"
+hash = "f73cd9b296b2720f53fc389e26288b61eb248878946ad145a76a6e64e4b423f2"
 
 [[files]]
 file = "resourcepacks/raft-hud/assets/villagerdefense/textures/item/sniper_rifle.png"
